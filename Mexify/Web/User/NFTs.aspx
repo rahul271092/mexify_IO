@@ -335,10 +335,10 @@
             <p class="text-gray mb-0">Manage your digital collectibles and creations</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="<%= ResolveUrl("~/nft.aspx") %>" class="btn btn-outline-glass">
+            <a href="<%= ResolveUrl("~/Web/User/nft.aspx") %>" class="btn btn-outline-glass">
                 <i class="fas fa-compass me-2"></i> Marketplace
             </a>
-            <a href="<%= ResolveUrl("~/User/MintNFT.aspx") %>" class="btn btn-primary-glow">
+            <a href="<%= ResolveUrl("~/Web/User/MintNFT.aspx") %>" class="btn btn-primary-glow">
                 <i class="fas fa-plus me-2"></i> Mint NFT
             </a>
         </div>

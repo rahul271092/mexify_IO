@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mexify.DataAccess.Repositories;
 using Mexify.Models;
 using Mexify.Utilities;
+using Mexify.Web.Models;
 
 namespace Mexify.Business.Services
 {

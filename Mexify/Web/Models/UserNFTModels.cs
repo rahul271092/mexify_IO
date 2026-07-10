@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mexify.Models
+namespace Mexify.Web.Models
 {
     public class UserNFTSummary
     {
@@ -31,6 +31,13 @@ namespace Mexify.Models
         public int Status { get; set; }
         public string StatusName { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public long UserNFTId { get; set; }
+        public int UserId { get; set; }
+        public string NFTName { get; set; }
+        public string Name { get { return NFTName; } set { NFTName = value; } } // Alias
+        public string TxHash { get; set; }
+        public DateTime MintDate { get; set; }
     }
 
     public class NFTActivity
@@ -45,11 +52,11 @@ namespace Mexify.Models
         public DateTime CreatedDate { get; set; }
     }
 
-    public class NFTCollection
-    {
-        public int CollectionId { get; set; }
-        public string CollectionName { get; set; }
-    }
+    //public class NFTCollection
+    //{
+    //    public int CollectionId { get; set; }
+    //    public string CollectionName { get; set; }
+    //}
 
     public class CollectionDistributionItem
     {
