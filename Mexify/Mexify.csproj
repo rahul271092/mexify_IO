@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92E90910-B36B-4A2F-8BE6-9BC2CE5D6D30}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mexify</RootNamespace>
+    <AssemblyName>Mexify</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ADRaffy.ENSNormalize, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ADRaffy.ENSNormalize.0.3.1\lib\net451\ADRaffy.ENSNormalize.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ScriptManager.MSAjax, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.WebForms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.WebForms.5.0.0\lib\net45\Microsoft.ScriptManager.WebForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.ABI, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.ABI.6.1.0\lib\net451\Nethereum.ABI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Accounts, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Accounts.6.1.0\lib\net451\Nethereum.Accounts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.BlockchainProcessing, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.BlockchainProcessing.6.1.0\lib\net451\Nethereum.BlockchainProcessing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Contracts, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Contracts.6.1.0\lib\net451\Nethereum.Contracts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Hex, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Hex.6.1.0\lib\net451\Nethereum.Hex.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.JsonRpc.Client, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.JsonRpc.Client.6.1.0\lib\net451\Nethereum.JsonRpc.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.JsonRpc.RpcClient, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.JsonRpc.RpcClient.6.1.0\lib\net451\Nethereum.JsonRpc.RpcClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.KeyStore, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.KeyStore.6.1.0\lib\net451\Nethereum.KeyStore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Merkle.Patricia, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Merkle.Patricia.6.1.0\lib\net451\Nethereum.Merkle.Patricia.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Model, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Model.6.1.0\lib\net451\Nethereum.Model.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.RLP, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.RLP.6.1.0\lib\net451\Nethereum.RLP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.RPC, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.RPC.6.1.0\lib\net451\Nethereum.RPC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Signer, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Signer.6.1.0\lib\net451\Nethereum.Signer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Signer.EIP712, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Signer.EIP712.6.1.0\lib\net451\Nethereum.Signer.EIP712.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Util, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Util.6.1.0\lib\net451\Nethereum.Util.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Util.Rest, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Util.Rest.6.1.0\lib\net451\Nethereum.Util.Rest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nethereum.Web3, Version=6.1.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Web3.6.1.0\lib\net451\Nethereum.Web3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="packages.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Web\api\getnonce.aspx" />
+    <Content Include="Web\Assets\css\dashboard.css" />
+    <Content Include="Web\Assets\css\mexify-theme.css" />
+    <Content Include="Web\Assets\images\mexify_logo.png" />
+    <Content Include="Web\forgot-password.aspx" />
+    <Content Include="Web\ICO.aspx" />
+    <Content Include="Web\login.aspx" />
+    <Content Include="Web\meta-login.aspx" />
+    <Content Include="Web\mining.aspx" />
+    <Content Include="Web\nft.aspx" />
+    <Content Include="Web\register.aspx" />
+    <Content Include="Web\roi.aspx" />
+    <Content Include="Web\royalty.aspx" />
+    <Content Include="Web\staking.aspx" />
+    <Content Include="Web\User\dashboard.aspx" />
+    <Content Include="Web\User\ICO.aspx" />
+    <Content Include="Web\User\Investments.aspx" />
+    <Content Include="Web\User\KYC.aspx" />
+    <Content Include="Web\User\Logout.aspx" />
+    <Content Include="Web\User\Logout2.aspx" />
+    <Content Include="Web\User\Mining.aspx" />
+    <Content Include="Web\User\MintNFT.aspx" />
+    <Content Include="Web\User\Mmining.aspx" />
+    <Content Include="Web\User\NewMiningContract.aspx" />
+    <Content Include="Web\User\NFTs.aspx" />
+    <Content Include="Web\User\Portfolio.aspx" />
+    <Content Include="Web\User\Profile.aspx" />
+    <Content Include="Web\User\Referrals.aspx" />
+    <Content Include="Web\User\Royalty.aspx" />
+    <Content Include="Web\User\Salary.aspx" />
+    <Content Include="Web\User\Security.aspx" />
+    <Content Include="Web\User\StakeNow.aspx" />
+    <Content Include="Web\User\Staking.aspx" />
+    <Content Include="Web\User\Transactions.aspx" />
+    <Content Include="Web\User\Wallet.aspx" />
+    <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <Content Include="Scripts\WebForms\DetailsView.js" />
+    <Content Include="Scripts\WebForms\Focus.js" />
+    <Content Include="Scripts\WebForms\GridView.js" />
+    <Content Include="Scripts\WebForms\Menu.js" />
+    <Content Include="Scripts\WebForms\MenuStandards.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="Scripts\WebForms\SmartNav.js" />
+    <Content Include="Scripts\WebForms\TreeView.js" />
+    <Content Include="Scripts\WebForms\WebForms.js" />
+    <Content Include="Scripts\WebForms\WebParts.js" />
+    <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="Web\about.aspx" />
+    <Content Include="Web\MasterPages\Site.Master" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="Web\MasterPages\UserMaster.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\Assets\css\style.css" />
+    <Content Include="Web\Assets\js\gsap.js" />
+    <Content Include="Web\Assets\js\main.js" />
+    <Content Include="Web\Assets\js\three.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web\Default.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\Services\AboutService.cs" />
+    <Compile Include="Business\Services\AuthService.cs" />
+    <Compile Include="Business\Services\CMSService.cs" />
+    <Compile Include="Business\Services\DashboardService.cs" />
+    <Compile Include="Business\Services\HomeService.cs" />
+    <Compile Include="Business\Services\ICOService.cs" />
+    <Compile Include="Business\Services\InvestmentService.cs" />
+    <Compile Include="Business\Services\KYCService.cs" />
+    <Compile Include="Business\Services\LicenseService.cs" />
+    <Compile Include="Business\Services\MiningService.cs" />
+    <Compile Include="Business\Services\NFTService.cs" />
+    <Compile Include="Business\Services\PortfolioService.cs" />
+    <Compile Include="Business\Services\ReferralService.cs" />
+    <Compile Include="Business\Services\RoyaltyService.cs" />
+    <Compile Include="Business\Services\SalaryService.cs" />
+    <Compile Include="Business\Services\SecurityService.cs" />
+    <Compile Include="Business\Services\StakingService.cs" />
+    <Compile Include="Business\Services\TransactionService.cs" />
+    <Compile Include="Business\Services\UserICOService.cs" />
+    <Compile Include="Business\Services\UserNFTService.cs" />
+    <Compile Include="Business\Services\UserProfileService.cs" />
+    <Compile Include="Business\Services\UserStakingService.cs" />
+    <Compile Include="Business\Services\WalletService.cs" />
+    <Compile Include="DataAccess\BaseRepository.cs" />
+    <Compile Include="DataAccess\ConnectionManager.cs" />
+    <Compile Include="DataAccess\Context\MexifyDbContext.cs" />
+    <Compile Include="DataAccess\Repositories\AboutRepository.cs" />
+    <Compile Include="DataAccess\Repositories\CMSRepository.cs" />
+    <Compile Include="DataAccess\Repositories\DashboardRepository.cs" />
+    <Compile Include="DataAccess\Repositories\HomeRepositories.cs" />
+    <Compile Include="DataAccess\Repositories\ICORepository.cs" />
+    <Compile Include="DataAccess\Repositories\InvestmentRepository.cs" />
+    <Compile Include="DataAccess\Repositories\KYCRepository.cs" />
+    <Compile Include="DataAccess\Repositories\LicenseRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MiningRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MyMiningRepository.cs" />
+    <Compile Include="DataAccess\Repositories\NFTRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PortfolioRepository.cs" />
+    <Compile Include="DataAccess\Repositories\ReferralRepository.cs" />
+    <Compile Include="DataAccess\Repositories\RoyaltyRepository.cs" />
+    <Compile Include="DataAccess\Repositories\SalaryRepository.cs" />
+    <Compile Include="DataAccess\Repositories\SecurityRepository.cs" />
+    <Compile Include="DataAccess\Repositories\StakingRepository.cs" />
+    <Compile Include="DataAccess\Repositories\TransactionRepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserICORepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserMiningRepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserNFTRepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserProfileRepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserRepository.cs" />
+    <Compile Include="DataAccess\Repositories\UserStakingRepository.cs" />
+    <Compile Include="DataAccess\Repositories\WalletRepository.cs" />
+    <Compile Include="Utilities\CurrencyHelper.cs" />
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\PasswordHelper.cs" />
+    <Compile Include="Web\about.aspx.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\about.aspx.designer.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\api\getnonce.aspx.cs">
+      <DependentUpon>getnonce.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\api\getnonce.aspx.designer.cs">
+      <DependentUpon>getnonce.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\forgot-password.aspx.cs">
+      <DependentUpon>forgot-password.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\forgot-password.aspx.designer.cs">
+      <DependentUpon>forgot-password.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\ICO.aspx.cs">
+      <DependentUpon>ICO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\MasterPages\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\MasterPages\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Web\MasterPages\UserMaster.Master.cs">
+      <DependentUpon>UserMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\MasterPages\UserMaster.Master.designer.cs">
+      <DependentUpon>UserMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Web\meta-login.aspx.cs">
+      <DependentUpon>meta-login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\meta-login.aspx.designer.cs">
+      <DependentUpon>meta-login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\mining.aspx.cs">
+      <DependentUpon>mining.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\mining.aspx.designer.cs">
+      <DependentUpon>mining.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Models\BlogPost.cs" />
+    <Compile Include="Web\Models\Certificate.cs" />
+    <Compile Include="Web\Models\DashboardModels.cs" />
+    <Compile Include="Web\Models\FAQ.cs" />
+    <Compile Include="Web\Models\ICOInvestment.cs" />
+    <Compile Include="Web\Models\ICOProject.cs" />
+    <Compile Include="Web\Models\InvestmentModels.cs" />
+    <Compile Include="Web\Models\InvestmentPlan.cs" />
+    <Compile Include="Web\Models\KYCModels.cs" />
+    <Compile Include="Web\Models\MiningModels.cs" />
+    <Compile Include="Web\Models\MiningPlan.cs" />
+    <Compile Include="Web\Models\MiningResultModels.cs" />
+    <Compile Include="Web\Models\NFT.cs" />
+    <Compile Include="Web\Models\NFTCollection.cs" />
+    <Compile Include="Web\Models\PortfolioModels.cs" />
+    <Compile Include="Web\Models\ReferralModels.cs" />
+    <Compile Include="Web\Models\RoyaltyLicense.cs" />
+    <Compile Include="Web\Models\SalaryModels.cs" />
+    <Compile Include="Web\Models\SecurityModels.cs" />
+    <Compile Include="Web\Models\StackingPlan.cs" />
+    <Compile Include="Web\Models\StakingCommissionModels.cs" />
+    <Compile Include="Web\Models\StakingModels.cs" />
+    <Compile Include="Web\Models\StakingPlan.cs" />
+    <Compile Include="Web\Models\TeamMember.cs" />
+    <Compile Include="Web\Models\Testimonial.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\Models\TestimonialModels.cs" />
+    <Compile Include="Web\Models\TimelineItem.cs" />
+    <Compile Include="Web\Models\TransactionModels.cs" />
+    <Compile Include="Web\Models\User.cs" />
+    <Compile Include="Web\Models\UserICOModels.cs" />
+    <Compile Include="Web\Models\LicenseModels.cs" />
+    <Compile Include="Web\Models\UserMiningModels.cs" />
+    <Compile Include="Web\Models\UserNFTModels.cs" />
+    <Compile Include="Web\Models\UserProfileModels.cs" />
+    <Compile Include="Web\Models\UserStakingModels.cs" />
+    <Compile Include="Web\Models\WalletModels.cs" />
+    <Compile Include="Web\nft.aspx.cs">
+      <DependentUpon>nft.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\nft.aspx.designer.cs">
+      <DependentUpon>nft.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\register.aspx.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\register.aspx.designer.cs">
+      <DependentUpon>register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\roi.aspx.cs">
+      <DependentUpon>roi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\roi.aspx.designer.cs">
+      <DependentUpon>roi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\royalty.aspx.cs">
+      <DependentUpon>royalty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\royalty.aspx.designer.cs">
+      <DependentUpon>royalty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\staking.aspx.cs">
+      <DependentUpon>staking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\staking.aspx.designer.cs">
+      <DependentUpon>staking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\dashboard.aspx.cs">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\dashboard.aspx.designer.cs">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\ICO.aspx.cs">
+      <DependentUpon>ICO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\ICO.aspx.designer.cs">
+      <DependentUpon>ICO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Investments.aspx.cs">
+      <DependentUpon>Investments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Investments.aspx.designer.cs">
+      <DependentUpon>Investments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\KYC.aspx.cs">
+      <DependentUpon>KYC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\KYC.aspx.designer.cs">
+      <DependentUpon>KYC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Logout2.aspx.cs">
+      <DependentUpon>Logout2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Logout2.aspx.designer.cs">
+      <DependentUpon>Logout2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Mining.aspx.cs">
+      <DependentUpon>Mining.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Mining.aspx.designer.cs">
+      <DependentUpon>Mining.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\MintNFT.aspx.cs">
+      <DependentUpon>MintNFT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\MintNFT.aspx.designer.cs">
+      <DependentUpon>MintNFT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Mmining.aspx.cs">
+      <DependentUpon>Mmining.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Mmining.aspx.designer.cs">
+      <DependentUpon>Mmining.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\NewMiningContract.aspx.cs">
+      <DependentUpon>NewMiningContract.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\NewMiningContract.aspx.designer.cs">
+      <DependentUpon>NewMiningContract.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\NFTs.aspx.cs">
+      <DependentUpon>NFTs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\NFTs.aspx.designer.cs">
+      <DependentUpon>NFTs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Portfolio.aspx.cs">
+      <DependentUpon>Portfolio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Portfolio.aspx.designer.cs">
+      <DependentUpon>Portfolio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Referrals.aspx.cs">
+      <DependentUpon>Referrals.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Referrals.aspx.designer.cs">
+      <DependentUpon>Referrals.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Royalty.aspx.cs">
+      <DependentUpon>Royalty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Royalty.aspx.designer.cs">
+      <DependentUpon>Royalty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Salary.aspx.cs">
+      <DependentUpon>Salary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Salary.aspx.designer.cs">
+      <DependentUpon>Salary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Security.aspx.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Security.aspx.designer.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\StakeNow.aspx.cs">
+      <DependentUpon>StakeNow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\StakeNow.aspx.designer.cs">
+      <DependentUpon>StakeNow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Staking.aspx.cs">
+      <DependentUpon>Staking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Staking.aspx.designer.cs">
+      <DependentUpon>Staking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Transactions.aspx.cs">
+      <DependentUpon>Transactions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Transactions.aspx.designer.cs">
+      <DependentUpon>Transactions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Wallet.aspx.cs">
+      <DependentUpon>Wallet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Wallet.aspx.designer.cs">
+      <DependentUpon>Wallet.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\User\dashboard.aspx.resx">
+      <DependentUpon>dashboard.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\Assets\Uploads\KYC\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>32388</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:32388/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:32388/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,270 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Mexify.Web.MasterPages.Site" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <title><asp:Literal ID="litPageTitle" runat="server">MEXIFY | Institutional-Grade Crypto Asset Management</asp:Literal></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Future of Crypto Asset Management. AI-driven portfolio, enterprise mining, staking, NFTs, and royalty income.">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS (Using ResolveUrl for root-relative paths) -->
+    <link href="<%= ResolveUrl("~/Web/Assets/css/style.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Web/Assets/css/animations.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Web/Assets/css/responsive.css") %>" rel="stylesheet" />
+
+
+    <style>
+        /* =========================================
+   FAQ ACCORDION DARK THEME FIXES
+   ========================================= */
+
+/* Reset Bootstrap's default accordion background */
+.accordion-item {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Make accordion button transparent with visible text */
+.accordion-button {
+    background: transparent !important;
+    color: var(--text-white) !important;
+    box-shadow: none !important;
+    padding: 20px 24px !important;
+    font-weight: 500;
+    font-size: 1.05rem;
+    text-align: left;
+    border-radius: var(--radius-lg) !important;
+    transition: all 0.3s ease;
+}
+
+/* Remove the default Bootstrap focus outline */
+.accordion-button:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+/* Fix the chevron icon - make it visible on dark background */
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2300D4FF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+    background-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.5));
+}
+
+/* Rotate chevron when expanded */
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(-180deg);
+    filter: drop-shadow(0 0 6px rgba(0, 255, 178, 0.7));
+}
+
+/* Style the expanded state */
+.accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(0, 255, 178, 0.05)) !important;
+    color: var(--secondary) !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* Style the accordion body (the content that expands) */
+.accordion-body {
+    background: rgba(0, 0, 0, 0.2) !important;
+    color: var(--text-gray) !important;
+    padding: 20px 24px !important;
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+/* Remove default Bootstrap accordion-collapse border */
+.accordion-collapse {
+    border: none !important;
+}
+
+/* Hover effect on accordion button */
+.accordion-button:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Ensure accordion-flush doesn't remove too much styling */
+.accordion-flush .accordion-item {
+    border: 1px solid var(--glass-border) !important;
+    margin-bottom: 12px;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur));
+}
+
+.accordion-flush .accordion-button {
+    border-radius: 0 !important;
+}
+
+.accordion-flush .accordion-button:not(.collapsed) {
+    border-radius: 0 !important;
+}
+
+
+
+
+    </style>
+
+    <!-- Page Specific Head Content -->
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- ASP.NET Script Manager for AJAX & WebForms Validation -->
+     
+
+        <!-- =========================================
+             HEADER / NAVIGATION
+             ========================================= -->
+        <header class="main-header">
+            <nav class="container navbar navbar-expand-lg">
+                <a class="navbar-brand" href="<%= ResolveUrl("~/Web/Default.aspx") %>">
+                    <asp:Image ImageUrl="~/Web/Assets/images/mexify_logo.png" runat="server" Width="120px" Height="90px" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <i class="fas fa-bars text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/Default.aspx") %>">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Investments</a>
+                            <ul class="dropdown-menu glass-dropdown">
+                                <li><a class="dropdown-item" href="<%= ResolveUrl("~/Web/roi.aspx") %>">2X ROI Plans</a></li>
+                                <li><a class="dropdown-item" href="<%= ResolveUrl("~/Web/staking.aspx") %>">Flexible Staking</a></li>
+                                <li><a class="dropdown-item" href="<%= ResolveUrl("~/Web/mining.aspx") %>">Enterprise Mining</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/nft.aspx") %>">NFTs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/ico.aspx") %>">ICO Launchpad</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/royalty.aspx") %>">Licenses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/about.aspx") %>">About</a></li>
+                    </ul>
+                    
+                    <!-- Dynamic Auth Buttons -->
+                    <div class="d-flex gap-3">
+                        <asp:LoginView runat="server" ID="lvAuth">
+                            <AnonymousTemplate>
+                                <a href="<%= ResolveUrl("~/Web/meta-login.aspx") %>" class="btn btn-outline-glass">Login</a>
+                                <a href="<%= ResolveUrl("~/Web/register.aspx") %>" class="btn btn-primary-glow">Start Investing</a>
+                            </AnonymousTemplate>
+                            <LoggedInTemplate>
+                                <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="btn btn-outline-glass">
+                                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                                </a>
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutPageUrl="~/" LogoutText="Logout" CssClass="btn btn-primary-glow" />
+                            </LoggedInTemplate>
+                        </asp:LoginView>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- =========================================
+             MAIN CONTENT AREA (Injected by Child Pages)
+             ========================================= -->
+        <main>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </main>
+
+        <!-- =========================================
+             MEGA FOOTER
+             ========================================= -->
+        <footer class="mega-footer">
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-lg-4">
+                        <a href="<%= ResolveUrl("~/") %>" class="navbar-brand d-inline-block mb-3">MEXIFY</a>
+                        <p class="text-gray mb-4">Institutional-grade crypto asset management platform. Secure, scalable, and designed for the future of finance.</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-telegram"></i></a>
+                            <a href="#"><i class="fab fa-discord"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <h5 class="footer-title">Platform</h5>
+                        <a href="<%= ResolveUrl("~/Web/roi.aspx") %>" class="footer-link">2X ROI</a>
+                        <a href="<%= ResolveUrl("~/Web/staking.aspx") %>" class="footer-link">Staking</a>
+                        <a href="<%= ResolveUrl("~/Web/mining.aspx") %>" class="footer-link">Mining</a>
+                        <a href="<%= ResolveUrl("~/Web/nft.aspx") %>" class="footer-link">NFTs</a>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <h5 class="footer-title">Company</h5>
+                        <a href="<%= ResolveUrl("~/Web/about.aspx") %>" class="footer-link">About Us</a>
+                        <a href="<%= ResolveUrl("~/Web/blog.aspx") %>" class="footer-link">Blog</a>
+                        <a href="<%= ResolveUrl("~/Web/contact.aspx") %>" class="footer-link">Contact</a>
+                        <a href="<%= ResolveUrl("~/Web/faq.aspx") %>" class="footer-link">FAQs</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <h5 class="footer-title">Newsletter</h5>
+                        <p class="text-gray">Subscribe for market insights and platform updates.</p>
+                        <div class="d-flex gap-2 mt-3">
+                            <asp:TextBox ID="txtNewsletterEmail" runat="server" CssClass="form-control form-control-glass" placeholder="Enter your email" TextMode="Email"></asp:TextBox>
+                            <asp:Button ID="btnSubscribe" runat="server" Text="Subscribe" CssClass="btn btn-primary-glow" OnClick="btnSubscribe_Click" />
+                        </div>
+                        <asp:Label ID="lblNewsletterMsg1" runat="server" CssClass="text-success mt-2 d-block"></asp:Label>
+                    </div>
+                </div>
+                <hr class="border-secondary my-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="text-muted mb-0">&copy; <%= DateTime.Now.Year %> MEXIFY. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <a href="<%= ResolveUrl("~/Web/privacy.aspx") %>" class="text-muted me-3">Privacy Policy</a>
+                        <a href="<%= ResolveUrl("~/Web/terms.aspx") %>" class="text-muted">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- =========================================
+             SCRIPTS
+             ========================================= -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        
+        <!-- Custom JS -->
+        <script src="<%= ResolveUrl("~/Web/Assets/js/three.js") %>"></script>
+        <script src="<%= ResolveUrl("~/Web/Assets/js/gsap.js") %>"></script>
+        <script src="<%= ResolveUrl("~/Web/Assets/js/main.js") %>"></script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                AOS.init({
+                    duration: 800,
+                    once: true, // This ensures it doesn't hide again when you scroll away
+                });
+            });
+        </script>
+
+        <!-- Page Specific Scripts -->
+        <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
+    </form>
+</body>
+</html>

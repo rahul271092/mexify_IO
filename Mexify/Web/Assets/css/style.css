@@ -1,0 +1,460 @@
+﻿/* =========================================
+   MEXIFY DESIGN SYSTEM - PREMIUM FINTECH
+   ========================================= */
+
+:root {
+    /* Core Palette */
+    --bg-primary: #07111F;
+    --bg-secondary: #0B132B;
+    --bg-tertiary: #111C35;
+    
+    /* Accent Colors */
+    --primary: #2563EB;
+    --secondary: #00D4FF;
+    --accent: #00FFB2;
+    --gold: #FFD700;
+    
+    /* Text Colors */
+    --text-white: #FFFFFF;
+    --text-gray: #A0AABF;
+    --text-muted: #6B758D;
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 16px;
+    
+    /* Shadows & Glows */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    --glow-primary: 0 0 20px rgba(37, 99, 235, 0.4);
+    --glow-accent: 0 0 20px rgba(0, 255, 178, 0.4);
+    
+    /* Typography */
+    --font-primary: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    
+    /* Spacing & Radius */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+}
+
+/* Base Reset & Typography */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-gray);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 40%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--text-white);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+img { max-width: 100%; height: auto; }
+
+/* =========================================
+   GLASSMORPHISM UTILITIES
+   ========================================= */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+.btn-mexify {
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-primary-glow {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: var(--text-white);
+    box-shadow: var(--glow-primary);
+}
+
+.btn-primary-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.6);
+    color: var(--text-white);
+}
+
+.btn-outline-glass {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-white);
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline-glass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--secondary);
+    color: var(--secondary);
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   HEADER & NAVIGATION
+   ========================================= */
+.main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all 0.4s ease;
+}
+
+.main-header.scrolled {
+    background: rgba(7, 17, 31, 0.85);
+    backdrop-filter: blur(20px);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar-brand {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+    color: var(--text-gray) !important;
+    font-weight: 500;
+    margin: 0 12px;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--secondary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+.nav-link:hover, .nav-link.active { color: var(--text-white) !important; }
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 100px;
+    overflow: hidden;
+}
+
+#three-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50px;
+    color: var(--secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, #a0aabf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-title span {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+/* =========================================
+   SECTION STYLES
+   ========================================= */
+.section-padding { padding: 120px 0; }
+.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center;
+    margin-bottom: 16px;
+}
+.section-subtitle {
+    text-align: center;
+    color: var(--text-gray);
+    max-width: 600px;
+    margin: 0 auto 64px;
+}
+
+/* Feature Cards */
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(0, 212, 255, 0.2));
+    border-radius: 20px;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    color: var(--secondary);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Pricing Cards */
+.pricing-card {
+    padding: 40px 30px;
+    text-align: center;
+}
+.pricing-card.featured {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(0, 255, 178, 0.05));
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+.pricing-card.featured:hover { transform: scale(1.05) translateY(-8px); }
+.price-tag { font-size: 3rem; font-weight: 800; color: var(--text-white); }
+.price-tag span { font-size: 1rem; color: var(--text-gray); font-weight: 400; }
+
+/* ROI Calculator */
+.calculator-card { padding: 48px; }
+.form-control-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-white);
+    padding: 14px 20px;
+}
+.form-control-glass:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    color: var(--text-white);
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+.mega-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--glass-border);
+    padding: 80px 0 30px;
+}
+.footer-title {
+    color: var(--text-white);
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+}
+.footer-link {
+    color: var(--text-gray);
+    display: block;
+    margin-bottom: 12px;
+}
+.footer-link:hover { color: var(--secondary); transform: translateX(5px); }
+.social-icons a {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    color: var(--text-gray);
+    margin-right: 12px;
+}
+.social-icons a:hover {
+    background: var(--primary);
+    color: var(--text-white);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   CTA SECTION - GLOBAL FIX
+   ========================================= */
+
+/* Override glass-card background for CTA sections */
+.cta-section,
+.glass-card.cta-card,
+section .glass-card[style*="linear-gradient"] {
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.35) 0%, 
+        rgba(0, 212, 255, 0.2) 50%, 
+        rgba(0, 255, 178, 0.15) 100%) !important;
+    border: 1px solid rgba(0, 212, 255, 0.4) !important;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(0, 212, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated glow effect */
+.cta-section::before,
+.glass-card.cta-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 60%);
+    animation: ctaGlow 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes ctaGlow {
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+        opacity: 0.5;
+    }
+    50% { 
+        transform: translate(10%, 10%) scale(1.1); 
+        opacity: 0.8;
+    }
+}
+
+/* Ensure content is above the glow */
+.cta-section > *,
+.glass-card.cta-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* CTA heading styling */
+.cta-section h2,
+.cta-section h3,
+.glass-card.cta-card h2,
+.glass-card.cta-card h3 {
+    background: linear-gradient(135deg, #fff 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+/* CTA button enhancement */
+.cta-section .btn-primary-glow,
+.glass-card.cta-card .btn-primary-glow {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    box-shadow: 
+        0 10px 30px rgba(37, 99, 235, 0.5),
+        0 0 20px rgba(0, 212, 255, 0.3);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.cta-section .btn-primary-glow:hover,
+.glass-card.cta-card .btn-primary-glow:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 15px 40px rgba(37, 99, 235, 0.7),
+        0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+/* CTA outline button */
+.cta-section .btn-outline-glass,
+.glass-card.cta-card .btn-outline-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-white);
+}
+
+.cta-section .btn-outline-glass:hover,
+.glass-card.cta-card .btn-outline-glass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--secondary);
+    color: var(--secondary);
+}
+
+/* Icon styling in CTA */
+.cta-section .fa-3x,
+.glass-card.cta-card .fa-3x {
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cta-section,
+    .glass-card.cta-card {
+        padding: 30px 20px !important;
+    }
+    .cta-section h2,
+    .glass-card.cta-card h2 {
+        font-size: 1.8rem !important;
+    }
+}

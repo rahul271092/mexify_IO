@@ -1,0 +1,313 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserMaster.master.cs" Inherits="Mexify.Web.MasterPages.UserMaster" %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <title><asp:Literal ID="litPageTitle" runat="server">Dashboard</asp:Literal> | MEXIFY</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="<%= ResolveUrl("~/Web/Assets/css/style.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/Web/Assets/css/dashboard.css") %>" rel="stylesheet" />
+    
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body class="dashboard-body">
+    <form id="form1" runat="server">
+        
+        <!-- =========================================
+             SIDEBAR NAVIGATION
+             ========================================= -->
+        <aside class="user-sidebar" id="userSidebar">
+            
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="navbar-brand">
+                    <img src="../Assets/images/mexify_logo.png" width="130px" height="80px" />
+                </a>
+                <button class="sidebar-close d-lg-none" onclick="toggleSidebar()" aria-label="Close sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- User Profile Mini -->
+            <div class="sidebar-user">
+                <img src='<%= UserPhotoUrl %>' 
+                     alt="User" 
+                     class="user-avatar"
+                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff&size=100'">
+                <div class="user-info">
+                    <h6 class="user-name"><asp:Literal ID="litUserName" runat="server" Text="User"></asp:Literal></h6>
+                    <small class="user-tier">
+                        <i class="fas fa-crown me-1"></i>
+                        <asp:Literal ID="litUserTier" runat="server" Text="Standard"></asp:Literal>
+                    </small>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="sidebar-nav">
+                
+                <!-- Main Section -->
+                <div class="nav-section">
+                    <small class="nav-label">Main</small>
+                    <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="nav-link <%= IsActive("Dashboard") %>">
+                        <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="nav-link <%= IsActive("Wallet") %>">
+                        <i class="fas fa-wallet"></i> <span>My Wallet</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Portfolio.aspx") %>" class="nav-link <%= IsActive("Portfolio") %>">
+                        <i class="fas fa-chart-pie"></i> <span>Portfolio</span>
+                    </a>
+                </div>
+
+                <!-- Investments Section -->
+                <div class="nav-section">
+                    <small class="nav-label">Investments</small>
+                    <a href="<%= ResolveUrl("~/Web/User/Investments.aspx") %>" class="nav-link <%= IsActive("Investments") %>">
+                        <i class="fas fa-chart-line"></i> <span>2X ROI Plans</span>
+                    </a>
+                 
+                       <a href="<%= ResolveUrl("~/Web/User/Salary.aspx") %>" class="nav-link <%= IsActive("Salary") %>">
+                        <i class="fas fa-server"></i> <span>Fixed Salary Plan</span>
+                            
+                            </a>
+
+                    
+                       <a href="<%= ResolveUrl("~/Web/User/Staking.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
+                        <i class="fas fa-coins"></i> <span>Staking</span>
+                    </a>
+
+                 
+                    <a href="<%= ResolveUrl("~/Web/User/Mining.aspx") %>" class="nav-link <%= IsActive("Mining") %>">
+                        <i class="fas fa-server"></i> <span>Mining</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/NFTs.aspx") %>" class="nav-link <%= IsActive("NFTs") %>">
+                        <i class="fas fa-cube"></i> <span>My NFTs</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/ICO.aspx") %>" class="nav-link <%= IsActive("ICO") %>">
+                        <i class="fas fa-rocket"></i> <span>ICO Tokens</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Royalty.aspx") %>" class="nav-link <%= IsActive("Royalty") %>">
+                        <i class="fas fa-certificate"></i> <span>Royalties</span>
+                    </a>
+                </div>
+
+                <!-- Earnings Section -->
+                <div class="nav-section">
+                    <small class="nav-label">Earnings</small>
+                    <a href="<%= ResolveUrl("~/Web/User/Referrals.aspx") %>" class="nav-link <%= IsActive("Referrals") %>">
+                        <i class="fas fa-users"></i> <span>Networking Incomes</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="nav-link <%= IsActive("Transactions") %>">
+                        <i class="fas fa-exchange-alt"></i> <span>Transactions</span>
+                    </a>
+                </div>
+
+                <!-- Account Section -->
+                <div class="nav-section">
+                    <small class="nav-label">Account</small>
+                    <a href="<%= ResolveUrl("~/Web/User/Profile.aspx") %>" class="nav-link <%= IsActive("Profile") %>">
+                        <i class="fas fa-user"></i> <span>My Profile</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Security.aspx") %>" class="nav-link <%= IsActive("Security") %>">
+                        <i class="fas fa-shield-alt"></i> <span>Security</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Settings.aspx") %>" class="nav-link <%= IsActive("Settings") %>">
+                        <i class="fas fa-cog"></i> <span>Settings</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Support.aspx") %>" class="nav-link <%= IsActive("Support") %>">
+                        <i class="fas fa-headset"></i> <span>Support</span>
+                    </a>
+                </div>
+
+                <!-- Logout -->
+                <div class="nav-section">
+                    <a href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>" class="nav-link nav-logout">
+                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="pnc-balance-mini">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">USDT Balance</small>
+                        <i class="fas fa-coins" style="color: var(--gold);"></i>
+                    </div>
+                    <h5 class="text-white mb-0">
+                        <asp:Literal ID="litSidebarPNC" runat="server" Text="0.00"></asp:Literal>
+                    </h5>
+                </div>
+            </div>
+        </aside>
+
+        <!-- =========================================
+             MAIN CONTENT AREA
+             ========================================= -->
+        <div class="user-main">
+            
+            <!-- Top Bar -->
+            <header class="user-topbar">
+                
+                <!-- Mobile Toggle -->
+                <button class="sidebar-toggle d-lg-none" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Breadcrumb -->
+                <div class="topbar-breadcrumb d-none d-md-flex">
+                    <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span class="separator">/</span>
+                    <span class="current-page"><asp:Literal ID="litBreadcrumb" runat="server" Text="Dashboard"></asp:Literal></span>
+                </div>
+
+                <!-- Actions -->
+                <div class="topbar-actions">
+                    
+                    <!-- Quick Deposit -->
+                    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx?action=deposit") %>" class="topbar-btn topbar-action-btn" title="Deposit">
+                        <i class="fas fa-plus-circle"></i>
+                        <span class="d-none d-xl-inline ms-1">Deposit</span>
+                    </a>
+                    
+                    <!-- Notifications -->
+                    <div class="dropdown">
+                        <button class="topbar-btn" data-bs-toggle="dropdown" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">
+                                <asp:Literal ID="litNotificationCount" runat="server" Text="0"></asp:Literal>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <div class="dropdown-header">
+                                <h6 class="mb-0">Notifications</h6>
+                            </div>
+                            <div class="notification-list">
+                                <div class="text-center py-4 text-muted">
+                                    <i class="fas fa-bell-slash fa-2x mb-2"></i>
+                                    <p class="mb-0 small">No new notifications</p>
+                                </div>
+                            </div>
+                            <div class="dropdown-footer">
+                                <a href="<%= ResolveUrl("~/Web/User/Notifications.aspx") %>">
+                                    View All <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Profile -->
+                    <div class="dropdown">
+                        <button class="topbar-user" data-bs-toggle="dropdown" aria-label="User menu">
+                            <img src='<%= UserPhotoUrl %>' alt="User" class="topbar-avatar"
+                                 onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff'">
+                            <div class="d-none d-md-inline text-start">
+                                <div class="topbar-user-name"><asp:Literal ID="litTopbarName" runat="server" Text="User"></asp:Literal></div>
+                                <small class="topbar-user-email"><asp:Literal ID="litTopbarEmail" runat="server" Text=""></asp:Literal></small>
+                            </div>
+                            <i class="fas fa-chevron-down small ms-2"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end user-dropdown">
+                            <div class="dropdown-user-info">
+                                <img src='<%= UserPhotoUrl %>' alt="User"
+                                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff'">
+                                <div>
+                                    <strong class="text-white"><asp:Literal ID="litDropdownName" runat="server"></asp:Literal></strong>
+                                    <small class="d-block text-muted"><asp:Literal ID="litDropdownEmail" runat="server"></asp:Literal></small>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Profile.aspx") %>">
+                                <i class="fas fa-user me-2"></i> My Profile
+                            </a>
+                            <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>">
+                                <i class="fas fa-wallet me-2"></i> My Wallet
+                            </a>
+                            <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Settings.aspx") %>">
+                                <i class="fas fa-cog me-2"></i> Settings
+                            </a>
+                            <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Support.aspx") %>">
+                                <i class="fas fa-headset me-2"></i> Support
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="user-content">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </main>
+
+            <!-- Footer -->
+            <footer class="user-footer">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <small class="text-muted">
+                        &copy; <%= DateTime.Now.Year %> MEXIFY. All rights reserved.
+                    </small>
+                    <div class="d-flex gap-3">
+                        <a href="<%= ResolveUrl("~/privacy.aspx") %>" class="text-muted small">Privacy</a>
+                        <a href="<%= ResolveUrl("~/terms.aspx") %>" class="text-muted small">Terms</a>
+                        <a href="<%= ResolveUrl("~/User/Support.aspx") %>" class="text-muted small">Support</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        
+        <script>
+            // Initialize AOS
+            AOS.init({ duration: 600, once: true, offset: 30 });
+
+            // Toggle Sidebar
+            function toggleSidebar() {
+                document.getElementById('userSidebar').classList.toggle('open');
+                document.getElementById('sidebarOverlay').classList.toggle('show');
+                document.body.classList.toggle('sidebar-open');
+            }
+
+            // Close sidebar on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 992) {
+                    document.getElementById('userSidebar').classList.remove('open');
+                    document.getElementById('sidebarOverlay').classList.remove('show');
+                    document.body.classList.remove('sidebar-open');
+                }
+            });
+        </script>
+        
+        <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
+    </form>
+</body>
+</html>
