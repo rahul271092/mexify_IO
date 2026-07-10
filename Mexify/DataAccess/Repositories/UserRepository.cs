@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using static Mexify.Web.Models.RewardModels;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -20,11 +21,29 @@ namespace Mexify.DataAccess.Repositories
 
         public string GetOrCreateNonce(string walletAddress)
         {
-            var result = ExecuteStoredProcedureScalar<string>(
-                "usp_GetOrCreateLoginNonce",
-                CreateParameter("@WalletAddress", walletAddress)
-            );
-            return result;
+            try
+            {
+                // ✅ Create output parameter
+                var outputNonce = new SqlParameter("@Nonce", SqlDbType.NVarChar, 100)
+                {
+                    Direction = ParameterDirection.Output
+                };
+
+                // ✅ Execute stored procedure with output parameter
+                ExecuteStoredProcedureNonQuery(
+                    "usp_GetOrCreateLoginNonce",
+                    CreateParameter("@WalletAddress", walletAddress),
+                    outputNonce
+                );
+
+                // ✅ Read the output parameter value
+                return outputNonce.Value?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get/create nonce for wallet: " + walletAddress, ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -344,6 +363,58 @@ namespace Mexify.DataAccess.Repositories
                 CreateParameter("@UserId", userId),
                 CreateParameter("@KYCStatus", kycStatus)
             );
+        }
+
+        public RewardsHistoryResult GetUserRewardsHistory(int userId, int pageNumber = 1, int pageSize = 50)
+        {
+            var result = new RewardsHistoryResult
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserRewardsHistory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Transactions
+                        while (reader.Read())
+                        {
+                            result.Transactions.Add(new UserRewardHistory
+                            {
+                                TransactionId = GetSafeLong(reader, "TransactionId"),
+                                EarnedDate = GetSafeDateTime(reader, "EarnedDate"),
+                                RewardSource = GetSafeString(reader, "RewardSource") ?? "",
+                                RewardType = GetSafeString(reader, "RewardType") ?? "",
+                                CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
+                                RewardAmount = GetSafeDecimal(reader, "RewardAmount"),
+                                Status = GetSafeString(reader, "Status") ?? "Completed"
+                            });
+                        }
+
+                        // Result Set 2: Total Count
+                        if (reader.NextResult() && reader.Read())
+                        {
+                            result.TotalRecords = GetSafeInt(reader, "TotalRecords");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get user rewards history", ex);
+            }
+
+            return result;
         }
 
         private User MapUser(SqlDataReader reader)

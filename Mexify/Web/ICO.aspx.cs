@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Mexify.Models;
 
 namespace Mexify.Web
 {
@@ -28,9 +29,9 @@ namespace Mexify.Web
             {
                 var service = new ICOService();
 
-                var featured = service.GetFeaturedProject();
-               
-                rptFeatured.DataSource = featured != null ? new[] { featured } : new Models.ICOProject[0];
+                var featured = service.GetFeaturedProjects();
+
+                rptFeatured.DataSource = service.GetFeaturedProjects();
                 rptFeatured.DataBind();
                 rptProjects.DataSource = service.GetAllProjects();
                 rptProjects.DataBind();

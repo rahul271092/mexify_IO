@@ -44,10 +44,14 @@ namespace Mexify.Business.Services
             var result = new MetaMaskLoginResult();
             try
             {
+                // ✅ DEBUG: Log what the server actually received
+                Logger.Info($"MetaMask Login Attempt - Wallet: '{walletAddress}', Nonce: '{nonce}'");
                 // 1. Verify nonce is valid and unused
                 bool isValidNonce = _repository.ValidateLoginNonce(walletAddress, nonce);
                 if (!isValidNonce)
                 {
+                    // ✅ DEBUG: Log why it failed
+                    Logger.Error($"MetaMask Nonce Validation FAILED for wallet: {walletAddress}");
                     result.Success = false;
                     result.ErrorMessage = "Invalid or expired nonce.";
                     return result;

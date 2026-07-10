@@ -15,6 +15,35 @@ namespace Mexify.Business.Services
             _repository = new LicenseRepository();
         }
 
+        public List<LicensePackage> GetActivePackages()
+        {
+            try { return _repository.GetActivePackages(); }
+            catch (Exception ex) { Logger.Error("Failed to get license packages", ex); return new List<LicensePackage>(); }
+        }
+
+        public List<LicenseCommissionTier> GetCommissionTiers()
+        {
+            try { return _repository.GetCommissionTiers(); }
+            catch (Exception ex) { Logger.Error("Failed to get commission tiers", ex); return new List<LicenseCommissionTier>(); }
+        }
+
+        public LicenseStats GetUserLicenseStats(int userId)
+        {
+            try { return _repository.GetUserLicenseStats(userId); }
+            catch (Exception ex) { Logger.Error("Failed to get user license stats", ex); return new LicenseStats(); }
+        }
+
+        public LicensePurchaseResult PurchaseLicense(int userId, int packageId)
+        {
+            try { return _repository.PurchaseLicense(userId, packageId); }
+            catch (Exception ex)
+            {
+                Logger.Error("Purchase license failed", ex);
+                return new LicensePurchaseResult { Success = false, ErrorMessage = ex.Message };
+            }
+        }
+
+
         public UserLicense GetUserActiveLicense(int userId)
         {
             try { return _repository.GetUserActiveLicense(userId); }

@@ -531,6 +531,11 @@
         <button type="button" class="wallet-tab" data-tab="deposit">
             <i class="fas fa-arrow-down me-1"></i> Deposit
         </button>
+        <button type="button" class="wallet-tab" data-tab="web3">
+            <i class="fas fa-arrow-down me-1"></i> Web3 Deposit
+        </button>
+
+
         <button type="button" class="wallet-tab" data-tab="withdraw">
             <i class="fas fa-arrow-up me-1"></i> Withdraw
         </button>
@@ -616,6 +621,13 @@
         </asp:Panel>
     </div>
 
+
+
+
+
+
+
+
     <!-- DEPOSIT TAB -->
     <div id="tab-deposit" class="tab-content" style="display: none;" data-aos="fade-up">
         <div class="deposit-section">
@@ -680,6 +692,128 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <!-- Web3 Deposit Section -->
+<div class="web3-deposit-section" style="margin-top: 32px;">
+    <h4 class="text-white mb-3">
+        <i class="fab fa-ethereum text-accent me-2"></i>
+        Web3 Deposit (MetaMask)
+    </h4>
+    <p class="text-gray mb-4">Deposit directly from your Web3 wallet (MetaMask, WalletConnect, etc.)</p>
+
+    <!-- Connect Wallet Button -->
+    <div id="web3ConnectSection" class="mb-4">
+        <button type="button" id="btnConnectWallet" class="btn btn-primary-glow w-100" onclick="connectWeb3Wallet()">
+            <i class="fas fa-wallet me-2"></i> Connect MetaMask Wallet
+        </button>
+    </div>
+
+    <!-- Connected Wallet Info -->
+    <div id="web3ConnectedSection" style="display: none;" class="mb-4">
+        <div class="alert-box success">
+            <i class="fas fa-check-circle"></i>
+            <div>
+                <strong class="text-white">Wallet Connected!</strong><br>
+                <small class="text-muted">Address: <span id="connectedWalletAddress" class="text-accent"></span></small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Web3 Deposit Form -->
+    <div id="web3DepositForm" style="display: none;">
+        <div class="form-group-custom">
+            <label>Select Network <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+                <select id="ddlWeb3Network" onchange="updateWeb3DepositAddress()">
+                    <option value="ethereum">Ethereum (ERC20)</option>
+                    <option value="bsc">BNB Smart Chain (BEP20)</option>
+                    <option value="polygon">Polygon (MATIC)</option>
+                </select>
+                <i class="fas fa-network-wired input-icon"></i>
+            </div>
+        </div>
+
+        <div class="form-group-custom">
+            <label>Select Token <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+                <select id="ddlWeb3Token" onchange="updateWeb3DepositAddress()">
+                    <option value="ETH">ETH (Ethereum)</option>
+                    <option value="USDT">USDT (Tether)</option>
+                    <option value="USDC">USDC (USD Coin)</option>
+                    <option value="BNB">BNB (Binance Coin)</option>
+                    <option value="PNC">PNC (Pinnacle Coin)</option>
+                </select>
+                <i class="fas fa-coins input-icon"></i>
+            </div>
+        </div>
+
+        <div class="form-group-custom">
+            <label>Your Balance</label>
+            <div style="padding: 12px 16px; background: rgba(0, 255, 178, 0.05); border: 1px solid rgba(0, 255, 178, 0.2); border-radius: 10px; color: var(--accent); font-weight: 700;">
+                <span id="web3TokenBalance">0.00</span>
+                <small class="text-muted" style="font-weight: 400;"> <span id="web3TokenSymbol">ETH</span></small>
+            </div>
+        </div>
+
+        <div class="form-group-custom">
+            <label>Deposit Address</label>
+            <div class="deposit-address-box">
+                <div class="deposit-address" id="web3DepositAddress">
+                    Loading deposit address...
+                </div>
+                <button type="button" class="copy-btn" onclick="copyWeb3DepositAddress()">
+                    <i class="fas fa-copy"></i> Copy Address
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group-custom">
+            <label>Amount to Deposit <span class="required">*</span></label>
+            <div class="input-icon-wrap">
+                <input type="number" id="txtWeb3Amount" placeholder="0.00" step="0.00000001" min="0">
+                <i class="fas fa-coins input-icon"></i>
+            </div>
+            <div class="d-flex gap-2 mt-2">
+                <button type="button" class="wallet-card-btn" onclick="setWeb3Amount(25)">25%</button>
+                <button type="button" class="wallet-card-btn" onclick="setWeb3Amount(50)">50%</button>
+                <button type="button" class="wallet-card-btn" onclick="setWeb3Amount(75)">75%</button>
+                <button type="button" class="wallet-card-btn" onclick="setWeb3Amount(100)">Max</button>
+            </div>
+        </div>
+
+        <div class="alert-box warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong class="text-white">Important:</strong>
+                <ul class="mb-0 mt-1" style="padding-left: 18px;">
+                    <li>Send only <strong class="text-accent"><span id="web3TokenName">ETH</span></strong> to this address</li>
+                    <li>Minimum deposit: <strong class="text-white"><span id="web3MinDeposit">0.01</span></strong></li>
+                    <li>Requires <strong class="text-white">12-30 confirmations</strong> depending on network</li>
+                    <li>Gas fees will be deducted from your wallet</li>
+                </ul>
+            </div>
+        </div>
+
+        <button type="button" id="btnWeb3Deposit" class="btn btn-primary-glow w-100" onclick="executeWeb3Deposit()">
+            <i class="fas fa-paper-plane me-2"></i> Deposit via MetaMask
+        </button>
+    </div>
+
+    <!-- Transaction Status -->
+    <div id="web3TransactionStatus" style="display: none;" class="mt-4">
+        <div class="chart-card">
+            <h5 class="chart-title mb-3">
+                <i class="fas fa-clock text-accent me-2"></i>
+                Transaction Status
+            </h5>
+            <div id="transactionStatusContent"></div>
+        </div>
+    </div>
+</div>
 
     <!-- WITHDRAW TAB -->
     <div id="tab-withdraw" class="tab-content" style="display: none;" data-aos="fade-up">

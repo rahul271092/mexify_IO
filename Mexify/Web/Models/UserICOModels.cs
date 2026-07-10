@@ -15,26 +15,26 @@ namespace Mexify.Models
         public decimal TotalRefunded { get; set; }
     }
 
-    public class ICOProject
-    {
-        public int ICOProjectId { get; set; }
-        public string ProjectName { get; set; }
-        public string Category { get; set; }
-        public string ImageUrl { get; set; }
-        public string TokenSymbol { get; set; }
-        public decimal TokenPrice { get; set; }
-        public decimal MinInvestment { get; set; }
-        public decimal HardCap { get; set; }
-        public decimal RaisedAmount { get; set; }
-        public decimal FundingPercent { get; set; }
-        public string TotalSupplyFormatted { get; set; }
-        public string VestingPeriod { get; set; }
-        public bool IsHot { get; set; }
-        public string StatusClass { get; set; }
-        public string StatusName { get; set; }
-        public DateTime EndDate { get; set; }
-        public string EndDateIso { get; set; }
-    }
+    //public class ICOProject
+    //{
+    //    public int ICOProjectId { get; set; }
+    //    public string ProjectName { get; set; }
+    //    public string Category { get; set; }
+    //    public string ImageUrl { get; set; }
+    //    public string TokenSymbol { get; set; }
+    //    public decimal TokenPrice { get; set; }
+    //    public decimal MinInvestment { get; set; }
+    //    public decimal HardCap { get; set; }
+    //    public decimal RaisedAmount { get; set; }
+    //    public decimal FundingPercent { get; set; }
+    //    public string TotalSupplyFormatted { get; set; }
+    //    public string VestingPeriod { get; set; }
+    //    public bool IsHot { get; set; }
+    //    public string StatusClass { get; set; }
+    //    public string StatusName { get; set; }
+    //    public DateTime EndDate { get; set; }
+    //    public string EndDateIso { get; set; }
+    //}
 
     public class ICOParticipation
     {

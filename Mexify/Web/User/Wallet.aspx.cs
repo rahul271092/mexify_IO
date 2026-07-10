@@ -32,14 +32,7 @@ namespace Mexify.Web.User
             if (!IsPostBack)
             {
 
-                try
-                {
-
-                }
-                catch(Exception ef)
-                {
-
-                }
+               
                 SetPageMetadata();
                 LoadWallets();
                 LoadDepositCurrencies();

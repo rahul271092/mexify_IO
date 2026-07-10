@@ -132,12 +132,36 @@
       <HintPath>..\packages\Nethereum.Web3.6.1.0\lib\net451\Nethereum.Web3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\netstandard1.1\System.Memory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -147,6 +171,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -161,6 +193,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -170,10 +203,14 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Web\api\AuthAPI.aspx" />
     <Content Include="Web\api\getnonce.aspx" />
     <Content Include="Web\Assets\css\dashboard.css" />
     <Content Include="Web\Assets\css\mexify-theme.css" />
+    <Content Include="Web\Assets\images\metamask1.png" />
     <Content Include="Web\Assets\images\mexify_logo.png" />
+    <Content Include="Web\Assets\Scripts\web3-deposit.js" />
+    <Content Include="Web\Assets\Scripts\web3-functions.js" />
     <Content Include="Web\forgot-password.aspx" />
     <Content Include="Web\ICO.aspx" />
     <Content Include="Web\login.aspx" />
@@ -193,6 +230,8 @@
     <Content Include="Web\User\Mining.aspx" />
     <Content Include="Web\User\MintNFT.aspx" />
     <Content Include="Web\User\Mmining.aspx" />
+    <Content Include="Web\User\MyICO.aspx" />
+    <Content Include="Web\User\MyLicenses.aspx" />
     <Content Include="Web\User\NewMiningContract.aspx" />
     <Content Include="Web\User\NFTs.aspx" />
     <Content Include="Web\User\Portfolio.aspx" />
@@ -201,10 +240,12 @@
     <Content Include="Web\User\Royalty.aspx" />
     <Content Include="Web\User\Salary.aspx" />
     <Content Include="Web\User\Security.aspx" />
+    <Content Include="Web\User\Settings.aspx" />
     <Content Include="Web\User\StakeNow.aspx" />
     <Content Include="Web\User\Staking.aspx" />
     <Content Include="Web\User\Transactions.aspx" />
     <Content Include="Web\User\Wallet.aspx" />
+    <Content Include="Web\User\Web3API.aspx" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -245,6 +286,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="Web\MasterPages\UserMaster.Master" />
+    <Content Include="Web\api\AuthHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web\Assets\css\style.css" />
@@ -257,6 +299,7 @@
     <Content Include="Web\Default.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Business\Services\AboutService.cs" />
     <Compile Include="Business\Services\AuthService.cs" />
     <Compile Include="Business\Services\CMSService.cs" />
@@ -278,6 +321,7 @@
     <Compile Include="Business\Services\UserICOService.cs" />
     <Compile Include="Business\Services\UserNFTService.cs" />
     <Compile Include="Business\Services\UserProfileService.cs" />
+    <Compile Include="Business\Services\UserService.cs" />
     <Compile Include="Business\Services\UserStakingService.cs" />
     <Compile Include="Business\Services\WalletService.cs" />
     <Compile Include="DataAccess\BaseRepository.cs" />
@@ -308,6 +352,11 @@
     <Compile Include="DataAccess\Repositories\UserRepository.cs" />
     <Compile Include="DataAccess\Repositories\UserStakingRepository.cs" />
     <Compile Include="DataAccess\Repositories\WalletRepository.cs" />
+    <Compile Include="DataAccess\Repositories\Web3Repository.cs" />
+    <Compile Include="DataAccess\Repositories\Web3Service.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\CurrencyHelper.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\PasswordHelper.cs" />
@@ -318,6 +367,17 @@
     <Compile Include="Web\about.aspx.designer.cs">
       <DependentUpon>about.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\api\AuthAPI.aspx.cs">
+      <DependentUpon>AuthAPI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\api\AuthAPI.aspx.designer.cs">
+      <DependentUpon>AuthAPI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\api\AuthHandler.ashx.cs">
+      <DependentUpon>AuthHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\api\Controllers\Web3Controller.cs" />
     <Compile Include="Web\api\getnonce.aspx.cs">
       <DependentUpon>getnonce.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -383,7 +443,7 @@
     <Compile Include="Web\Models\DashboardModels.cs" />
     <Compile Include="Web\Models\FAQ.cs" />
     <Compile Include="Web\Models\ICOInvestment.cs" />
-    <Compile Include="Web\Models\ICOProject.cs" />
+    <Compile Include="Web\Models\ICOModels.cs" />
     <Compile Include="Web\Models\InvestmentModels.cs" />
     <Compile Include="Web\Models\InvestmentPlan.cs" />
     <Compile Include="Web\Models\KYCModels.cs" />
@@ -394,6 +454,7 @@
     <Compile Include="Web\Models\NFTModels.cs" />
     <Compile Include="Web\Models\PortfolioModels.cs" />
     <Compile Include="Web\Models\ReferralModels.cs" />
+    <Compile Include="Web\Models\RewardModels.cs" />
     <Compile Include="Web\Models\RoyaltyLicense.cs" />
     <Compile Include="Web\Models\SalaryModels.cs" />
     <Compile Include="Web\Models\SecurityModels.cs" />
@@ -415,6 +476,7 @@
     <Compile Include="Web\Models\UserProfileModels.cs" />
     <Compile Include="Web\Models\UserStakingModels.cs" />
     <Compile Include="Web\Models\WalletModels.cs" />
+    <Compile Include="Web\Models\Web3Models.cs" />
     <Compile Include="Web\nft.aspx.cs">
       <DependentUpon>nft.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -513,6 +575,20 @@
     <Compile Include="Web\User\Mmining.aspx.designer.cs">
       <DependentUpon>Mmining.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\MyICO.aspx.cs">
+      <DependentUpon>MyICO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\MyICO.aspx.designer.cs">
+      <DependentUpon>MyICO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\MyLicenses.aspx.cs">
+      <DependentUpon>MyLicenses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\MyLicenses.aspx.designer.cs">
+      <DependentUpon>MyLicenses.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\NewMiningContract.aspx.cs">
       <DependentUpon>NewMiningContract.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -569,6 +645,13 @@
     <Compile Include="Web\User\Security.aspx.designer.cs">
       <DependentUpon>Security.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\StakeNow.aspx.cs">
       <DependentUpon>StakeNow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -596,6 +679,13 @@
     </Compile>
     <Compile Include="Web\User\Wallet.aspx.designer.cs">
       <DependentUpon>Wallet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Web3API.aspx.cs">
+      <DependentUpon>Web3API.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Web3API.aspx.designer.cs">
+      <DependentUpon>Web3API.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

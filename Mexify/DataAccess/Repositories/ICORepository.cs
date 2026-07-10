@@ -1,106 +1,307 @@
-﻿using Mexify.Web.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+
+using Mexify.Utilities;
+using Mexify.Models;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class ICORepository : BaseRepository
     {
+        public List<ICOProject> GetActiveICOs()
+        {
+            try
+            {
+                return ExecuteStoredProcedure<Models.ICOProject>(
+                    "usp_GetActiveICO",
+                    reader => new ICOProject
+                    {
+                        ICOId = GetSafeInt(reader, "ICOId"),
+                        ProjectName = GetSafeString(reader, "ProjectName") ?? "",
+                        TokenSymbol = GetSafeString(reader, "TokenSymbol") ?? "PNC",
+                        TokenName = GetSafeString(reader, "ProjectName") ?? "PNC Token",
+                        TotalSupply = GetSafeDecimal(reader, "TotalSupply"),
+                        TokensSold = GetSafeDecimal(reader, "TokensSold"),
+                        TokensRemaining = GetSafeDecimal(reader, "TokensRemaining"),
+                        PricePerToken = GetSafeDecimal(reader, "PricePerToken"),
+                        CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                        MinPurchase = GetSafeDecimal(reader, "MinPurchase"),
+                        MaxPurchase = reader["MaxPurchase"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["MaxPurchase"]),
+                        SoftCap = 0,
+                        SoftCapFormatted = "0 USDT",
+                        HardCap = GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken"),
+                        HardCapFormatted = (GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        RaisedAmount = GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken"),
+                        RaisedFormatted = (GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        StartDate = GetSafeDateTime(reader, "StartDate"),
+                        EndDate = GetSafeDateTime(reader, "EndDate"),
+                        Status = GetSafeInt(reader, "Status"),
+                        Description = GetSafeString(reader, "Description"),
+                        ShortDescription = GetSafeString(reader, "Description"),
+                        LogoUrl = "",
+                        BannerUrl = "",
+                        ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+                        IsActive = GetSafeBool(reader, "IsActive"),
+                        CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get active ICOs", ex);
+                return new List<Models.ICOProject>();
+            }
+        }
 
+
+
+        // =========================================
+        // GET ALL PROJECTS (Active + Inactive)
+        // =========================================
         public List<ICOProject> GetAllProjects()
         {
-            return ExecuteStoredProcedure<ICOProject>(
-                "usp_GetAllICOProjects",
-                reader => MapProject(reader)
-            );
-        }
-
-        /// <summary>
-        /// Retrieves the single highest-priority active ICO project for the hero banner.
-        /// </summary>
-        public ICOProject GetFeaturedProject()
-        {
-            var results = ExecuteStoredProcedure<ICOProject>(
-                "usp_GetFeaturedICOProject",
-                reader => MapProject(reader)
-            );
-            return results.Count > 0 ? results[0] : null;
-        }
-
-        /// <summary>
-        /// Maps a SqlDataReader row to an ICOProject model.
-        /// Handles DBNull, formatting, and calculated fields (Progress, EndDateIso).
-        /// </summary>
-        private ICOProject MapProject(SqlDataReader reader)
-        {
-            decimal raised = GetSafeDecimal(reader, "RaisedAmount");
-            decimal hardCap = GetSafeDecimal(reader, "HardCap");
-
-            // Calculate funding progress percentage
-            decimal progress = hardCap > 0 ? (raised / hardCap) * 100m : 0m;
-            if (progress > 100m) progress = 100m;
-
-            DateTime endDate = GetSafeDateTime(reader, "EndDate");
-            DateTime startDate = GetSafeDateTime(reader, "StartDate");
-            DateTime createdDate = GetSafeDateTime(reader, "CreatedDate");
-
-            return new ICOProject
+            try
             {
-                ProjectId = GetSafeInt(reader, "ProjectId"),
-                ProjectName = GetSafeString(reader, "ProjectName") ?? "Untitled Project",
-                Description = GetSafeString(reader, "Description"),
-                ShortDescription = GetSafeString(reader, "ShortDescription"),
-                LogoUrl = GetSafeString(reader, "LogoUrl"),
-                BannerUrl = GetSafeString(reader, "BannerUrl"),
-                TokenName = GetSafeString(reader, "TokenName") ?? "Token",
-                TokenSymbol = GetSafeString(reader, "TokenSymbol") ?? "TKN",
-
-                TotalSupply = GetSafeDecimal(reader, "TotalSupply"),
-                TotalSupplyFormatted = FormatLargeNumber(GetSafeDecimal(reader, "TotalSupply")),
-
-                SoftCap = GetSafeDecimal(reader, "SoftCap"),
-                SoftCapFormatted = FormatCurrency(GetSafeDecimal(reader, "SoftCap")),
-
-                HardCap = hardCap,
-                HardCapFormatted = FormatCurrency(hardCap),
-                TokenPrice = GetSafeDecimal(reader, "TokenPrice"),
-
-                RaisedAmount = raised,
-                RaisedFormatted = FormatCurrency(raised),
-                ProgressPercent = progress,
-
-                StartDate = startDate != DateTime.MinValue ? startDate : DateTime.UtcNow,
-                EndDate = endDate != DateTime.MinValue ? endDate : DateTime.UtcNow.AddMonths(1),
-                EndDateIso = endDate != DateTime.MinValue ? endDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") : "",
-
-                Status = GetSafeInt(reader, "Status"),
-                CreatedDate = createdDate != DateTime.MinValue ? createdDate : DateTime.UtcNow
-            };
+                return ExecuteStoredProcedure<ICOProject>(
+                    "usp_GetAllICOProjects",
+                    reader => new ICOProject
+                    {
+                        ICOId = GetSafeInt(reader, "ICOId"),
+                        ProjectName = GetSafeString(reader, "ProjectName") ?? "",
+                        TokenSymbol = GetSafeString(reader, "TokenSymbol") ?? "PNC",
+                        TokenName = GetSafeString(reader, "ProjectName") ?? "PNC Token",
+                        TotalSupply = GetSafeDecimal(reader, "TotalSupply"),
+                        TokensSold = GetSafeDecimal(reader, "TokensSold"),
+                        TokensRemaining = GetSafeDecimal(reader, "TokensRemaining"),
+                        PricePerToken = GetSafeDecimal(reader, "PricePerToken"),
+                        CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                        MinPurchase = GetSafeDecimal(reader, "MinPurchase"),
+                        MaxPurchase = reader["MaxPurchase"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["MaxPurchase"]),
+                        SoftCap = 0,
+                        SoftCapFormatted = "0 USDT",
+                        HardCap = GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken"),
+                        HardCapFormatted = (GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        RaisedAmount = GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken"),
+                        RaisedFormatted = (GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        StartDate = GetSafeDateTime(reader, "StartDate"),
+                        EndDate = GetSafeDateTime(reader, "EndDate"),
+                        Status = GetSafeInt(reader, "Status"),
+                        Description = GetSafeString(reader, "Description"),
+                        ShortDescription = GetSafeString(reader, "Description"),
+                        LogoUrl = "",
+                        BannerUrl = "",
+                        ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+                        IsActive = GetSafeBool(reader, "IsActive"),
+                        CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get all ICO projects", ex);
+                return new List<ICOProject>();
+            }
         }
 
-        /// <summary>
-        /// Formats decimal values as compact currency strings (e.g., $12.5M, $3.2K).
-        /// </summary>
-        private string FormatCurrency(decimal value)
+
+
+
+
+
+        // =========================================
+        // GET FEATURED PROJECTS (Active Only)
+        // =========================================
+        public List<ICOProject> GetFeaturedProjects()
         {
-            if (value >= 1000000m) return "$" + (value / 1000000m).ToString("0.##") + "M";
-            if (value >= 1000m) return "$" + (value / 1000m).ToString("0.##") + "K";
-            return "$" + value.ToString("0.##");
+            try
+            {
+                return ExecuteStoredProcedure<ICOProject>(
+                    "usp_GetFeaturedICOProjects",
+                    reader => new ICOProject
+                    {
+                        ICOId = GetSafeInt(reader, "ICOId"),
+                        ProjectName = GetSafeString(reader, "ProjectName") ?? "",
+                        TokenSymbol = GetSafeString(reader, "TokenSymbol") ?? "PNC",
+                        TokenName = GetSafeString(reader, "ProjectName") ?? "PNC Token",
+                        TotalSupply = GetSafeDecimal(reader, "TotalSupply"),
+                        TokensSold = GetSafeDecimal(reader, "TokensSold"),
+                        TokensRemaining = GetSafeDecimal(reader, "TokensRemaining"),
+                        PricePerToken = GetSafeDecimal(reader, "PricePerToken"),
+                        CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                        MinPurchase = GetSafeDecimal(reader, "MinPurchase"),
+                        MaxPurchase = reader["MaxPurchase"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["MaxPurchase"]),
+                        SoftCap = 0,
+                        SoftCapFormatted = "0 USDT",
+                        HardCap = GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken"),
+                        HardCapFormatted = (GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        RaisedAmount = GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken"),
+                        RaisedFormatted = (GetSafeDecimal(reader, "TokensSold") * GetSafeDecimal(reader, "PricePerToken")).ToString("N0") + " USDT",
+                        StartDate = GetSafeDateTime(reader, "StartDate"),
+                        EndDate = GetSafeDateTime(reader, "EndDate"),
+                        Status = GetSafeInt(reader, "Status"),
+                        Description = GetSafeString(reader, "Description"),
+                        ShortDescription = GetSafeString(reader, "Description"),
+                        LogoUrl = "",
+                        BannerUrl = "",
+                        ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+                        IsActive = GetSafeBool(reader, "IsActive"),
+                        CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get featured ICO projects", ex);
+                return new List<ICOProject>();
+            }
         }
-
-        /// <summary>
-        /// Formats large numbers for token supply (e.g., 1.2B, 500M).
-        /// </summary>
-        private string FormatLargeNumber(decimal value)
+        public List<Models.ICOCommissionTier> GetCommissionTiers()
         {
-            if (value >= 1000000000m) return (value / 1000000000m).ToString("0.##") + "B";
-            if (value >= 1000000m) return (value / 1000000m).ToString("0.##") + "M";
-            if (value >= 1000m) return (value / 1000m).ToString("0.##") + "K";
-            return value.ToString("0");
+            try
+            {
+                return ExecuteStoredProcedure<ICOCommissionTier>(
+                    "usp_GetICOCommissionTiers",
+                    reader => new ICOCommissionTier
+                    {
+                        Level = GetSafeInt(reader, "Level"),
+                        CommissionPercent = GetSafeDecimal(reader, "CommissionPercent"),
+                        RequiredDirects = GetSafeInt(reader, "RequiredDirects"),
+                        IsActive = GetSafeBool(reader, "IsActive")
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get commission tiers", ex);
+                return new List<Models.ICOCommissionTier>();
+            }
         }
 
+        public ICOStats GetUserICOStats(int userId)
+        {
+            var stats = new ICOStats();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserICOStats", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Summary
+                        if (reader.Read())
+                        {
+                            stats.TotalTokensPurchased = GetSafeDecimal(reader, "TotalTokensPurchased");
+                            stats.TotalInvested = GetSafeDecimal(reader, "TotalInvested");
+                            stats.TotalCommissionEarned = GetSafeDecimal(reader, "TotalCommissionEarned");
+                            stats.TotalPurchases = GetSafeInt(reader, "TotalPurchases");
+                            stats.TotalCommissions = GetSafeInt(reader, "TotalCommissions");
+                            stats.UniqueDownlines = GetSafeInt(reader, "UniqueDownlines");
+                            stats.DirectReferrals = GetSafeInt(reader, "DirectReferrals");
+                        }
+
+                        // Result Set 2: Level breakdown
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                stats.LevelBreakdown.Add(new ICOCommissionLevelSummary
+                                {
+                                    Level = GetSafeInt(reader, "Level"),
+                                    CommissionPercent = GetSafeDecimal(reader, "CommissionPercent"),
+                                    RequiredDirects = GetSafeInt(reader, "RequiredDirects"),
+                                    TimesEarned = GetSafeInt(reader, "TimesEarned"),
+                                    LevelTotal = GetSafeDecimal(reader, "LevelTotal"),
+                                    CurrentDirects = GetSafeInt(reader, "CurrentDirects"),
+                                    IsQualified = GetSafeBool(reader, "IsQualified")
+                                });
+                            }
+                        }
+
+                        // Result Set 3: Recent purchases
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                stats.RecentPurchases.Add(new ICOPurchase
+                                {
+                                    PurchaseId = GetSafeLong(reader, "PurchaseId"),
+                                    TokensPurchased = GetSafeDecimal(reader, "TokensPurchased"),
+                                    AmountPaid = GetSafeDecimal(reader, "AmountPaid"),
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                                    PricePerToken = GetSafeDecimal(reader, "PricePerToken"),
+                                    TxHash = GetSafeString(reader, "TxHash"),
+                                    PurchaseDate = GetSafeDateTime(reader, "PurchaseDate")
+                                });
+                            }
+                        }
+
+                        // Result Set 4: Recent commissions
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                stats.RecentCommissions.Add(new ICOCommission
+                                {
+                                    CommissionId = GetSafeLong(reader, "CommissionId"),
+                                    FromUserId = GetSafeInt(reader, "FromUserId"),
+                                    FromUserName = GetSafeString(reader, "FromUserName") ?? "",
+                                    Level = GetSafeInt(reader, "Level"),
+                                    PurchaseAmount = GetSafeDecimal(reader, "PurchaseAmount"),
+                                    CommissionPercent = GetSafeDecimal(reader, "CommissionPercent"),
+                                    CommissionAmount = GetSafeDecimal(reader, "CommissionAmount"),
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                                    CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get user ICO stats", ex);
+            }
+
+            return stats;
+        }
+
+        public ICOPurchaseResult PurchaseTokens(ICOPurchaseRequest request)
+        {
+            var result = new ICOPurchaseResult();
+            try
+            {
+                var outputSuccess = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                var outputMessage = new SqlParameter("@Message", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output };
+                var outputPurchaseId = new SqlParameter("@PurchaseId", SqlDbType.BigInt) { Direction = ParameterDirection.Output };
+                var outputTokens = new SqlParameter("@TokensPurchased", SqlDbType.Decimal) { Direction = ParameterDirection.Output };
+
+                ExecuteStoredProcedureNonQuery(
+                    "usp_PurchaseICOTokens",
+                    CreateParameter("@UserId", request.UserId),
+                    CreateParameter("@ICOId", request.ICOId),
+                    CreateParameter("@Amount", request.Amount),
+                    outputSuccess, outputMessage, outputPurchaseId, outputTokens
+                );
+
+                result.Success = outputSuccess.Value != DBNull.Value && Convert.ToBoolean(outputSuccess.Value);
+                result.ErrorMessage = outputMessage.Value != DBNull.Value ? outputMessage.Value.ToString() : "";
+                result.PurchaseId = outputPurchaseId.Value != DBNull.Value ? Convert.ToInt64(outputPurchaseId.Value) : 0;
+                result.TokensPurchased = outputTokens.Value != DBNull.Value ? Convert.ToDecimal(outputTokens.Value) : 0;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.ErrorMessage = "System error: " + ex.Message;
+                Logger.Error("Failed to purchase ICO tokens", ex);
+            }
+            return result;
+        }
     }
 }

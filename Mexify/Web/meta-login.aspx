@@ -1,28 +1,14 @@
-﻿<%@ Page Title="" Async="true" Language="C#" MasterPageFile="~/Web/MasterPages/Site.Master" AutoEventWireup="true" CodeBehind="meta-login.aspx.cs" Inherits="Mexify.Web.meta_login" %>
+﻿<%@ Page Title="Login - Mexify" Async="true" Language="C#" MasterPageFile="~/Web/MasterPages/Site.Master" AutoEventWireup="true" CodeBehind="meta-login.aspx.cs" Inherits="Mexify.Web.meta_login" %>
+
+
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <style>
         .login-container {
-            min-height: 100vh;
+            min-height: calc(100vh - 76px);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 40px 20px;
-            background: var(--bg-primary);
-            position: relative;
-            overflow: hidden;
-        }
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%; right: -20%;
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(247, 147, 26, 0.15) 0%, transparent 70%);
-            animation: float 15s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%,100%{transform:translate(0,0) scale(1)}
-            50%{transform:translate(30px,-30px) scale(1.1)}
         }
         .login-card {
             background: var(--glass-bg);
@@ -32,25 +18,92 @@
             padding: 48px;
             max-width: 480px;
             width: 100%;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
         .login-logo {
-            text-align: center;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--text-white);
+        }
+        .login-title {
+            color: var(--text-white);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .login-subtitle {
+            color: var(--text-gray);
+            font-size: 0.95rem;
             margin-bottom: 32px;
         }
-        .login-logo h1 {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 0;
+        .metamask-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #f6851b, #e2761b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
-        .login-logo p {
+        .metamask-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(246, 133, 27, 0.4);
+        }
+        .metamask-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .metamask-btn img {
+            width: 28px;
+            height: 28px;
+        }
+        .alert-box {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: left;
+        }
+        .alert-box.error { background: rgba(255, 59, 92, 0.1); border: 1px solid rgba(255, 59, 92, 0.3); color: #ff3b5c; }
+        .alert-box.success { background: rgba(0, 255, 178, 0.1); border: 1px solid rgba(0, 255, 178, 0.3); color: var(--accent); }
+        .login-status {
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
             color: var(--text-gray);
-            margin: 8px 0 0;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         .divider {
             display: flex;
@@ -68,350 +121,313 @@
         .divider span {
             padding: 0 16px;
         }
-        .btn-metamask {
-            width: 100%;
-            padding: 14px 24px;
-            background: linear-gradient(135deg, #F7931A, #FFA500);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+        .features-list {
+            text-align: left;
+            margin: 24px 0;
+            padding: 0;
+            list-style: none;
         }
-        .btn-metamask:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(247, 147, 26, 0.4);
-        }
-        .btn-metamask:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .wallet-connected {
-            background: rgba(0, 255, 178, 0.1);
-            border: 1px solid rgba(0, 255, 178, 0.3);
-            border-radius: 10px;
-            padding: 16px;
-            margin: 16px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .wallet-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #F7931A, #FFA500);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #fff;
-        }
-        .wallet-address {
-            font-family: 'Courier New', monospace;
-            color: var(--text-white);
-            font-weight: 600;
-        }
-        .wallet-status {
-            font-size: 0.8rem;
-            color: var(--accent);
-        }
-        .alert-box {
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .alert-box.error { background: rgba(255, 59, 92, 0.1); border: 1px solid rgba(255, 59, 92, 0.3); color: #ff3b5c; }
-        .alert-box.success { background: rgba(0, 255, 178, 0.1); border: 1px solid rgba(0, 255, 178, 0.3); color: var(--accent); }
-        .alert-box.info { background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); color: var(--secondary); }
-        .alert-box i { margin-top: 2px; flex-shrink: 0; }
-        .form-group-custom { margin-bottom: 20px; }
-        .form-group-custom label {
-            display: block;
-            color: var(--text-white);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .input-icon-wrap { position: relative; }
-        .input-icon-wrap i.input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-        .input-icon-wrap input {
-            width: 100%;
-            padding: 12px 14px 12px 42px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            color: var(--text-white);
-        }
-        .btn-primary-glow {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .login-footer {
-            text-align: center;
-            margin-top: 24px;
+        .features-list li {
+            padding: 8px 0;
             color: var(--text-gray);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .login-footer a {
-            color: var(--secondary);
-            text-decoration: none;
+        .features-list li i {
+            color: var(--accent);
+            font-size: 0.9rem;
         }
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </asp:Content>
 
 <asp:Content ID="MainContent1" ContentPlaceHolderID="MainContent" runat="server">
-
     <div class="login-container">
-        <div class="login-card" data-aos="zoom-in">
+        <div class="login-card" data-aos="fade-up">
             
+            <!-- Logo -->
             <div class="login-logo">
-                <h1>MEXIFY</h1>
-                <p>Decentralized Crypto Asset Management</p>
+                <i class="fas fa-cube"></i>
             </div>
 
-            <!-- MetaMask Login Section -->
-            <div id="metamaskSection">
-                <button type="button" class="btn-metamask" id="btnConnectMetaMask" onclick="connectMetaMask()">
-                    <i class="fab fa-ethereum" style="font-size: 1.5rem;"></i>
-                    <span id="btnMetaMaskText">Connect with MetaMask</span>
-                </button>
+            <h1 class="login-title">Welcome to Mexify</h1>
+            <p class="login-subtitle">Connect your wallet to access your dashboard</p>
 
-                <!-- Wallet Connected Display -->
-                <div id="walletConnected" class="wallet-connected" style="display: none;">
-                    <div class="wallet-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div style="flex: 1;">
-                        <div class="wallet-address" id="walletAddressDisplay">0x...</div>
-                        <div class="wallet-status">
-                            <i class="fas fa-check-circle"></i> Wallet Connected
-                        </div>
-                    </div>
+            <!-- Messages -->
+            <asp:Panel ID="pnlError" runat="server" Visible="false">
+                <div class="alert-box error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <asp:Literal ID="litError" runat="server"></asp:Literal>
                 </div>
-
-                <!-- Signature Status -->
-                <div id="signatureStatus" style="display: none; margin-top: 16px;">
-                    <div class="alert-box info">
-                        <i class="fas fa-info-circle"></i>
-                        <div id="signatureMessage">Please sign the message in MetaMask...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="divider">
-                <span>OR</span>
-            </div>
-
-            <!-- Traditional Login (Optional - keep for fallback) -->
-            <asp:Panel ID="pnlTraditionalLogin" runat="server">
-                <asp:Panel ID="pnlError" runat="server" Visible="false">
-                    <div class="alert-box error">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <asp:Literal ID="litError" runat="server"></asp:Literal>
-                    </div>
-                </asp:Panel>
-
-                <div class="form-group-custom">
-                    <label>Email Address</label>
-                    <div class="input-icon-wrap">
-                        <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" placeholder="your@email.com"></asp:TextBox>
-                        <i class="fas fa-envelope input-icon"></i>
-                    </div>
-                </div>
-
-                <div class="form-group-custom">
-                    <label>Password</label>
-                    <div class="input-icon-wrap">
-                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" placeholder="Enter password"></asp:TextBox>
-                        <i class="fas fa-lock input-icon"></i>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <label style="display: flex; align-items: center; gap: 8px; color: var(--text-gray); font-size: 0.85rem; cursor: pointer;">
-                        <asp:CheckBox ID="chkRemember" runat="server" />
-                        Remember me
-                    </label>
-                    <a href="<%= ResolveUrl("~/forgot-password.aspx") %>" style="color: var(--secondary); font-size: 0.85rem; text-decoration: none;">
-                        Forgot password?
-                    </a>
-                </div>
-
-                <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn-primary-glow" OnClick="btnLogin_Click" />
             </asp:Panel>
 
-            <div class="login-footer">
-                Don't have an account? <a href="<%= ResolveUrl("~/register.aspx") %>">Register</a>
+            <asp:Panel ID="pnlSuccess" runat="server" Visible="false">
+                <div class="alert-box success">
+                    <i class="fas fa-check-circle"></i>
+                    <asp:Literal ID="litSuccess" runat="server"></asp:Literal>
+                </div>
+            </asp:Panel>
+
+            <!-- Status Message -->
+            <div id="loginStatus" class="login-status">
+                <i class="fas fa-info-circle me-2"></i>
+                <span id="statusText">Initializing...</span>
             </div>
 
-            <!-- Hidden fields for MetaMask data -->
+            <!-- ✅ Visible button for user interaction -->
+            <button type="button" id="btnConnectMetaMask" class="metamask-btn" onclick="initiateMetaMaskLogin()">
+                <img src="Assets/images/metamask1.png" alt="MetaMask" style="width:28px;height:28px;" />
+                Login with MetaMask
+            </button>
+
+            <!-- ✅ Hidden server button that triggers postback -->
+            <asp:Button ID="btnMetaMaskLogin" runat="server" Text="Login" 
+                        OnClick="btnMetaMaskLogin_Click" 
+                        Style="display: none;" UseSubmitBehavior="false" />
+
+            <div class="divider">
+                <span>Secure Web3 Authentication</span>
+            </div>
+
+            <!-- Features List -->
+            <ul class="features-list">
+                <li><i class="fas fa-shield-alt"></i> Secure & Private - No password needed</li>
+                <li><i class="fas fa-bolt"></i> Instant Access - Connect in seconds</li>
+                <li><i class="fas fa-lock"></i> You own your keys - Full control</li>
+            </ul>
+
+            <!-- Hidden Fields for Web3 Data -->
             <asp:HiddenField ID="hfWalletAddress" runat="server" />
             <asp:HiddenField ID="hfSignature" runat="server" />
             <asp:HiddenField ID="hfNonce" runat="server" />
 
         </div>
     </div>
-
 </asp:Content>
 
 <asp:Content ID="ScriptsContent1" ContentPlaceHolderID="ScriptsContent" runat="server">
     <script>
-        let web3;
-        let userAccount;
-        let currentNonce;
+        // ✅ Get the correct API URL (relative to current page)
+        function getApiBaseUrl() {
+            // Since meta-login.aspx is in /Web/ folder
+            // and AuthAPI.aspx is in /Web/Api/ folder
+            // we use relative path
+            return 'Api/AuthHandler.ashx';
+        }
 
-        // Initialize Web3
-        async function initWeb3() {
-            if (typeof window.ethereum !== 'undefined') {
-                web3 = new Web3(window.ethereum);
-                return true;
+        // Check if MetaMask is installed
+        function isMetaMaskInstalled() {
+            return typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask;
+        }
+
+        // Show status message
+        function showStatus(message, isError = false) {
+            const statusDiv = document.getElementById('loginStatus');
+            const statusText = document.getElementById('statusText');
+            if (!statusDiv || !statusText) return;
+            
+            statusDiv.style.display = 'block';
+            statusText.textContent = message;
+            
+            if (isError) {
+                statusDiv.style.borderColor = 'rgba(255, 59, 92, 0.3)';
+                statusDiv.style.background = 'rgba(255, 59, 92, 0.05)';
+                statusDiv.style.color = '#ff3b5c';
             } else {
-                alert('Please install MetaMask to use this feature!');
+                statusDiv.style.borderColor = 'rgba(0, 212, 255, 0.2)';
+                statusDiv.style.background = 'rgba(0, 212, 255, 0.05)';
+                statusDiv.style.color = 'var(--text-gray)';
+            }
+        }
+
+        // ✅ Parse WebMethod response (handles { d: "..." } wrapper)
+        function parseWebMethodResponse(responseText) {
+            try {
+                const parsed = JSON.parse(responseText);
+                
+                // WebMethods wrap response in { d: "..." }
+                if (parsed.d) {
+                    if (typeof parsed.d === 'string') {
+                        return JSON.parse(parsed.d);
+                    }
+                    return parsed.d;
+                }
+                
+                return parsed;
+            } catch (e) {
+                console.error('Failed to parse response:', responseText);
+                throw new Error('Invalid response from server');
+            }
+        }
+
+        // ✅ Main login function
+        async function initiateMetaMaskLogin() {
+            try {
+                // Check MetaMask installation
+                if (!isMetaMaskInstalled()) {
+                    alert('MetaMask is not installed! Please install it from https://metamask.io');
+                    window.open('https://metamask.io/download/', '_blank');
+                    return false;
+                }
+
+                const visibleBtn = document.getElementById('btnConnectMetaMask');
+                visibleBtn.disabled = true;
+                visibleBtn.innerHTML = '<span class="spinner"></span> Connecting...';
+
+                showStatus('Connecting to MetaMask...');
+
+                // Step 1: Request account access
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+
+                if (!accounts || accounts.length === 0) {
+                    throw new Error('No accounts found. Please unlock MetaMask.');
+                }
+
+                const walletAddress = accounts[0];
+                showStatus('Connected! Getting nonce from server...');
+
+              
+
+
+                <%--              // ✅ Use ResolveUrl to get the exact absolute path
+const apiUrl = '<%= ResolveUrl("~/Web/Api/AuthHandler.ashx") %>?action=getnonce';
+                // ✅ Step 2: Get nonce from server using POST
+                console.log('Fetching nonce from:', apiUrl);
+                console.log('Wallet address:', walletAddress);
+             const nonceResponse = await fetch(apiUrl, {
+                     method: 'POST',
+                     headers: {
+                    'Content-Type': 'application/json'
+                        },
+    body: JSON.stringify({ wallet: walletAddress })
+});--%>
+
+
+                // ✅ NEW CODE (Use this)
+                const nonceResponse = await fetch('meta-login.aspx/GetNonce', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ wallet: walletAddress })
+                });
+
+                
+
+                // ✅ DEBUG: Get response text first
+                const responseText = await nonceResponse.text();
+                console.log('Raw response:', responseText);
+
+                // Check if response is HTML (error page)
+                if (responseText.trim().startsWith('<!DOCTYPE') || 
+                    responseText.trim().startsWith('<html') ||
+                    responseText.trim().startsWith('<HTML')) {
+                    console.error('❌ Server returned HTML instead of JSON');
+                    console.error('This means the API file does not exist or has an error');
+                    throw new Error('API endpoint not found. Check that Api/AuthAPI.aspx exists.');
+                }
+
+                // Check response status
+                if (!nonceResponse.ok) {
+                    console.error('❌ Server error:', nonceResponse.status);
+                    console.error('Response:', responseText);
+                    
+                    // Try to parse error message
+                    try {
+                        const errorData = JSON.parse(responseText);
+                        throw new Error('Server error: ' + (errorData.Message || errorData.message || nonceResponse.status));
+                    } catch (parseErr) {
+                        throw new Error('Server returned error: ' + nonceResponse.status);
+                    }
+                }
+
+                // Parse WebMethod response
+                let nonceData;
+                try {
+                    nonceData = parseWebMethodResponse(responseText);
+                } catch (parseError) {
+                    console.error('❌ Parse error:', parseError);
+                    console.error('Response was:', responseText);
+                    throw new Error('Invalid response format from server');
+                }
+
+                console.log('✅ Parsed nonce data:', nonceData);
+
+                if (!nonceData.success) {
+                    throw new Error('Failed to get nonce: ' + (nonceData.message || 'Unknown error'));
+                }
+
+                const nonce = nonceData.nonce;
+                document.getElementById('<%= hfNonce.ClientID %>').value = nonce;
+
+                showStatus('Please sign the message in MetaMask...');
+
+                // Step 3: Create message to sign
+                const message = `Welcome to Mexify!\n\nClick to sign in and accept the Terms of Service.\n\nThis request will not trigger a blockchain transaction or cost any fees.\n\nWallet address:\n${walletAddress}\n\nNonce:\n${nonce}`;
+
+                // Step 4: Request signature
+                const signature = await window.ethereum.request({
+                    method: 'personal_sign',
+                    params: [message, walletAddress]
+                });
+
+                showStatus('Signature received! Verifying...');
+
+                // Step 5: Store in hidden fields
+                document.getElementById('<%= hfWalletAddress.ClientID %>').value = walletAddress;
+                document.getElementById('<%= hfSignature.ClientID %>').value = signature;
+                document.getElementById('<%= hfNonce.ClientID %>').value = nonce;
+
+                // Step 6: Click the hidden server button
+                visibleBtn.innerHTML = '<span class="spinner"></span> Verifying...';
+                document.getElementById('<%= btnMetaMaskLogin.ClientID %>').click();
+                
+                return false;
+
+            } catch (error) {
+                console.error('❌ MetaMask login error:', error);
+                
+                const visibleBtn = document.getElementById('btnConnectMetaMask');
+                if (visibleBtn) {
+                    visibleBtn.disabled = false;
+                    visibleBtn.innerHTML = '<img src="Assets/images/metamask1.png" alt="MetaMask" style="width:28px;height:28px;" /> Login with MetaMask';
+                }
+                
+                if (error.code === 4001) {
+                    showStatus('You rejected the signature request. Please try again.', true);
+                } else {
+                    showStatus('Error: ' + (error.message || 'Unknown error'), true);
+                }
+                
                 return false;
             }
         }
 
-        // Connect MetaMask
-        async function connectMetaMask() {
-            const btn = document.getElementById('btnConnectMetaMask');
-            const btnText = document.getElementById('btnMetaMaskText');
-            
-            btn.disabled = true;
-            btnText.innerHTML = '<span class="loading-spinner"></span> Connecting...';
-
-            try {
-                if (!await initWeb3()) {
-                    btn.disabled = false;
-                    btnText.textContent = 'Connect with MetaMask';
-                    return;
-                }
-
-                // Request account access
-                const accounts = await window.ethereum.request({ 
-                    method: 'eth_requestAccounts' 
-                });
-                
-                userAccount = accounts[0];
-                
-                // Display connected wallet
-                document.getElementById('walletAddressDisplay').textContent = 
-                    userAccount.substring(0, 6) + '...' + userAccount.substring(38);
-                document.getElementById('walletConnected').style.display = 'flex';
-                
-                // Get nonce from server
-                await getNonce(userAccount);
-                
-                btnText.textContent = 'Wallet Connected';
-                
-            } catch (error) {
-                console.error('MetaMask connection error:', error);
-                alert('Failed to connect MetaMask: ' + error.message);
-                btn.disabled = false;
-                btnText.textContent = 'Connect with MetaMask';
-            }
-        }
-
-        // Get nonce from server
-        async function getNonce(walletAddress) {
-            try {
-                const response = await fetch('<%= ResolveUrl("~/api/getnonce.aspx") %>?wallet=' + walletAddress);
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentNonce = data.nonce;
-                    document.getElementById('hfNonce').value = currentNonce;
-                    
-                    // Request signature
-                    await requestSignature(walletAddress, currentNonce);
-                } else {
-                    alert('Failed to get nonce: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Get nonce error:', error);
-                alert('Failed to get nonce from server');
-            }
-        }
-
-        // Request signature from MetaMask
-        async function requestSignature(walletAddress, nonce) {
-            const signatureStatus = document.getElementById('signatureStatus');
-            const signatureMessage = document.getElementById('signatureMessage');
-            
-            signatureStatus.style.display = 'block';
-            signatureMessage.textContent = 'Please sign the authentication message in MetaMask...';
-
-            try {
-                const message = `MEXIFY Authentication\n\nNonce: ${nonce}\n\nPlease sign this message to verify your wallet ownership.`;
-                
-                const signature = await web3.eth.personal.sign(message, walletAddress);
-                
-                document.getElementById('hfWalletAddress').value = walletAddress;
-                document.getElementById('hfSignature').value = signature;
-                
-                signatureMessage.innerHTML = '<i class="fas fa-check-circle"></i> Signature verified! Logging in...';
-                
-                // Submit login form
-                setTimeout(() => {
-                    document.getElementById('<%= btnMetaMaskLogin.ClientID %>').click();
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Signature error:', error);
-                signatureMessage.textContent = 'Signature cancelled or failed. Please try again.';
-                signatureStatus.querySelector('.alert-box').className = 'alert-box error';
-            }
-        }
-
         // Listen for account changes
-        if (window.ethereum) {
-            window.ethereum.on('accountsChanged', (accounts) => {
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on('accountsChanged', function (accounts) {
                 if (accounts.length === 0) {
-                    // User disconnected
-                    document.getElementById('walletConnected').style.display = 'none';
-                    document.getElementById('signatureStatus').style.display = 'none';
+                    showStatus('MetaMask disconnected. Please reconnect.', true);
                 } else {
-                    // Account changed
-                    userAccount = accounts[0];
-                    connectMetaMask();
+                    showStatus('Account changed. Please login again.');
                 }
             });
-        }
-    </script>
 
-    <!-- Hidden button for MetaMask login postback -->
-    <asp:Button ID="btnMetaMaskLogin" runat="server" Style="display: none;" OnClick="btnMetaMaskLogin_Click" />
+            window.ethereum.on('chainChanged', function () {
+                showStatus('Network changed. Please refresh the page.');
+            });
+        }
+
+        // Check MetaMask on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isMetaMaskInstalled()) {
+                showStatus('MetaMask is not installed. Please install it to login.', true);
+            } else {
+                showStatus('MetaMask detected. Click the button to login.');
+            }
+        });
+    </script>
 </asp:Content>
