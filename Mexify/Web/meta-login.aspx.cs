@@ -110,8 +110,11 @@ namespace Mexify.Web
 
             try
             {
+                Logger.Info("My Wallet Address:" + walletAddress + ", My Signature: " + signature + ", My Nonce:" + nonce);
+                var _authService = new AuthService();
                 // 1. Verify the signature and nonce on the server
                 var result = _authService.VerifyMetaMaskLogin(walletAddress, signature, nonce);
+                Logger.Info($"MetaMask Login Result -> Success: {result.Success}, UserId: {result.UserId}, Message: '{result.ErrorMessage}'");
 
                 if (result.Success)
                 {

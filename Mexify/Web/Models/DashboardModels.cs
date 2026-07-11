@@ -37,6 +37,9 @@ namespace Mexify.Web.Models
         public int Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string InvestmentType { get; internal set; }
+        public decimal PrincipalAmount { get; internal set; }
+        public decimal DailyRatePercent { get; internal set; }
     }
 
     public class RecentTransaction

@@ -185,7 +185,7 @@ namespace Mexify.Business.Services
         /// <summary>
         /// Gets user's active investments
         /// </summary>
-        public List<UserInvestment> GetUserActiveInvestments(int userId)
+        public List<Models.ActiveInvestment> GetUserActiveInvestments(int userId)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace Mexify.Business.Services
             catch (Exception ex)
             {
                 Logger.Error("Failed to get active investments", ex);
-                return new List<UserInvestment>();
+                return new List<Models.ActiveInvestment>();
             }
         }
 

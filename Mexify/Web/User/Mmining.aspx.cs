@@ -43,7 +43,7 @@ namespace Mexify.Web.User
                 litActiveRigs.Text = stats.ActiveRigs.ToString();
                 litTotalEarned.Text = stats.TotalEarned.ToString("0.0000");
                 litTodayEarnings.Text = stats.TodayEarnings.ToString("0.0000");
-                litPendingPayout.Text = stats.PendingPayout.ToString("0.0000");
+                litPendingPayout.Text =  stats.PendingPayout.ToString();
                 litRigCount.Text = stats.ActiveRigs.ToString();
 
                 // Load active rigs

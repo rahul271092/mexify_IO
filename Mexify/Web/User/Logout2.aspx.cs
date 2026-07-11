@@ -215,9 +215,7 @@ namespace Mexify.Web.User
             }
         }
 
-        /// <summary>
-        /// Gets the user's IP address
-        /// </summary>
+        
         private string GetUserIpAddress()
         {
             try

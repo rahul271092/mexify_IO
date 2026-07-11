@@ -28,13 +28,14 @@ namespace Mexify.Web.User
             if (!IsPostBack)
             {
                 // Handle actions from query string
-                HandleActions();
+             //   HandleActions();
                 LoadStakingData();
             }
         }
 
         private void HandleActions()
         {
+            Logger.Info("Handle Actions Executed !!");
             string action = Request.QueryString["action"];
             if (string.IsNullOrEmpty(action)) return;
 
@@ -85,6 +86,9 @@ namespace Mexify.Web.User
         {
             try
             {
+
+                Logger.Info("Load Staking Data Function Executed !!");
+
                 var master = this.Master as Mexify.Web.MasterPages.UserMaster;
                 if (master != null)
                 {
@@ -92,10 +96,14 @@ namespace Mexify.Web.User
                     master.SetBreadcrumb("Staking");
                 }
 
+                Logger.Info("GetUserWallet Function Execution started now !!");
+
                 // Get user's PNC balance
                 var wallet = _walletService.GetUserWallet(_userId, 1); // Assuming PNC is CurrencyId 1
                 decimal balance = wallet != null ? wallet.Balance : 0;
                 hfUserBalance.Value = balance.ToString();
+
+                Logger.Info("GetUserStakingStats Function execution is started now !!");
 
                 // Stats
                 var stats = _stakingService.GetUserStakingStats(_userId);
@@ -263,6 +271,7 @@ namespace Mexify.Web.User
         {
             try
             {
+                Logger.Info("GetReward Chart Data Function Executed !!");
                 var data = _stakingService.GetRewardsHistory(_userId, 30);
                 var labels = new List<string>();
                 var values = new List<string>();
@@ -276,6 +285,9 @@ namespace Mexify.Web.User
                 return "{ labels: [" + string.Join(",", labels) + "], values: [" + string.Join(",", values) + "] }";
             }
             catch { return "{ labels: [], values: [] }"; }
+
+
+
         }
     }
 }

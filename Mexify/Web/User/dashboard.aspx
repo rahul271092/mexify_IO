@@ -385,7 +385,7 @@
                                 <div>
                                     <div class="investment-title"><%# Eval("PlanName") %></div>
                                     <small class="text-muted">
-                                        Invested: <%# string.Format("{0:0.00}", Eval("InvestedAmount")) %> PNC
+                                        Invested: <%# string.Format("{0:0.00}", Eval("PrincipalAmount")) %> PNC
                                     </small>
                                 </div>
                                 <span class='investment-status <%# GetInvestmentStatusClass(Eval("Status")) %>'>
@@ -397,7 +397,7 @@
                                 <span class="value"><%# Eval("ProgressPercent") %>%</span>
                             </div>
                             <div class="progress-bar-custom">
-                                <div class="progress-fill" style="width: <%# Eval("ProgressPercent") %>%;"></div>
+                                <div class="progress-fill" style='width: '<%# Eval("ProgressPercent") %>'%;'></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <small class="text-muted">Earned: <strong class="text-accent"><%# string.Format("{0:0.00}", Eval("TotalEarned")) %> PNC</strong></small>

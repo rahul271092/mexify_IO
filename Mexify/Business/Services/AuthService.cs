@@ -19,6 +19,80 @@ namespace Mexify.Business.Services
             _repository = new UserRepository();
         }
 
+        /// <summary>
+        /// Registers a new user via MetaMask signature
+        /// </summary>
+        public MetaMaskLoginResult RegisterWithWallet(string walletAddress, string signature, string nonce, string referralCode)
+        {
+            var result = new MetaMaskLoginResult();
+
+            try
+            {
+                // 1. Validate Nonce
+                if (!_repository.ValidateLoginNonce(walletAddress, nonce))
+                {
+                    result.Success = false;
+                    result.ErrorMessage = "Invalid or expired nonce. Please refresh and try again.";
+                    return result;
+                }
+
+                // 2. Verify Signature
+                string message = $"Welcome to Mexify!\n\nClick to sign in and accept the Terms of Service.\n\nThis request will not trigger a blockchain transaction or cost any fees.\n\nWallet address:\n{walletAddress}\n\nNonce:\n{nonce}";
+
+                var signer = new Nethereum.Signer.EthereumMessageSigner();
+                string recoveredAddress = signer.EncodeUTF8AndEcRecover(message, signature);
+
+                string normalizedRecovered = recoveredAddress.Replace("0x", "").ToLowerInvariant();
+                string normalizedProvided = walletAddress.Replace("0x", "").ToLowerInvariant();
+
+                if (normalizedRecovered != normalizedProvided)
+                {
+                    result.Success = false;
+                    result.ErrorMessage = "Signature verification failed.";
+                    return result;
+                }
+
+                // 3. Check if user already exists
+                int existingUserId = _repository.GetUserIdByWalletAddress(walletAddress);
+                if (existingUserId > 0)
+                {
+                    result.Success = false;
+                    result.ErrorMessage = "This wallet is already registered. Please login instead.";
+                    return result;
+                }
+
+                // ✅ 4. Create the User (Using OUT parameters)
+                int newUserId;
+                string regMessage;
+
+                bool regSuccess = _repository.RegisterUserWithWallet(
+                    walletAddress, null, null, null, referralCode, out newUserId, out regMessage);
+
+                if (!regSuccess)
+                {
+                    result.Success = false;
+                    result.ErrorMessage = regMessage;
+                    return result;
+                }
+
+                // 5. Mark Nonce as Used
+                _repository.MarkNonceAsUsed(nonce);
+
+                // 6. Success!
+                result.Success = true;
+                result.UserId = newUserId;
+                Logger.Info($"New Web3 User Registered: {newUserId} (Wallet: {walletAddress})");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Web3 Registration failed", ex);
+                result.Success = false;
+                result.ErrorMessage = "Registration failed: " + ex.Message;
+            }
+
+            return result;
+        }
+
         public void UpdateUserKYCStatus(int userId, int kycStatus)
         {
             try
@@ -39,6 +113,12 @@ namespace Mexify.Business.Services
             return _repository.GetOrCreateNonce(walletAddress);
         }
 
+
+        /// <summary>
+        /// Registers a new user via MetaMask signature
+        /// </summary>
+   
+
         public MetaMaskLoginResult VerifyMetaMaskLogin(string walletAddress, string signature, string nonce)
         {
             var result = new MetaMaskLoginResult();
@@ -46,26 +126,36 @@ namespace Mexify.Business.Services
             {
                 // ✅ DEBUG: Log what the server actually received
                 Logger.Info($"MetaMask Login Attempt - Wallet: '{walletAddress}', Nonce: '{nonce}'");
+
                 // 1. Verify nonce is valid and unused
                 bool isValidNonce = _repository.ValidateLoginNonce(walletAddress, nonce);
                 if (!isValidNonce)
                 {
-                    // ✅ DEBUG: Log why it failed
                     Logger.Error($"MetaMask Nonce Validation FAILED for wallet: {walletAddress}");
                     result.Success = false;
-                    result.ErrorMessage = "Invalid or expired nonce.";
+                    result.ErrorMessage = "Invalid or expired nonce. Please refresh the page and try again.";
                     return result;
                 }
 
                 // 2. Cryptographically verify signature (using Nethereum)
-                string message = $"MEXIFY Authentication\n\nNonce: {nonce}\n\nPlease sign this message to verify your wallet ownership.";
+                // ⚠️ CRITICAL FIX: This message MUST exactly match the message signed in your JavaScript!
+                string message = $"Welcome to Mexify!\n\nClick to sign in and accept the Terms of Service.\n\nThis request will not trigger a blockchain transaction or cost any fees.\n\nWallet address:\n{walletAddress}\n\nNonce:\n{nonce}";
+
                 var signer = new Nethereum.Signer.EthereumMessageSigner();
                 string recoveredAddress = signer.EncodeUTF8AndEcRecover(message, signature);
 
-                if (!string.Equals(recoveredAddress, walletAddress, StringComparison.OrdinalIgnoreCase))
+                // ✅ FIX: Normalize addresses to prevent "0x" prefix or casing mismatches
+                string normalizedRecovered = recoveredAddress.Replace("0x", "").ToLowerInvariant();
+                string normalizedProvided = walletAddress.Replace("0x", "").ToLowerInvariant();
+
+                // ✅ DEBUG: Log the comparison
+                Logger.Info($"Signature Verification - Recovered: '{normalizedRecovered}', Provided: '{normalizedProvided}'");
+
+                if (normalizedRecovered != normalizedProvided)
                 {
+                    Logger.Error($"Signature mismatch! Recovered: {normalizedRecovered}, Expected: {normalizedProvided}");
                     result.Success = false;
-                    result.ErrorMessage = "Signature verification failed.";
+                    result.ErrorMessage = "Signature verification failed. The signature does not match the wallet address.";
                     return result;
                 }
 
@@ -78,7 +168,7 @@ namespace Mexify.Business.Services
                     return result;
                 }
 
-                // 4. Mark nonce as used
+                // 4. Mark nonce as used to prevent replay attacks
                 _repository.MarkNonceAsUsed(nonce);
 
                 result.Success = true;
@@ -88,17 +178,72 @@ namespace Mexify.Business.Services
             {
                 Logger.Error("MetaMask verification failed", ex);
                 result.Success = false;
-                result.ErrorMessage = "Authentication failed.";
+                // ✅ FIX: Include the actual exception message for easier debugging
+                result.ErrorMessage = "Authentication failed: " + ex.Message;
             }
             return result;
         }
 
-    
-      
+        //public MetaMaskLoginResult VerifyMetaMaskLogin(string walletAddress, string signature, string nonce)
+        //{
+        //    var result = new MetaMaskLoginResult();
+        //    try
+        //    {
+        //        // ✅ DEBUG: Log what the server actually received
+        //        Logger.Info($"MetaMask Login Attempt - Wallet: '{walletAddress}', Nonce: '{nonce}'");
+        //        // 1. Verify nonce is valid and unused
+        //        bool isValidNonce = _repository.ValidateLoginNonce(walletAddress, nonce);
+        //        if (!isValidNonce)
+        //        {
+        //            // ✅ DEBUG: Log why it failed
+        //            Logger.Error($"MetaMask Nonce Validation FAILED for wallet: {walletAddress}");
+        //            result.Success = false;
+        //            result.ErrorMessage = "Invalid or expired nonce.";
+        //            return result;
+        //        }
+
+        //        // 2. Cryptographically verify signature (using Nethereum)
+        //        string message = $"MEXIFY Authentication\n\nNonce: {nonce}\n\nPlease sign this message to verify your wallet ownership.";
+        //        var signer = new Nethereum.Signer.EthereumMessageSigner();
+        //        string recoveredAddress = signer.EncodeUTF8AndEcRecover(message, signature);
+
+        //        if (!string.Equals(recoveredAddress, walletAddress, StringComparison.OrdinalIgnoreCase))
+        //        {
+        //            result.Success = false;
+        //            result.ErrorMessage = "Signature verification failed.";
+        //            return result;
+        //        }
+
+        //        // 3. Find user by wallet address
+        //        int userId = _repository.GetUserIdByWalletAddress(walletAddress);
+        //        if (userId == 0)
+        //        {
+        //            result.Success = false;
+        //            result.ErrorMessage = "No account linked to this wallet. Please register first.";
+        //            return result;
+        //        }
+
+        //        // 4. Mark nonce as used
+        //        _repository.MarkNonceAsUsed(nonce);
+
+        //        result.Success = true;
+        //        result.UserId = userId;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("MetaMask verification failed", ex);
+        //        result.Success = false;
+        //        result.ErrorMessage = "Authentication failed.";
+        //    }
+        //    return result;
+        //}
 
 
 
-    public void LogUserActivity(int userId, string action, string details, string ipAddress)
+
+
+
+        public void LogUserActivity(int userId, string action, string details, string ipAddress)
         {
             try
             {

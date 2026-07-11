@@ -1,4 +1,5 @@
-﻿using Mexify.Utilities;
+﻿using Mexify.Business.Services;
+using Mexify.Utilities;
 using Mexify.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -46,29 +47,227 @@ namespace Mexify.DataAccess.Repositories
             }
         }
 
+
+
         /// <summary>
-        /// Validates if a nonce exists, is unused, and not expired
+        /// Validates if a nonce exists, is unused, and not expired (Direct SQL to bypass SP bugs)
         /// </summary>
         public bool ValidateLoginNonce(string walletAddress, string nonce)
         {
-            var result = ExecuteStoredProcedureScalar<int>(
-                "usp_ValidateLoginNonce",
-                CreateParameter("@WalletAddress", walletAddress),
-                CreateParameter("@Nonce", nonce)
-            );
-            return result > 0;
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                {
+                    conn.Open();
+                    string sql = @"
+                SELECT COUNT(*) 
+                FROM LoginNonces 
+                WHERE LOWER(LTRIM(RTRIM(WalletAddress))) = LOWER(LTRIM(RTRIM(@WalletAddress))) 
+                  AND Nonce = @Nonce 
+                  AND IsUsed = 0 
+                  AND ExpiryDate > GETDATE();";
+
+                    using (var cmd = new System.Data.SqlClient.SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+                        cmd.Parameters.AddWithValue("@Nonce", nonce);
+
+                        var result = cmd.ExecuteScalar();
+                        return result != null && result != DBNull.Value && Convert.ToInt32(result) > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("ValidateLoginNonce Exception", ex);
+                return false;
+            }
         }
+
+        /// <summary>
+        /// Creates a new user account using only a Wallet Address (Web3 Auto-Register)
+        /// </summary>
+        //public int CreateUserFromWallet(string walletAddress)
+        //{
+        //    try
+        //    {
+        //        var outputParam = CreateOutputParameter("@UserId", SqlDbType.Int);
+
+        //        ExecuteStoredProcedureNonQuery(
+        //            "usp_CreateUserFromWallet",
+        //            CreateParameter("@WalletAddress", walletAddress.ToLowerInvariant()),
+        //            CreateParameter("@Email", walletAddress.ToLowerInvariant() + "@mexify.web3"),
+        //            CreateParameter("@FirstName", "Web3"),
+        //            CreateParameter("@LastName", "User"),
+        //            CreateParameter("@Status", 1),
+        //            outputParam
+        //        );
+
+        //        return outputParam.Value != DBNull.Value ? Convert.ToInt32(outputParam.Value) : 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Failed to auto-register wallet user", ex);
+        //        return 0;
+        //    }
+        //}
+
+
+        /// <summary>
+        /// Validates if a nonce exists, is unused, and not expired
+        /// (Uses direct SQL to bypass ExecuteStoredProcedureScalar bugs)
+        /// </summary>
+        //public bool ValidateLoginNonce(string walletAddress, string nonce)
+        //{
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        {
+        //            conn.Open();
+
+        //            // ✅ This is the exact SQL that worked in the debug logs
+        //            string sql = @"
+        //        SELECT COUNT(*) 
+        //        FROM LoginNonces 
+        //        WHERE LOWER(LTRIM(RTRIM(WalletAddress))) = LOWER(LTRIM(RTRIM(@WalletAddress))) 
+        //          AND Nonce = @Nonce 
+        //          AND IsUsed = 0 
+        //          AND ExpiryDate > GETDATE();";
+
+        //            using (var cmd = new System.Data.SqlClient.SqlCommand(sql, conn))
+        //            {
+        //                cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+        //                cmd.Parameters.AddWithValue("@Nonce", nonce);
+
+        //                // ExecuteScalar reads the first column of the first row (the COUNT)
+        //                var result = cmd.ExecuteScalar();
+
+        //                bool isValid = result != null && result != DBNull.Value && Convert.ToInt32(result) > 0;
+
+        //                Logger.Info($"✅ ValidateLoginNonce Final Result: {isValid}");
+        //                return isValid;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("ValidateLoginNonce Exception", ex);
+        //        return false;
+        //    }
+        //}
+
+
+
+        public int CreateUserFromWallet(string walletAddress)
+        {
+            try
+            {
+                var outputParam = CreateOutputParameter("@UserId", SqlDbType.Int);
+
+                ExecuteStoredProcedureNonQuery(
+                    "usp_CreateUserFromWallet",
+                    CreateParameter("@WalletAddress", walletAddress.ToLowerInvariant()), // Store lowercase
+                    CreateParameter("@Email", walletAddress.ToLowerInvariant() + "@mexify.web3"), // Dummy email
+                    CreateParameter("@FirstName", "Web3"),
+                    CreateParameter("@LastName", "User"),
+                    CreateParameter("@Status", 1),
+                    outputParam
+                );
+
+                return outputParam.Value != DBNull.Value ? Convert.ToInt32(outputParam.Value) : 0;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to auto-register wallet user", ex);
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Validates if a nonce exists, is unused, and not expired (WITH DEBUG LOGGING)
+        /// </summary>
+        //public bool ValidateLoginNonce(string walletAddress, string nonce)
+        //{
+        //    try
+        //    {
+        //        // ✅ DEBUG: Query the database directly to see exactly what's stored
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        {
+        //            conn.Open();
+        //            string sql = @"
+        //        SELECT WalletAddress, Nonce, IsUsed, ExpiryDate, 
+        //               CASE WHEN LOWER(LTRIM(RTRIM(WalletAddress))) = LOWER(LTRIM(RTRIM(@WalletAddress))) THEN 1 ELSE 0 END AS WalletMatch,
+        //               CASE WHEN Nonce = @Nonce THEN 1 ELSE 0 END AS NonceMatch,
+        //               CASE WHEN IsUsed = 0 THEN 1 ELSE 0 END AS NotUsed,
+        //               CASE WHEN ExpiryDate > GETDATE() THEN 1 ELSE 0 END AS NotExpired
+        //        FROM LoginNonces 
+        //        WHERE LOWER(LTRIM(RTRIM(WalletAddress))) = LOWER(LTRIM(RTRIM(@WalletAddress))) 
+        //           OR Nonce = @Nonce";
+
+        //            using (var cmd = new System.Data.SqlClient.SqlCommand(sql, conn))
+        //            {
+        //                cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+        //                cmd.Parameters.AddWithValue("@Nonce", nonce);
+
+        //                using (var reader = cmd.ExecuteReader())
+        //                {
+        //                    if (reader.Read())
+        //                    {
+        //                        Logger.Info($"🔍 DEBUG DB CHECK - WalletMatch: {reader["WalletMatch"]}, NonceMatch: {reader["NonceMatch"]}, NotUsed: {reader["NotUsed"]}, NotExpired: {reader["NotExpired"]}");
+        //                        Logger.Info($"🔍 DEBUG DB CHECK - DB Wallet: '{reader["WalletAddress"]}', DB Nonce: '{reader["Nonce"]}', IsUsed: {reader["IsUsed"]}, Expiry: {reader["ExpiryDate"]}");
+        //                    }
+        //                    else
+        //                    {
+        //                        Logger.Error($"🔍 DEBUG DB CHECK - NO RECORDS FOUND in database for this wallet or nonce!");
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        // Now run the actual stored procedure
+        //        var result = ExecuteStoredProcedureScalar<object>(
+        //            "usp_ValidateLoginNonce",
+        //            CreateParameter("@WalletAddress", walletAddress),
+        //            CreateParameter("@Nonce", nonce)
+        //        );
+
+        //        bool isValid = (result == null || result == DBNull.Value) ? false : Convert.ToInt32(result) > 0;
+        //        Logger.Info($"✅ ValidateLoginNonce Final Result: {isValid}");
+        //        return isValid;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("ValidateLoginNonce Exception", ex);
+        //        return false;
+        //    }
+        //}
+
+        /// <summary>
+        /// Validates if a nonce exists, is unused, and not expired
+        /// </summary>
+        //public bool ValidateLoginNonce(string walletAddress, string nonce)
+        //{
+        //    var result = ExecuteStoredProcedureScalar<int>(
+        //        "usp_ValidateLoginNonce",
+        //        CreateParameter("@WalletAddress", walletAddress),
+        //        CreateParameter("@Nonce", nonce)
+        //    );
+        //    return result > 0;
+        //}
 
         /// <summary>
         /// Gets User ID by Wallet Address
         /// </summary>
         public int GetUserIdByWalletAddress(string walletAddress)
         {
-            var result = ExecuteStoredProcedureScalar<int>(
-                "usp_GetUserIdByWallet",
-                CreateParameter("@WalletAddress", walletAddress)
-            );
-            return result;
+
+            Logger.Info("GetUserIdByWallet Address Function:" + walletAddress);
+            var result = ExecuteStoredProcedureScalar<object>(
+         "usp_GetUserIdByWallet",
+         CreateParameter("@WalletAddress", walletAddress)
+     );
+
+            return (result == null || result == DBNull.Value) ? 0 : Convert.ToInt32(result);
         }
 
         /// <summary>
@@ -122,7 +321,7 @@ namespace Mexify.DataAccess.Repositories
             }
         }
 
-
+    
         /// </summary>
         public User ValidateLogin(string email, string password)
         {
@@ -143,6 +342,62 @@ namespace Mexify.DataAccess.Repositories
             return user;
         }
 
+        /// </summary>
+        public bool RegisterUserWithWallet(
+            string walletAddress,
+            string email,
+            string firstName,
+            string lastName,
+            string referralCode,
+            out int userId,
+            out string message)
+        {
+            userId = 0;
+            message = "";
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                {
+                    conn.Open();
+                    using (var cmd = new SqlCommand("usp_RegisterUserWithWallet", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Input Parameters
+                        cmd.Parameters.AddWithValue("@WalletAddress", walletAddress.ToLowerInvariant());
+                        cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? (object)DBNull.Value : email);
+                        cmd.Parameters.AddWithValue("@FirstName", string.IsNullOrEmpty(firstName) ? (object)DBNull.Value : firstName);
+                        cmd.Parameters.AddWithValue("@LastName", string.IsNullOrEmpty(lastName) ? (object)DBNull.Value : lastName);
+                        cmd.Parameters.AddWithValue("@ReferralCode", string.IsNullOrEmpty(referralCode) ? (object)DBNull.Value : referralCode);
+
+                        // Output Parameters
+                        var outputUserId = new SqlParameter("@UserId", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        var outputSuccess = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        var outputMessage = new SqlParameter("@Message", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output };
+
+                        cmd.Parameters.Add(outputUserId);
+                        cmd.Parameters.Add(outputSuccess);
+                        cmd.Parameters.Add(outputMessage);
+
+                        cmd.ExecuteNonQuery();
+
+                        // Read OUTPUT values
+                        userId = outputUserId.Value != DBNull.Value ? Convert.ToInt32(outputUserId.Value) : 0;
+                        bool success = outputSuccess.Value != DBNull.Value && Convert.ToBoolean(outputSuccess.Value);
+                        message = outputMessage.Value != DBNull.Value ? outputMessage.Value.ToString() : "";
+
+                        return success;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to register user with wallet", ex);
+                message = "System error: " + ex.Message;
+                return false;
+            }
+        }
 
 
         public bool WalletAddressExists(string walletAddress)
@@ -155,36 +410,118 @@ namespace Mexify.DataAccess.Repositories
         }
 
 
-        public void VerifyMetaMaskLogin(string walletAddress, string signature, string nonce,
-    out int userId, out bool success, out string message)
-        {
-            var outputUserId = new SqlParameter("@UserId", System.Data.SqlDbType.Int)
-            {
-                Direction = System.Data.ParameterDirection.Output
-            };
-            var outputSuccess = new SqlParameter("@Success", System.Data.SqlDbType.Bit)
-            {
-                Direction = System.Data.ParameterDirection.Output
-            };
-            var outputMessage = new SqlParameter("@Message", System.Data.SqlDbType.NVarChar, 500)
-            {
-                Direction = System.Data.ParameterDirection.Output
-            };
+        /// <summary>
+        /// Registers a new user using their MetaMask wallet and optional referral code
+        /// </summary>
+       
 
-            ExecuteStoredProcedureNonQuery(
-                "usp_VerifyMetaMaskLogin",
-                CreateParameter("@WalletAddress", walletAddress),
-                CreateParameter("@Signature", signature),
-                CreateParameter("@Nonce", nonce),
-                outputUserId,
-                outputSuccess,
-                outputMessage
-            );
+        /// <summary>
+        /// Registers a new user using their MetaMask wallet and optional referral code
+        /// </summary>
+        //public MetaMaskLoginResult VerifyMetaMaskLogin(string walletAddress, string signature, string nonce)
+        //{
 
-            userId = outputUserId.Value != DBNull.Value ? Convert.ToInt32(outputUserId.Value) : 0;
-            success = outputSuccess.Value != DBNull.Value && Convert.ToBoolean(outputSuccess.Value);
-            message = outputMessage.Value != DBNull.Value ? outputMessage.Value.ToString() : "";
-        }
+        //    UserRepository _repository = new UserRepository();
+
+        //    var result = new MetaMaskLoginResult();
+        //    try
+        //    {
+        //        // 1. Verify nonce is valid and unused
+        //        Logger.Info($"MetaMask Login Attempt - Wallet: '{walletAddress}', Nonce: '{nonce}'");
+
+        //        bool isValidNonce = _repository.ValidateLoginNonce(walletAddress, nonce);
+        //        if (!isValidNonce)
+        //        {
+        //            Logger.Error($"MetaMask Nonce Validation FAILED for wallet: {walletAddress}");
+        //            result.Success = false;
+        //            result.ErrorMessage = "Invalid or expired nonce. Please refresh the page and try again.";
+        //            return result;
+        //        }
+
+        //        // 2. Cryptographically verify signature (using Nethereum)
+        //        // ⚠️ CRITICAL: This message MUST exactly match the message signed in your JavaScript!
+        //        string message = $"Welcome to Mexify!\n\nClick to sign in and accept the Terms of Service.\n\nThis request will not trigger a blockchain transaction or cost any fees.\n\nWallet address:\n{walletAddress}\n\nNonce:\n{nonce}";
+
+        //        var signer = new Nethereum.Signer.EthereumMessageSigner();
+        //        string recoveredAddress = signer.EncodeUTF8AndEcRecover(message, signature);
+
+        //        // Normalize addresses to prevent casing or "0x" prefix mismatches
+        //        string normalizedRecovered = recoveredAddress.Replace("0x", "").ToLowerInvariant();
+        //        string normalizedProvided = walletAddress.Replace("0x", "").ToLowerInvariant();
+
+        //        if (normalizedRecovered != normalizedProvided)
+        //        {
+        //            Logger.Error($"Signature mismatch! Recovered: {normalizedRecovered}, Expected: {normalizedProvided}");
+        //            result.Success = false;
+        //            result.ErrorMessage = "Signature verification failed. The signature does not match the wallet address.";
+        //            return result;
+        //        }
+
+        //        // 3. Find user by wallet address
+        //        int userId = _repository.GetUserIdByWalletAddress(walletAddress);
+
+        //        // 4. 🪄 WEB3 MAGIC: Auto-register if user doesn't exist
+        //        if (userId == 0)
+        //        {
+        //            Logger.Info($"Wallet {walletAddress} not found. Auto-registering new Web3 user...");
+        //            userId = _repository.CreateUserFromWallet(walletAddress);
+
+        //            if (userId == 0)
+        //            {
+        //                result.Success = false;
+        //                result.ErrorMessage = "Failed to create account for this wallet. Please contact support.";
+        //                return result;
+        //            }
+        //        }
+
+        //        // 5. Mark nonce as used to prevent replay attacks
+        //        _repository.MarkNonceAsUsed(nonce);
+
+        //        // 6. Success!
+        //        result.Success = true;
+        //        result.UserId = userId;
+        //        Logger.Info($"MetaMask Login SUCCESS for User ID: {userId}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("MetaMask verification failed", ex);
+        //        result.Success = false;
+        //        result.ErrorMessage = "Authentication failed: " + ex.Message;
+        //    }
+        //    return result;
+        //}
+
+
+        //    public void VerifyMetaMaskLogin(string walletAddress, string signature, string nonce,
+        //out int userId, out bool success, out string message)
+        //    {
+        //        var outputUserId = new SqlParameter("@UserId", System.Data.SqlDbType.Int)
+        //        {
+        //            Direction = System.Data.ParameterDirection.Output
+        //        };
+        //        var outputSuccess = new SqlParameter("@Success", System.Data.SqlDbType.Bit)
+        //        {
+        //            Direction = System.Data.ParameterDirection.Output
+        //        };
+        //        var outputMessage = new SqlParameter("@Message", System.Data.SqlDbType.NVarChar, 500)
+        //        {
+        //            Direction = System.Data.ParameterDirection.Output
+        //        };
+
+        //        ExecuteStoredProcedureNonQuery(
+        //            "usp_VerifyMetaMaskLogin",
+        //            CreateParameter("@WalletAddress", walletAddress),
+        //            CreateParameter("@Signature", signature),
+        //            CreateParameter("@Nonce", nonce),
+        //            outputUserId,
+        //            outputSuccess,
+        //            outputMessage
+        //        );
+
+        //        userId = outputUserId.Value != DBNull.Value ? Convert.ToInt32(outputUserId.Value) : 0;
+        //        success = outputSuccess.Value != DBNull.Value && Convert.ToBoolean(outputSuccess.Value);
+        //        message = outputMessage.Value != DBNull.Value ? outputMessage.Value.ToString() : "";
+        //    }
 
 
         /// <summary>

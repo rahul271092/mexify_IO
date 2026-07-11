@@ -29,7 +29,16 @@ namespace Mexify.Web.Models
     }
 
     public class WalletTransaction
+
     {
+
+        public int WalletId { get; set; }
+
+
+
+
+        public decimal LockedBalance { get; set; }
+
         public long TransactionId { get; set; }
         public int TransactionType { get; set; }
         public string TypeName { get; set; }
@@ -45,6 +54,9 @@ namespace Mexify.Web.Models
         public string StatusName { get; set; }
         public string StatusSlug { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int UserId { get; internal set; }
+        public string CurrencyName { get; internal set; }
+        public decimal Balance { get; internal set; }
     }
 
     public class WithdrawalResult

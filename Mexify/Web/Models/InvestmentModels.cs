@@ -11,6 +11,30 @@ namespace Mexify.Models
         public decimal TodayROI { get; set; }
     }
 
+
+    public class ActiveInvestment
+    {
+        public long InvestmentId { get; set; }
+        public string InvestmentType { get; set; }
+        public string PlanName { get; set; }
+        public decimal PrincipalAmount { get; set; } // ✅ Must match the SP output
+        public decimal DailyRatePercent { get; set; }
+        public decimal TotalEarned { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public string CurrentDay { get; set; }
+
+
+        public string TotalDays { get; set; }
+
+        public int Status { get; set; }
+        public int ProgressPercent { get; set; }
+
+
+        public decimal DailyROI { get; set; }
+    }
+
     public class UserInvestment
     {
         public long InvestmentId { get; set; }

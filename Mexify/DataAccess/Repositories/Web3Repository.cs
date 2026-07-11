@@ -4,11 +4,68 @@ using System.Data;
 using System.Data.SqlClient;
 using Mexify.Models;
 using Mexify.Utilities;
+using Mexify.Web.Models;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class Web3Repository : BaseRepository
     {
+
+        public bool ProcessWeb3Deposit(int userId, int currencyId, decimal amount, string txHash)
+        {
+            try
+            {
+                Web3Repository _web3Repo;
+                _web3Repo = new Web3Repository();
+
+                WalletRepository _walletRepo;
+                _walletRepo = new WalletRepository();
+
+                // 1. Calculate 15% Fee
+                decimal feePercent = 0.15m;
+                decimal feeAmount = amount * feePercent;
+                decimal netAmount = amount - feeAmount;
+
+                // 2. Get User Wallet
+                var wallet = _walletRepo.GetUserWalletByCurrency(userId, currencyId);
+                if (wallet == null) return false;
+
+                // 3. Credit ONLY the net amount
+                wallet.Balance += netAmount;
+                _walletRepo.UpdateWalletBalance(wallet);
+
+                // 4. Record Transaction
+                var transaction = new WalletTransaction
+                {
+                    WalletId = wallet.WalletId,
+                    UserId = userId,
+                    CurrencyId = currencyId,
+                    Amount = amount,          // Gross amount
+                    Fee = feeAmount,          // 15% Fee
+                    NetAmount = netAmount,    // Amount actually credited
+                    TransactionType = 1,
+                    TypeName = "Web3 Deposit",
+                    TypeSlug = "web3_deposit",
+                    Status = 1,
+                    CreatedDate = DateTime.UtcNow
+                };
+
+               // _walletRepo.RecordTransaction(transaction);
+
+                // 5. Update Web3Deposits table status
+              //  _web3Repo.MarkDepositAsProcessed(txHash);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to process Web3 deposit", ex);
+                return false;
+            }
+        }
+
+
+
         public long RecordWeb3Deposit(Web3DepositRequest request)
         {
             var outputParam = CreateOutputParameter("@DepositId", SqlDbType.BigInt);

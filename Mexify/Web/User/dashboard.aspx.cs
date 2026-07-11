@@ -201,7 +201,10 @@ namespace Mexify.Web.User
                 }
                 catch (Exception ex)
                 {
+
+
                     Logger.Error("Failed to load wallets", ex);
+                    Logger.Info("Exception " + ex.ToString());
                     pnlNoWallets.Visible = true;
                 }
 
@@ -220,7 +223,7 @@ namespace Mexify.Web.User
                         decimal totalEarnings = 0;
                         foreach (var inv in investments)
                         {
-                            totalInvested += inv.InvestedAmount;
+                            totalInvested += inv.PrincipalAmount;
                             totalEarnings += inv.TotalEarned;
                         }
                         litTotalInvested.Text = totalInvested.ToString("0.00");
@@ -263,6 +266,7 @@ namespace Mexify.Web.User
                 catch (Exception ex)
                 {
                     Logger.Error("Failed to load transactions", ex);
+                    Logger.Info("Exception:" + ex.ToString());
                     pnlNoTransactions.Visible = true;
                 }
 
@@ -278,11 +282,13 @@ namespace Mexify.Web.User
                 catch (Exception ex)
                 {
                     Logger.Error("Failed to load referral stats", ex);
+                    Logger.Info(ex.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error("Dashboard load failed for user " + _userId, ex);
+                Logger.Info(ex.ToString());
             }
         }
 
@@ -297,7 +303,7 @@ namespace Mexify.Web.User
                 {
                     foreach (var inv in investments)
                     {
-                        totalDailyROI += inv.DailyROI;
+                        totalDailyROI += inv.DailyRatePercent;
                     }
                 }
                 return totalDailyROI;

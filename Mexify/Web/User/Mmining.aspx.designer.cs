@@ -11,31 +11,158 @@ namespace Mexify.Web.User {
     
     
     public partial class Mmining {
-
-        // Overview tab
-        protected global::System.Web.UI.WebControls.Literal litTotalHashrate;
-        protected global::System.Web.UI.WebControls.Literal litDailyEarning;
-        protected global::System.Web.UI.WebControls.Literal litActiveRigs;
-        protected global::System.Web.UI.WebControls.Literal litTotalEarned;
-        protected global::System.Web.UI.WebControls.Literal litTodayEarnings;
-        protected global::System.Web.UI.WebControls.Literal litPendingPayout;
+        
+        /// <summary>
+        /// litRigCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litRigCount;
-
-        // My Rigs tab
+        
+        /// <summary>
+        /// litTotalHashrate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litTotalHashrate;
+        
+        /// <summary>
+        /// litDailyEarning control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDailyEarning;
+        
+        /// <summary>
+        /// litActiveRigs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litActiveRigs;
+        
+        /// <summary>
+        /// litTotalEarned control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litTotalEarned;
+        
+        /// <summary>
+        /// litTodayEarnings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litTodayEarnings;
+        
+        /// <summary>
+        /// litPendingPayout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litPendingPayout;
+        
+        /// <summary>
+        /// rptRigs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptRigs;
+        
+        /// <summary>
+        /// pnlNoRigs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNoRigs;
-
-        // Plans tab
+        
+        /// <summary>
+        /// rptPlans control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptPlans;
+        
+        /// <summary>
+        /// pnlNoPlans control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNoPlans;
-
-        // History tab
+        
+        /// <summary>
+        /// litLifetimeEarnings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litLifetimeEarnings;
+        
+        /// <summary>
+        /// litMonthEarnings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litMonthEarnings;
+        
+        /// <summary>
+        /// litTotalPayouts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litTotalPayouts;
+        
+        /// <summary>
+        /// rptEarnings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptEarnings;
+        
+        /// <summary>
+        /// pnlNoEarnings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNoEarnings;
-
+        
+        /// <summary>
+        /// hfActiveTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfActiveTab;
     }
 }

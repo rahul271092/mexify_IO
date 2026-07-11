@@ -235,8 +235,12 @@ namespace Mexify.DataAccess.Repositories
         /// </summary>
         public List<StakingPool> GetActivePools()
         {
+            try
+            {
+
+            Logger.Info("GetActive Pools code Executed !!");
             return ExecuteStoredProcedure<StakingPool>(
-                "usp_GetStakingPools",
+                "usp_GetStakingPool",
                 reader => new StakingPool
                 {
                     PoolId = GetSafeInt(reader, "PoolId"),
@@ -255,6 +259,15 @@ namespace Mexify.DataAccess.Repositories
                     IsActive = GetSafeBool(reader, "IsActive")
                 }
             );
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Get Active Pools Function Error is: ", ex);
+                Logger.Info("Exception : " + ex.ToString());
+                return new List<StakingPool>();
+            }
+
         }
 
 

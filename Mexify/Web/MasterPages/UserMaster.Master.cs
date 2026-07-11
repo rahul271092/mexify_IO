@@ -11,6 +11,7 @@ namespace Mexify.Web.MasterPages
         public string UserPhotoUrl { get; private set; }
         public string UserEmail { get; private set; }
 
+        public string WalletAddress { get; private set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             // Authentication check
@@ -41,10 +42,10 @@ namespace Mexify.Web.MasterPages
             UserName = Session["UserName"] as string ?? "User";
             UserEmail = Session["Email"] as string ?? "";
             UserPhotoUrl = Session["UserPhoto"] as string ?? "";
-
+            WalletAddress = Session["WalletAddress"] as string;
             // Populate literals
             litUserName.Text = UserName;
-            litTopbarName.Text = UserName.Split(' ')[0];
+            litTopbarName.Text = WalletAddress;
             litTopbarEmail.Text = UserEmail;
             litDropdownName.Text = UserName;
             litDropdownEmail.Text = UserEmail;

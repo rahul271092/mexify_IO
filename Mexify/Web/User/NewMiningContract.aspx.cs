@@ -27,6 +27,9 @@ namespace Mexify.Web.User
             _miningService = new MiningService();
             _walletService = new WalletService();
 
+
+            _planId = Int32.Parse(Request.QueryString["planId"]);
+
             //if (!int.TryParse(Request.QueryString["planId"], out _planId) || _planId <= 0)
             //{
             //    Response.Redirect("~/Web/User/Mining.aspx");
@@ -44,6 +47,9 @@ namespace Mexify.Web.User
         {
             try
             {
+                MiningService _miningService;
+                _miningService = new MiningService();
+                Logger.Info("Load Plan Details function call");
                 var plan = _miningService.GetPlanById(_planId);
                 if (plan == null || !plan.IsActive)
                 {
@@ -79,7 +85,7 @@ namespace Mexify.Web.User
 
                 if (wallets != null)
                 {
-                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "USDT");
+                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "PNC");
                     if (usdtWallet != null)
                     {
                         usdtBalance = usdtWallet.Balance;

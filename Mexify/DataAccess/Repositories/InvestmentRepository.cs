@@ -5,6 +5,7 @@ using System.Web;
 using Mexify.Web.Models;
 using System.Data.SqlClient;
 using Mexify.Models;
+using Mexify.Utilities;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -40,28 +41,72 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : new InvestmentStats();
         }
 
-        public List<UserInvestment> GetUserActiveInvestments(int userId)
+
+        public List<Models.ActiveInvestment> GetUserActiveInvestments(int userId)
         {
-            return ExecuteStoredProcedure<UserInvestment>(
-                "usp_GetUserActiveInvestments",
-                reader => new UserInvestment
-                {
-                    InvestmentId = GetSafeLong(reader, "InvestmentId"),
-                    PlanName = GetSafeString(reader, "PlanName") ?? "Investment",
-                    InvestedAmount = GetSafeDecimal(reader, "InvestedAmount"),
-                    DailyROI = GetSafeDecimal(reader, "DailyROI"),
-                    TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
-                    CurrentDay = GetSafeInt(reader, "CurrentDay"),
-                    TotalDays = GetSafeInt(reader, "TotalDays"),
-                    ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
-                    Status = GetSafeInt(reader, "Status"),
-                    StartDate = GetSafeDateTime(reader, "StartDate"),
-                    EndDate = GetSafeDateTime(reader, "EndDate"),
-                    EndDateIso = GetSafeString(reader, "EndDateIso")
-                },
-                CreateParameter("@UserId", userId)
-            );
+            try
+            {
+                return ExecuteStoredProcedure<Models.ActiveInvestment>(
+                    "usp_GetUserActiveInvestments",
+                    reader => new Models.ActiveInvestment
+                    {
+                // ✅ Map to the EXACT column names returned by the stored procedure
+                InvestmentId = GetSafeLong(reader, "InvestmentId"),
+                        InvestmentType = GetSafeString(reader, "InvestmentType") ?? "",
+                        PlanName = GetSafeString(reader, "PlanName") ?? "",
+                        PrincipalAmount = GetSafeDecimal(reader, "PrincipalAmount"), // ✅ Changed from InvestedAmount
+                DailyRatePercent = GetSafeDecimal(reader, "DailyRatePercent"),
+                        TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+                        StartDate = GetSafeDateTime(reader, "StartDate"),
+                        EndDate = GetSafeDateTime(reader, "EndDate"),
+                        ProgressPercent = GetSafeInt(reader, "ProgressPercent")
+                    },
+                    CreateParameter("@UserId", userId)
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get user active investments", ex);
+                return new List<Models.ActiveInvestment>();
+            }
         }
+
+        //public List<UserInvestment> GetUserActiveInvestments(int userId)
+        //{
+        //    try
+        //    {
+        //        Logger.Info("Get User Active Investment code executed");
+
+        //        return ExecuteStoredProcedure<UserInvestment>(
+        //        "usp_GetUserActiveInvestments",
+        //        reader => new UserInvestment
+        //        {
+        //            InvestmentId = GetSafeLong(reader, "InvestmentId"),
+        //            PlanName = GetSafeString(reader, "PlanName") ?? "Investment",
+        //            InvestedAmount = GetSafeDecimal(reader, "InvestedAmount"),
+        //            DailyROI = GetSafeDecimal(reader, "DailyRatePercent"),
+        //            TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+        //            CurrentDay = GetSafeInt(reader, "CurrentDay"),
+        //           // TotalDays = GetSafeInt(reader, "TotalDays"),
+        //            ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+        //           // Status = GetSafeInt(reader, "Status"),
+        //            StartDate = GetSafeDateTime(reader, "StartDate"),
+        //            EndDate = GetSafeDateTime(reader, "EndDate"),
+        //            //EndDateIso = GetSafeString(reader, "EndDateIso")
+        //        },
+        //        CreateParameter("@UserId", userId)
+        //    );
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Exception Generated in Get User Active Investments function", ex);
+        //        Logger.Info("Exception " + ex.ToString());
+        //        return new List<UserInvestment>();
+
+        //    }
+
+        //}
 
         public List<UserInvestment> GetUserMaturedInvestments(int userId)
         {

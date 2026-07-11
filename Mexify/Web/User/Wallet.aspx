@@ -431,6 +431,11 @@
             align-items: center;
             width: 100%;
         }
+
+        .user-main{
+            width:115%;
+        }
+
         .filter-bar select {
             padding: 8px 14px;
             background: var(--glass-bg);

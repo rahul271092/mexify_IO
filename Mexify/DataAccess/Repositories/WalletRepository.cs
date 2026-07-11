@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Mexify.Models;
+
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -27,6 +29,8 @@ namespace Mexify.DataAccess.Repositories
             );
         }
 
+
+      
         public WalletInfo GetUserWallet(int userId, int currencyId)
         {
             var results = ExecuteStoredProcedure<WalletInfo>(
@@ -83,6 +87,63 @@ namespace Mexify.DataAccess.Repositories
                 CreateParameter("@CurrencyId", currencyId)
             );
             return results.Count > 0 ? results[0] : null;
+        }
+
+
+        /// <summary>
+        /// Gets a specific wallet for a user based on Currency ID
+        /// </summary>
+        public WalletTransaction GetUserWalletByCurrency(int userId, int currencyId)
+        {
+            try
+            {
+                var results = ExecuteStoredProcedure<WalletTransaction>(
+                    "usp_GetUserWalletByCurrency",
+                    reader => new WalletTransaction
+                    {
+                        WalletId = GetSafeInt(reader, "WalletId"),
+                        UserId = GetSafeInt(reader, "UserId"),
+                        CurrencyId = GetSafeInt(reader, "CurrencyId"),
+                        CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "",
+                        CurrencyName = GetSafeString(reader, "CurrencyName") ?? "",
+                        Balance = GetSafeDecimal(reader, "Balance"),
+                        LockedBalance = GetSafeDecimal(reader, "LockedBalance"),
+                        Status = GetSafeInt(reader, "Status"),
+                        CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+              //          UpdatedDate = GetSafeDateTime(reader, "UpdatedDate")
+                    },
+                    CreateParameter("@UserId", userId),
+                    CreateParameter("@CurrencyId", currencyId)
+                );
+
+                // Return the first wallet found, or null if it doesn't exist
+                return results.Count > 0 ? results[0] : null;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get wallet for User {userId}, Currency {currencyId}", ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Updates the wallet balance in the database
+        /// </summary>
+        public void UpdateWalletBalance(WalletTransaction wallet)
+        {
+            try
+            {
+                ExecuteStoredProcedureNonQuery(
+                    "usp_UpdateWalletBalance",
+                    CreateParameter("@WalletId", wallet.WalletId),
+                    CreateParameter("@NewBalance", wallet.Balance)
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to update balance for WalletId {wallet.WalletId}", ex);
+                throw;
+            }
         }
 
         public string GetDepositAddress(int userId, int currencyId)

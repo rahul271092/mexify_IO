@@ -126,17 +126,17 @@ namespace Mexify.Business.Services
         /// <summary>
         /// Gets detailed mining statistics for a user (used by Mmining.aspx.cs).
         /// </summary>
-        public MiningStats GetUserMiningStats(int userId)
+        public UserMiningStats GetUserMiningStats(int userId)
         {
             try
             {
                 var result = _repo.GetUserMiningStats(userId);
-                return result ?? new MiningStats();
+                return result ?? new UserMiningStats();
             }
             catch (Exception ex)
             {
                 Logger.Error("Failed to get mining stats for user " + userId, ex);
-                return new MiningStats();
+                return new UserMiningStats();
             }
         }
 

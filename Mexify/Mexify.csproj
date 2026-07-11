@@ -194,6 +194,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="MetaMaskLogin.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -246,6 +247,18 @@
     <Content Include="Web\User\Transactions.aspx" />
     <Content Include="Web\User\Wallet.aspx" />
     <Content Include="Web\User\Web3API.aspx" />
+    <Content Include="App_Data\logs\error_20260704.log" />
+    <Content Include="App_Data\logs\error_20260705.log" />
+    <Content Include="App_Data\logs\error_20260706.log" />
+    <Content Include="App_Data\logs\error_20260707.log" />
+    <Content Include="App_Data\logs\error_20260709.log" />
+    <Content Include="App_Data\logs\error_20260710.log" />
+    <Content Include="App_Data\logs\error_20260711.log" />
+    <Content Include="App_Data\logs\info_20260705.log" />
+    <Content Include="App_Data\logs\info_20260706.log" />
+    <Content Include="App_Data\logs\info_20260709.log" />
+    <Content Include="App_Data\logs\info_20260710.log" />
+    <Content Include="App_Data\logs\info_20260711.log" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -357,6 +370,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MetaMaskLogin.aspx.cs">
+      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MetaMaskLogin.aspx.designer.cs">
+      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\CurrencyHelper.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\PasswordHelper.cs" />
@@ -438,12 +458,14 @@
     <Compile Include="Web\mining.aspx.designer.cs">
       <DependentUpon>mining.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Models\AuthModels.cs" />
     <Compile Include="Web\Models\BlogPost.cs" />
     <Compile Include="Web\Models\Certificate.cs" />
     <Compile Include="Web\Models\DashboardModels.cs" />
     <Compile Include="Web\Models\FAQ.cs" />
     <Compile Include="Web\Models\ICOInvestment.cs" />
     <Compile Include="Web\Models\ICOModels.cs" />
+    <Compile Include="Web\Models\ICOParticipation.cs" />
     <Compile Include="Web\Models\InvestmentModels.cs" />
     <Compile Include="Web\Models\InvestmentPlan.cs" />
     <Compile Include="Web\Models\KYCModels.cs" />

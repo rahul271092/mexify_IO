@@ -15,6 +15,23 @@ namespace Mexify.Models
         public bool IsActive { get; set; }
     }
 
+
+    public class UserMiningStats
+    {
+        public int ActiveRigs { get; set; }
+        public decimal DailyEarning { get; set; }
+        public decimal TotalEarned { get; set; }
+        public  decimal ThisMonthEarnings { get; set; }
+
+        public int ActiveContracts { get; set; }
+        public decimal TotalHashrate { get; set; }
+        public decimal TotalInvested { get; set; }
+        public decimal TotalRewards { get; set; }
+        public decimal TodayEarnings { get; set; }
+        public DateTime? NextExpiryDate { get; set; }
+        public string PendingPayout { get;  set; }
+    }
+
     public class MiningContract
     {
         public long MiningContractId { get; set; }
@@ -54,7 +71,7 @@ namespace Mexify.Models
         public int ActiveRigs { get; set; }
         public decimal TotalEarned { get; set; }
         public decimal TodayEarnings { get; set; }
-        public decimal PendingPayout { get; set; }
+        public  decimal PendingPayout { get; set; }
         public decimal ThisMonthEarnings { get; set; }
     }
 

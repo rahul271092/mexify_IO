@@ -863,8 +863,7 @@
                             <div class="pool-card-header">
                                 <div>
                                     <h5 class="pool-card-title">
-                                        <%# Eval("PoolName") %>
-<%--                                        <%# Eval("PoolName") != null ? Eval("PoolName").ToString() : (Eval("Name") != null ? Eval("Name").ToString() : "Staking Pool") %>--%>
+                                        <%# Eval("PoolName") != null ? Eval("PoolName").ToString() : (Eval("PoolName") != null ? Eval("PoolName").ToString() : "Staking Pool") %>
                                     </h5>
                                     <small class="pool-card-subtitle">
                                         <%# Eval("LockPeriodDays") ?? "30" %> days lock

@@ -91,6 +91,7 @@ namespace Mexify.DataAccess.Repositories
             catch (Exception ex)
             {
                 Logger.Error("Failed to get mining plan by ID: " + planId, ex);
+                Logger.Info("Exception:" + ex.ToString());
                 return null;
             }
         }
@@ -140,35 +141,75 @@ namespace Mexify.DataAccess.Repositories
         // 3. MINING STATS
         // =========================================
 
-        /// <summary>
-        /// Gets comprehensive mining statistics for a user.
-        /// </summary>
-        public MiningStats GetUserMiningStats(int userId)
+
+        public UserMiningStats GetUserMiningStats(int userId)
         {
+            var stats = new UserMiningStats();
+
             try
             {
-                var results = ExecuteStoredProcedure<MiningStats>(
-                    "usp_GetUserMiningStats",
-                    reader => new MiningStats
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserMiningStats", conn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        TotalHashrate = GetSafeDecimal(reader, "TotalHashrate"),
-                        DailyEarning = GetSafeDecimal(reader, "DailyEarning"),
-                        ActiveRigs = GetSafeInt(reader, "ActiveRigs"),
-                        TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
-                        TodayEarnings = GetSafeDecimal(reader, "TodayEarnings"),
-                        ThisMonthEarnings = GetSafeDecimal(reader, "ThisMonthEarnings"),
-                        PendingPayout = GetSafeDecimal(reader, "PendingPayout")
-                    },
-                    CreateParameter("@UserId", userId)
-                );
-                return results.Count > 0 ? results[0] : new MiningStats();
+                        if (reader.Read())
+                        {
+                            stats.ActiveContracts = GetSafeInt(reader, "ActiveContracts");
+                            stats.TotalHashrate = GetSafeDecimal(reader, "TotalHashrate");
+                            stats.TotalInvested = GetSafeDecimal(reader, "TotalInvested");
+                            stats.TotalRewards = GetSafeDecimal(reader, "TotalRewards");
+                            stats.TodayEarnings = GetSafeDecimal(reader, "TodayEarnings");
+
+                            stats.NextExpiryDate = reader["NextExpiryDate"] == DBNull.Value
+                                ? (DateTime?)null
+                                : Convert.ToDateTime(reader["NextExpiryDate"]);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Logger.Error("Failed to get mining stats for user " + userId, ex);
-                return new MiningStats();
+                Logger.Error("Failed to get user mining stats", ex);
             }
+
+            return stats;
         }
+
+
+        /// <summary>
+        /// Gets comprehensive mining statistics for a user.
+        /// </summary>
+        //public MiningStats GetUserMiningStats(int userId)
+        //{
+        //    try
+        //    {
+        //        var results = ExecuteStoredProcedure<MiningStats>(
+        //            "usp_GetUserMiningStats",
+        //            reader => new MiningStats
+        //            {
+        //                TotalHashrate = GetSafeDecimal(reader, "TotalHashrate"),
+        //                DailyEarning = GetSafeDecimal(reader, "DailyEarning"),
+        //                ActiveRigs = GetSafeInt(reader, "ActiveRigs"),
+        //                TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+        //                TodayEarnings = GetSafeDecimal(reader, "TodayEarnings"),
+        //                ThisMonthEarnings = GetSafeDecimal(reader, "ThisMonthEarnings"),
+        //                PendingPayout = GetSafeDecimal(reader, "PendingPayout")
+        //            },
+        //            CreateParameter("@UserId", userId)
+        //        );
+        //        return results.Count > 0 ? results[0] : new MiningStats();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Failed to get mining stats for user " + userId, ex);
+        //        return new MiningStats();
+        //    }
+        //}
 
         // =========================================
         // 4. EARNINGS & REWARDS
