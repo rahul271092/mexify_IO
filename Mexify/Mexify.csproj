@@ -463,6 +463,7 @@
     <Compile Include="Web\Models\AuthModels.cs" />
     <Compile Include="Web\Models\BlogPost.cs" />
     <Compile Include="Web\Models\Certificate.cs" />
+    <Compile Include="Web\Models\Connection.cs" />
     <Compile Include="Web\Models\DashboardModels.cs" />
     <Compile Include="Web\Models\EarningModels.cs" />
     <Compile Include="Web\Models\FAQ.cs" />

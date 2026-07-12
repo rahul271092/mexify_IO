@@ -49,7 +49,7 @@ namespace Mexify.DataAccess.Repositories
                             GetSafeDecimal(reader, "DailyOutput")),
                         IsPopular = GetSafeBool(reader, "IsPopular"),
                         IsActive = GetSafeBool(reader, "IsActive"),
-                        CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                  //      CreatedDate = GetSafeDateTime(reader, "CreatedDate")
                     }
                 );
             }

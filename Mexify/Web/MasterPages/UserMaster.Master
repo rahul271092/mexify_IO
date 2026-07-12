@@ -105,7 +105,7 @@
                     <a href="<%= ResolveUrl("~/Web/User/NFTs.aspx") %>" class="nav-link <%= IsActive("NFTs") %>">
                         <i class="fas fa-cube"></i> <span>My NFTs</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/ICO.aspx") %>" class="nav-link <%= IsActive("ICO") %>">
+                    <a href="<%= ResolveUrl("~/Web/User/MyICO.aspx") %>" class="nav-link <%= IsActive("ICO") %>">
                         <i class="fas fa-rocket"></i> <span>ICO Tokens</span>
                     </a>
                     <a href="<%= ResolveUrl("~/Web/User/Royalty.aspx") %>" class="nav-link <%= IsActive("Royalty") %>">

@@ -2,6 +2,12 @@
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
+
+
+        .user-main{
+            width:85vw;
+        }
+
         .ico-header {
             display: flex;
             justify-content: space-between;
@@ -434,10 +440,12 @@
                         <div class="progress-section">
                             <div class="d-flex justify-content-between">
                                 <span class="text-muted">ICO Progress</span>
-                                <span class="text-accent fw-bold"><%# string.Format("{0:0.00}", Eval("ProgressPercent")) %>%</span>
+          <%--                      <span class="text-accent fw-bold"><%# string.Format("{0:0.00}", Eval("ProgressPercent")) %>%</span>
+          --%>
+
                             </div>
                             <div class="progress-bar-ico">
-                                <div class="progress-fill-ico" style="width: <%# Eval("ProgressPercent") %>%;"></div>
+                             <%--   <div class="progress-fill-ico" style='width: '<%# Eval("ProgressPercent") %>'%;'></div>--%>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <small class="text-muted"><%# string.Format("{0:N0}", Eval("TokensSold")) %> sold</small>

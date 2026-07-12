@@ -5,6 +5,8 @@ using Mexify.Business.Services;
 using Mexify.Web.Models;
 using Mexify.Utilities;
 using System.Data.SqlClient;
+using System.Web.Script.Serialization;
+using Mexify.DataAccess.Repositories;
 
 namespace Mexify.Web.User
 {
@@ -143,6 +145,8 @@ namespace Mexify.Web.User
             try
             {
 
+                DashboardRepository repo = new DashboardRepository();
+
                 _dashboardService = new DashboardService();
 
                 // ✅ Display Welcome Name
@@ -160,6 +164,42 @@ namespace Mexify.Web.User
                 {
                     totalBalance = Convert.ToDecimal(Session["TotalBalance"]);
                 }
+
+
+                int userId = Convert.ToInt32(Session["UserId"]);
+//                var repo = new DashboardRepository();
+
+                // Default timeframe
+                string timeframe = Request.QueryString["tf"] ?? "30d";
+
+                // Fetch Portfolio Data
+                var portfolio = repo.GetUserPortfolioHistory(userId, timeframe);
+
+                // Bind Summary Cards
+                litNetWorth.Text = portfolio.Summary.NetWorth.ToString("N2");
+                litWalletBalance.Text = portfolio.Summary.TotalWalletBalance.ToString("N2");
+                litTotalInvested.Text = portfolio.Summary.TotalInvested.ToString("N2");
+                litTotalEarnings.Text = portfolio.Summary.TotalEarnings.ToString("N2");
+
+                // Serialize History for Chart.js
+                var jsSerializer = new JavaScriptSerializer();
+
+                var labels = new string[portfolio.History.Count];
+                var inflows = new decimal[portfolio.History.Count];
+                var outflows = new decimal[portfolio.History.Count];
+
+                for (int i = 0; i < portfolio.History.Count; i++)
+                {
+                    labels[i] = portfolio.History[i].Date.ToString("MMM dd");
+                    inflows[i] = portfolio.History[i].Inflow;
+                    outflows[i] = portfolio.History[i].Outflow;
+                }
+
+                // Expose to Client-Side via hidden fields or Page Properties
+                hidChartLabels.Value = jsSerializer.Serialize(labels);
+                hidChartInflow.Value = jsSerializer.Serialize(inflows);
+                hidChartOutflow.Value = jsSerializer.Serialize(outflows);
+
 
                 // If session is empty, fetch from database
                 if (totalBalance == 0)

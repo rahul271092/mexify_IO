@@ -2,6 +2,11 @@
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
+
+        .user-main{
+            width:85vw;
+        }
+
         .profile-header {
             display: flex;
             justify-content: space-between;

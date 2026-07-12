@@ -209,6 +209,7 @@
    MAIN CONTENT AREA
    ========================================= */
 .user-main {
+    width:87vw;
     flex: 1;
     margin-left: var(--sidebar-width);
     min-height: 100vh;

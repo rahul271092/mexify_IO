@@ -19,8 +19,8 @@ namespace Mexify.DataAccess.Repositories
                     DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
                     TotalTeam = GetSafeInt(reader, "TotalTeam"),
                     TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
-                    ThisMonthCommission = GetSafeDecimal(reader, "ThisMonthCommission"),
-                    TodayCommission = GetSafeDecimal(reader, "TodayCommission")
+                 //   ThisMonthCommission = GetSafeDecimal(reader, "ThisMonthCommission"),
+                  //  TodayCommission = GetSafeDecimal(reader, "TodayCommission")
                 },
                 CreateParameter("@UserId", userId)
             );

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Mexify.Web.Models;
 using Mexify.Utilities;
+using System.Data;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -54,6 +55,60 @@ namespace Mexify.DataAccess.Repositories
             return breakdown;
         }
 
+
+        public PortfolioViewModel GetUserPortfolioHistory(int userId, string timeframe = "30d")
+        {
+            var model = new PortfolioViewModel();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserPortfolioHistory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Timeframe", timeframe);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Summary Stats
+                        if (reader.Read())
+                        {
+                            model.Summary = new PortfolioSummary
+                            {
+                                TotalWalletBalance = GetSafeDecimal(reader, "TotalWalletBalance"),
+                                TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+                                TotalEarnings = GetSafeDecimal(reader, "TotalEarnings"),
+                                TotalWithdrawn = GetSafeDecimal(reader, "TotalWithdrawn"),
+                                TotalDeposited = GetSafeDecimal(reader, "TotalDeposited")
+                            };
+                        }
+
+                        // Result Set 2: Daily History
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                model.History.Add(new PortfolioHistoryPoint
+                                {
+                                    Date = GetSafeDateTime(reader, "Date"),
+                                    Inflow = GetSafeDecimal(reader, "Inflow"),
+                                    Outflow = GetSafeDecimal(reader, "Outflow")
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get portfolio history for User {userId}", ex);
+            }
+
+            return model;
+        }
+
         public PortfolioStats GetPortfolioStats(int userId)
         {
             var results = ExecuteStoredProcedure<PortfolioStats>(
@@ -65,6 +120,7 @@ namespace Mexify.DataAccess.Repositories
                     TotalEarnings = GetSafeDecimal(reader, "TotalEarnings"),
                     TodayProfit = GetSafeDecimal(reader, "TodayProfit"),
                     TotalWithdrawn = GetSafeDecimal(reader, "TotalWithdrawn")
+                    
                 },
                 CreateParameter("@UserId", userId)
             );
@@ -169,11 +225,11 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserEarningsBreakdown",
                 reader => new EarningsBreakdown
                 {
-                    ROI = GetSafeDecimal(reader, "ROI"),
-                    Staking = GetSafeDecimal(reader, "Staking"),
-                    Mining = GetSafeDecimal(reader, "Mining"),
-                    Referrals = GetSafeDecimal(reader, "Referrals"),
-                    Royalties = GetSafeDecimal(reader, "Royalties")
+                    ROI = GetSafeDecimal(reader, "InvestmentLifetime"),
+                    Staking = GetSafeDecimal(reader, "StakingLifetime"),
+                    Mining = GetSafeDecimal(reader, "MiningLifetime"),
+                    Referrals = GetSafeDecimal(reader, "CommissionLifetime"),
+                    Royalties = GetSafeDecimal(reader, "RoyaltyLifetime")
                 },
                 CreateParameter("@UserId", userId)
             );

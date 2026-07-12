@@ -95,11 +95,12 @@ namespace Mexify.Web.Models
         // Calculated Property
         public decimal NetWorth => TotalWalletBalance + TotalInvested;
 
-        public int ActiveInvestments { get; internal set; }
-        public decimal DailyIncome { get; internal set; }
-        public decimal OverallROI { get; internal set; }
-        public decimal ChangePercent { get; internal set; }
-        public decimal ChangeAmount { get; internal set; }
+        public decimal TodayProfit { get; set; }
+        public int ActiveInvestments { get;  set; }
+        public decimal DailyIncome { get; set; }
+        public decimal OverallROI { get;  set; }
+        public decimal ChangePercent { get;  set; }
+        public decimal ChangeAmount { get;  set; }
     }
 
     public class PortfolioHistoryPoint

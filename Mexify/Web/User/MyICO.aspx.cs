@@ -7,7 +7,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Data;
+using System.Data.SqlClient;
+using Mexify.Web.Models;
 namespace Mexify.Web.User
 {
     public partial class MyICO : System.Web.UI.Page
@@ -40,19 +42,36 @@ namespace Mexify.Web.User
             {
                 // Load active ICOs
                 var icos = _icoService.GetActiveICOs();
-                if (icos != null && icos.Count > 0)
+
+                string sql = "select * from ICOProject ";
+                SqlCommand cmd = Models.Connection.SqlQuery(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                if (dt.Rows.Count > 0)
+
                 {
-                    rptICOProjects.DataSource = icos;
+                    rptICOProjects.DataSource = dt;
                     rptICOProjects.DataBind();
                     pnlNoICO.Visible = false;
 
-                    // Set first ICO as default
-                    hfICOId.Value = icos[0].ICOId.ToString();
-                    hfPricePerToken.Value = icos[0].PricePerToken.ToString();
-                    litPricePerToken.Text = icos[0].PricePerToken.ToString("0.00");
+                    //hfICOId.Value = [0].ICOId.ToString();
+                    //hfPricePerToken.Value = icos[0].PricePerToken.ToString();
+                    //litPricePerToken.Text = icos[0].PricePerToken.ToString("0.00");
+
                 }
+
+                //if (icos != null && icos.Count > 0)
+                //{
+                //    Logger.Info("ICO Project have active: " + icos.Count);
+                //    rptICOProjects.DataSource = icos;
+                //    rptICOProjects.DataBind();
+
+                //    // Set first ICO as default
+                //}
                 else
                 {
+                    Logger.Info("ICO Project have No Active ICO");
                     pnlNoICO.Visible = true;
                 }
 
@@ -139,7 +158,7 @@ namespace Mexify.Web.User
 
                 if (wallets != null)
                 {
-                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "USDT");
+                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "PNC");
                     if (usdtWallet != null)
                     {
                         usdtBalance = usdtWallet.Balance;

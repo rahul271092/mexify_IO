@@ -2,6 +2,12 @@
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
+
+        .user-main{
+            width:85vw;
+        }
+
+
         .license-header {
             display: flex;
             justify-content: space-between;

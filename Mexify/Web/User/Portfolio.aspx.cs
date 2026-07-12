@@ -36,6 +36,8 @@ namespace Mexify.Web.User
         {
             try
             {
+
+                Logger.Info("LoadPortfolio function UserId:" + _userId.ToString());
                 var master = this.Master as Mexify.Web.MasterPages.UserMaster;
                 if (master != null)
                 {
@@ -50,14 +52,16 @@ namespace Mexify.Web.User
 
                 if (summary != null)
                 {
+                    Logger.Info("portfolio summary:" + summary.TotalValue.ToString());
                     // 1. Total Value & USD Conversion (Assuming 1 PNC = $0.042 USD)
-                    litTotalValue.Text = summary.TotalValue.ToString();
-
+                    
                     decimal totalValue = Convert.ToDecimal( summary.TotalValue);
                     decimal tv = totalValue * 0.042m;
+                    litTotalValue.Text = summary.TotalValue.ToString();
                     litTotalUSD.Text = tv.ToString(); // 'm' suffix makes it a decimal literal
 
                     // 2. Earnings & Stats
+                    Logger.Info("Total Earning:" + summary.TotalEarnings.ToString());
                     litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
                   //  litActiveCount.Text = summary.ActiveInvestments.ToString();
                   //  litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
@@ -78,8 +82,8 @@ namespace Mexify.Web.User
                 //litTotalValue.Text = summary.TotalValue.ToString("0.00");
                 //litTotalUSD.Text = (summary.TotalValue * 0.042m).ToString("0.00");
                 //litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
-                //litActiveCount.Text = summary.ActiveInvestments.ToString();
-                //litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
+                litActiveCount.Text = summary.ActiveInvestments.ToString();
+                litDailyIncome.Text = summary.TodayProfit.ToString("0.00");
                 //litROI.Text = summary.OverallROI.ToString("0.00");
                 //litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
                 //litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");

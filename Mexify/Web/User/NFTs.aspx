@@ -3,6 +3,10 @@
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
 
+        .user-main{
+           width:85vw;
+        }
+
           .tab-content {
             width: 100% !important;
             max-width: 100% !important;

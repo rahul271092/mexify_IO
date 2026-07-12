@@ -139,6 +139,62 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : new PortfolioSummary();
         }
 
+
+        public PortfolioViewModel GetUserPortfolioHistory(int userId, string timeframe = "30d")
+        {
+            var model = new PortfolioViewModel();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserPortfolioHistory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Timeframe", timeframe);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Summary Stats
+                        if (reader.Read())
+                        {
+                            model.Summary = new PortfolioSummary
+                            {
+                                TotalWalletBalance = GetSafeDecimal(reader, "TotalWalletBalance"),
+                                TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+                                TotalEarnings = GetSafeDecimal(reader, "TotalEarnings"),
+                                //TotalWithdrawn = GetSafeDecimal(reader, "TotalWithdrawn"),
+                                TotalDeposited = GetSafeDecimal(reader, "TotalDeposited"),
+                                ActiveInvestments=GetSafeInt(reader,"ActiveInvestments"),
+                                TodayProfit=GetSafeDecimal(reader,"TodayProfit")
+                            };
+                        }
+
+                        // Result Set 2: Daily History
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                model.History.Add(new PortfolioHistoryPoint
+                                {
+                                    Date = GetSafeDateTime(reader, "Date"),
+                                    Inflow = GetSafeDecimal(reader, "Inflow"),
+                                    Outflow = GetSafeDecimal(reader, "Outflow")
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get portfolio history for User {userId}", ex);
+            }
+
+            return model;
+        }
+
         public List<WalletHolding> GetWalletHoldings(int userId)
         {
             return ExecuteStoredProcedure<WalletHolding>(

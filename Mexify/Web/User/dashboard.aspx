@@ -351,6 +351,70 @@
         </div>
     </div>
 
+
+     <!-- SUMMARY STAT CARDS -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6" data-aos="fade-up">
+            <div class="stat-card gold">
+                <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                <div class="stat-label">Net Worth</div>
+                <div class="stat-value text-gradient-gold"><asp:Literal ID="litNetWorth" runat="server" Text="0.00" /></div>
+                <small class="text-muted">Total PNC Value</small>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                <div class="stat-label">Wallet Balance</div>
+                <div class="stat-value"><asp:Literal ID="litWalletBalance" runat="server" Text="0.00" /></div>
+                <small class="text-muted">Available Funds</small>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-card green">
+                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stat-label">Total Invested</div>
+                <div class="stat-value"><asp:Literal ID="Literal1" runat="server" Text="0.00" /></div>
+                <small class="text-muted">Active Plans</small>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-card purple">
+                <div class="stat-icon"><i class="fas fa-gift"></i></div>
+                <div class="stat-label">Total Earnings</div>
+                <div class="stat-value"><asp:Literal ID="Literal2" runat="server" Text="0.00" /></div>
+                <small class="text-muted">Lifetime ROI</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- PORTFOLIO CHART -->
+    <div class="chart-card mb-4" data-aos="fade-up">
+        <div class="chart-header">
+            <h5 class="chart-title"><i class="fas fa-chart-area text-gold me-2"></i> Portfolio Flow</h5>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <span style="width: 12px; height: 12px; background: #FFD700; border-radius: 50%; display: inline-block;"></span>
+                    <small class="text-muted">Inflow (Deposits/ROI)</small>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span style="width: 12px; height: 12px; background: #FF3B5C; border-radius: 50%; display: inline-block;"></span>
+                    <small class="text-muted">Outflow (Invest/Withdraw)</small>
+                </div>
+            </div>
+        </div>
+        <div style="height: 350px; position: relative;">
+            <canvas id="portfolioChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Hidden Fields to pass data from C# to JS -->
+    <asp:HiddenField ID="hidChartLabels" runat="server" />
+    <asp:HiddenField ID="hidChartInflow" runat="server" />
+    <asp:HiddenField ID="hidChartOutflow" runat="server" />
+
+
+
     <!-- Quick Actions -->
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3" data-aos="fade-up">
@@ -404,7 +468,7 @@
             <div class="chart-card h-100">
                 <div class="chart-header">
                     <h5 class="chart-title">My Wallets</h5>
-                    <a href="<%= ResolveUrl("~/User/Wallet.aspx") %>" class="text-secondary small">View All</a>
+                    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="text-secondary small">View All</a>
                 </div>
                 <div class="d-flex flex-column gap-3">
                     <asp:Repeater ID="rptWallets" runat="server">
@@ -477,7 +541,7 @@
                     <div class="empty-state">
                         <i class="fas fa-chart-line"></i>
                         <p>No active investments yet.</p>
-                        <a href="<%= ResolveUrl("~/roi.aspx") %>" class="btn btn-primary-glow">Start Investing</a>
+                        <a href="<%= ResolveUrl("~/Web/User/roi.aspx") %>" class="btn btn-primary-glow">Start Investing</a>
                     </div>
                 </asp:Panel>
             </div>
@@ -488,7 +552,7 @@
             <div class="chart-card h-100">
                 <div class="chart-header">
                     <h5 class="chart-title">Recent Transactions</h5>
-                    <a href="<%= ResolveUrl("~/User/Transactions.aspx") %>" class="text-secondary small">View All</a>
+                    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="text-secondary small">View All</a>
                 </div>
                <%-- <asp:Repeater ID="rptTransactions" runat="server">
                     
@@ -701,4 +765,122 @@
             });
         });
     </script>
+
+     <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+
+            // Parse data from C# Hidden Fields
+            const labels = <%= hidChartLabels.Value %>;
+            const inflowData = <%= hidChartInflow.Value %>;
+            const outflowData = <%= hidChartOutflow.Value %>;
+
+            // Create Golden Gradient for Inflow
+            const goldGradient = ctx.createLinearGradient(0, 0, 0, 350);
+            goldGradient.addColorStop(0, 'rgba(255, 215, 0, 0.4)');
+            goldGradient.addColorStop(1, 'rgba(255, 215, 0, 0.0)');
+
+            // Create Red Gradient for Outflow
+            const redGradient = ctx.createLinearGradient(0, 0, 0, 350);
+            redGradient.addColorStop(0, 'rgba(255, 59, 92, 0.3)');
+            redGradient.addColorStop(1, 'rgba(255, 59, 92, 0.0)');
+
+            // Render Chart
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Inflow',
+                            data: inflowData,
+                            borderColor: '#FFD700',
+                            backgroundColor: goldGradient,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointHoverBackgroundColor: '#FFD700',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 2
+                        },
+                        {
+                            label: 'Outflow',
+                            data: outflowData,
+                            borderColor: '#FF3B5C',
+                            backgroundColor: redGradient,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointHoverBackgroundColor: '#FF3B5C',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 2,
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 10, 15, 0.95)',
+                            titleColor: '#FFD700',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(255, 215, 0, 0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' PNC';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#8B7355',
+                                font: { size: 11 },
+                                callback: function(value) {
+                                    if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
+                                    if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
+                                    return value;
+                                }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: '#8B7355',
+                                font: { size: 11 },
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 10
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
 </asp:Content>
