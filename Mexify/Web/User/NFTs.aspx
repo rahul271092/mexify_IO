@@ -2,6 +2,13 @@
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
+
+          .tab-content {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box;
+        }
+
         .nft-header {
             display: flex;
             justify-content: space-between;

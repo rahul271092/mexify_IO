@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web/MasterPages/Site.Master" AutoEventWireup="true" CodeBehind="MetaMaskLogin.aspx.cs" Inherits="Mexify.MetaMaskLogin" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web/MasterPages/Site.Master" AutoEventWireup="true" CodeBehind="MetaMaskLogin.aspx.cs" Inherits="Mexify.Web.MetaMaskLogin" %>
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
         .login-container {

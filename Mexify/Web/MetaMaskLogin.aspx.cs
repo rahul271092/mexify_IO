@@ -10,7 +10,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Mexify
+namespace Mexify.Web
 {
     public partial class MetaMaskLogin : System.Web.UI.Page
     {

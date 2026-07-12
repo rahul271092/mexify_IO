@@ -194,7 +194,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="MetaMaskLogin.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -208,6 +207,7 @@
     <Content Include="Web\api\getnonce.aspx" />
     <Content Include="Web\Assets\css\dashboard.css" />
     <Content Include="Web\Assets\css\mexify-theme.css" />
+    <Content Include="Web\Assets\css\user-master.css" />
     <Content Include="Web\Assets\images\metamask1.png" />
     <Content Include="Web\Assets\images\mexify_logo.png" />
     <Content Include="Web\Assets\Scripts\web3-deposit.js" />
@@ -216,6 +216,7 @@
     <Content Include="Web\ICO.aspx" />
     <Content Include="Web\login.aspx" />
     <Content Include="Web\meta-login.aspx" />
+    <Content Include="Web\MetaMaskLogin.aspx" />
     <Content Include="Web\mining.aspx" />
     <Content Include="Web\nft.aspx" />
     <Content Include="Web\register.aspx" />
@@ -244,6 +245,7 @@
     <Content Include="Web\User\Settings.aspx" />
     <Content Include="Web\User\StakeNow.aspx" />
     <Content Include="Web\User\Staking.aspx" />
+    <Content Include="Web\User\Support.aspx" />
     <Content Include="Web\User\Transactions.aspx" />
     <Content Include="Web\User\Wallet.aspx" />
     <Content Include="Web\User\Web3API.aspx" />
@@ -370,13 +372,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="MetaMaskLogin.aspx.cs">
-      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MetaMaskLogin.aspx.designer.cs">
-      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\CurrencyHelper.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\PasswordHelper.cs" />
@@ -450,6 +445,13 @@
     </Compile>
     <Compile Include="Web\meta-login.aspx.designer.cs">
       <DependentUpon>meta-login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\MetaMaskLogin.aspx.cs">
+      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\MetaMaskLogin.aspx.designer.cs">
+      <DependentUpon>MetaMaskLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\mining.aspx.cs">
       <DependentUpon>mining.aspx</DependentUpon>
@@ -687,6 +689,13 @@
     </Compile>
     <Compile Include="Web\User\Staking.aspx.designer.cs">
       <DependentUpon>Staking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Support.aspx.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Support.aspx.designer.cs">
+      <DependentUpon>Support.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\User\Transactions.aspx.cs">
       <DependentUpon>Transactions.aspx</DependentUpon>

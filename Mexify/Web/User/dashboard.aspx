@@ -2,6 +2,73 @@
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
+
+        /** 1. The Main Wrapper - Forces side-by-side layout */
+.dashboard-layout {
+    display: flex !important; /* Force flexbox */
+    flex-direction: row;      /* Horizontal layout */
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    position: relative;
+    overflow: hidden;         /* Prevents body scroll when sidebar is fixed */
+}
+
+/* 2. The Sidebar - Fixed width, doesn't shrink */
+.dashboard-sidebar {
+    width: 280px;             /* Explicit width */
+    flex-shrink: 0;           /* Prevents sidebar from squishing */
+    height: 100vh;            /* Full viewport height */
+    position: sticky;         /* Sticks to top while scrolling content */
+    top: 0;
+    z-index: 100;
+    overflow-y: auto;         /* Scrollable sidebar if content is long */
+    
+    /* Visual styles */
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. The Main Content Area - Fills remaining space */
+.dashboard-main {
+    flex: 1;                  /* Takes up all remaining width */
+    min-width: 0;             /* Crucial: prevents flex overflow bugs */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;            /* Match sidebar height */
+    overflow-y: auto;         /* Scrollable content area */
+    position: relative;
+}
+
+/* 4. Mobile Responsive - Stack ONLY on small screens */
+@media (max-width: 991.98px) {
+    .dashboard-layout {
+        display: block;       /* Reset flex for mobile */
+        overflow: auto;
+    }
+    
+    .dashboard-sidebar {
+        width: 280px;         /* Keep width for slide-out effect */
+        height: 100vh;
+        position: fixed;      /* Fixed position for slide-out */
+        left: 0;
+        top: 0;
+        transform: translateX(-100%); /* Hidden by default */
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+    }
+    
+    .dashboard-sidebar.active {
+        transform: translateX(0); /* Slide in when active */
+    }
+    
+    .dashboard-main {
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+    }
+}
+
         .welcome-banner {
             background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(0, 255, 178, 0.1));
             border: 1px solid rgba(0, 212, 255, 0.3);
@@ -199,7 +266,7 @@
         @media (max-width: 768px) {
             .welcome-banner { padding: 24px; }
             .welcome-banner h2 { font-size: 1.4rem; }
-        }
+        }*/
     </style>
 </asp:Content>
 

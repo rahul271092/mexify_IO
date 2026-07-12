@@ -36,8 +36,8 @@ namespace Mexify.Web.MasterPages
 
             if (string.IsNullOrEmpty(email) || !email.Contains("@"))
             {
-                lblNewsletterMsg1.Text = "Please enter a valid email address.";
-                lblNewsletterMsg1.CssClass = "text-danger mt-2 d-block";
+         //       lblNewsletterMsg1.Text = "Please enter a valid email address.";
+          //      lblNewsletterMsg1.CssClass = "text-danger mt-2 d-block";
                 return;
             }
 
@@ -47,16 +47,16 @@ namespace Mexify.Web.MasterPages
                 var cmsService = new CMSService();
                 cmsService.AddNewsletterSubscriber(email);
 
-                lblNewsletterMsg1.Text = "Thank you for subscribing!";
-                lblNewsletterMsg1.CssClass = "text-success mt-2 d-block";
+            //    lblNewsletterMsg1.Text = "Thank you for subscribing!";
+             //   lblNewsletterMsg1.CssClass = "text-success mt-2 d-block";
                 txtNewsletterEmail.Text = string.Empty;
             }
             catch (Exception ex)
             {
                 // Log error
                 Mexify.Utilities.Logger.Error("Newsletter Subscription Failed", ex);
-                lblNewsletterMsg1.Text = "An error occurred. Please try again later.";
-                lblNewsletterMsg1.CssClass = "text-danger mt-2 d-block";
+               // lblNewsletterMsg1.Text = "An error occurred. Please try again later.";
+              //  lblNewsletterMsg1.CssClass = "text-danger mt-2 d-block";
             }
         }
 

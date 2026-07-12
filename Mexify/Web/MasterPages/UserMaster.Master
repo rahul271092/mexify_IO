@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserMaster.master.cs" Inherits="Mexify.Web.MasterPages.UserMaster" %>
+﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserMaster.master.cs" Inherits="Mexify.Web.MasterPages.UserMaster" %>
 
 
 <!DOCTYPE html>
@@ -21,7 +21,9 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="<%= ResolveUrl("~/Web/Assets/css/style.css") %>" rel="stylesheet" />
+   <%-- <link href="<%= ResolveUrl("~/Web/Assets/css/style.css") %>" rel="stylesheet" />--%>
+    <link href="../Assets/css/user-master.css" rel="stylesheet" />
+    <link href="../Assets/css/mexify-theme.css" rel="stylesheet" />
     <link href="<%= ResolveUrl("~/Web/Assets/css/dashboard.css") %>" rel="stylesheet" />
     
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
@@ -29,6 +31,9 @@
 <body class="dashboard-body">
     <form id="form1" runat="server">
         
+
+
+          <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
         <!-- =========================================
              SIDEBAR NAVIGATION
              ========================================= -->
@@ -278,7 +283,7 @@
         </div>
 
         <!-- Mobile Sidebar Overlay -->
-        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+       <%-- <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>--%>
 
         <!-- Scripts -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -291,20 +296,30 @@
             AOS.init({ duration: 600, once: true, offset: 30 });
 
             // Toggle Sidebar
-            function toggleSidebar() {
-                document.getElementById('userSidebar').classList.toggle('open');
-                document.getElementById('sidebarOverlay').classList.toggle('show');
-                document.body.classList.toggle('sidebar-open');
-            }
+            //function toggleSidebar() {
+            //    document.getElementById('userSidebar').classList.toggle('open');
+            //    document.getElementById('sidebarOverlay').classList.toggle('show');
+            //    document.body.classList.toggle('sidebar-open');
+            //}
 
-            // Close sidebar on window resize
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 992) {
-                    document.getElementById('userSidebar').classList.remove('open');
-                    document.getElementById('sidebarOverlay').classList.remove('show');
-                    document.body.classList.remove('sidebar-open');
-                }
-            });
+            
+
+            //function toggleSidebar() {
+            //    document.getElementById('userSidebar').classList.toggle('open');
+            //    document.getElementById('sidebarOverlay').classList.toggle('show');
+            //}
+
+            //// Close sidebar on window resize
+            //window.addEventListener('resize', function() {
+            //    if (window.innerWidth >= 992) {
+            //        document.getElementById('userSidebar').classList.remove('open');
+            //        document.getElementById('sidebarOverlay').classList.remove('show');
+            //        document.body.classList.remove('sidebar-open');
+            //    }
+            //});
+
+
+
         </script>
         
         <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />

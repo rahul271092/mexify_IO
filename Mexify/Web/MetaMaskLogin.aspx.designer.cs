@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Mexify {
+namespace Mexify.Web {
     
     
     public partial class MetaMaskLogin {
