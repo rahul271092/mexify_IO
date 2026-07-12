@@ -40,6 +40,8 @@ namespace Mexify.Web.User
                     master.SetBreadcrumb("Staking");
                 }
 
+
+                int userId = Convert.ToInt32(Session["UserId"]);
                 // Summary stats
                 var summary = _stakingService.GetUserStakingSummary(_userId);
                 litTotalStaked.Text = summary.TotalStaked.ToString("0.00");
@@ -51,6 +53,25 @@ namespace Mexify.Web.User
                 litActiveCount.Text = summary.ActiveStakes.ToString();
 
                 // Reward stats
+
+                //var model = _stakingService.GetUserStakingRewards(_userId, statusFilter, page, 10);
+
+                //// Bind Summary Cards
+                //litTotalStaked.Text = model.Summary.TotalStaked.ToString("N2");
+                //litTotalEarned.Text = model.Summary.TotalEarned.ToString("N2");
+                //litTodayEarnings.Text = model.Summary.TodayEarnings.ToString("N2");
+                //litActivePlans.Text = model.Summary.ActivePlans.ToString();
+                //litAvgAPY.Text = model.Summary.AverageAPY.ToString("N2") + "%";
+                //litNextExpiry.Text = model.Summary.NextExpiryDate.HasValue
+                //    ? model.Summary.NextExpiryDate.Value.ToString("MMM dd, yyyy")
+                //    : "N/A";
+
+                //// Bind Repeater
+                //rptStakingList.DataSource = model.Investments;
+                //rptStakingList.DataBind();
+
+
+
                 litLifetimeRewards.Text = summary.TotalRewards.ToString("0.00");
                 litMonthRewards.Text = summary.MonthRewards.ToString("0.00");
                 litPendingRewards.Text = summary.PendingRewards.ToString("0.00");

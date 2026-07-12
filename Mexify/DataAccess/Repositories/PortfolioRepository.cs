@@ -1,12 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+
+using Mexify.Utilities;
+using System.Data;
 using Mexify.Web.Models;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class PortfolioRepository : BaseRepository
     {
+
+        public PortfolioHoldingsResult GetPortfolioHoldings(
+            int userId,
+            string holdingType = null,
+            string statusFilter = null,
+            string sortBy = "value_desc",
+            int pageNumber = 1,
+            int pageSize = 20)
+        {
+            var result = new PortfolioHoldingsResult
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetPortfolioHoldings", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@HoldingType", string.IsNullOrEmpty(holdingType) || holdingType == "all" ? (object)DBNull.Value : holdingType);
+                    cmd.Parameters.AddWithValue("@StatusFilter", string.IsNullOrEmpty(statusFilter) || statusFilter == "all" ? (object)DBNull.Value : statusFilter);
+                    cmd.Parameters.AddWithValue("@SortBy", sortBy);
+                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Summary
+                        if (reader.Read())
+                        {
+                            result.Summary = new PortfolioHoldingsSummary
+                            {
+                                TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+                                TotalCurrentValue = GetSafeDecimal(reader, "TotalCurrentValue"),
+                                TotalProfitLoss = GetSafeDecimal(reader, "TotalProfitLoss"),
+                                OverallROI = GetSafeDecimal(reader, "OverallROI"),
+                                TotalHoldings = GetSafeInt(reader, "TotalHoldings"),
+                                ActiveCount = GetSafeInt(reader, "ActiveCount"),
+                                InvestmentValue = GetSafeDecimal(reader, "InvestmentValue"),
+                                MiningValue = GetSafeDecimal(reader, "MiningValue"),
+                                StakingValue = GetSafeDecimal(reader, "StakingValue"),
+                                LicenseValue = GetSafeDecimal(reader, "LicenseValue"),
+                                NFTValue = GetSafeDecimal(reader, "NFTValue"),
+                                CashValue = GetSafeDecimal(reader, "CashValue")
+                            };
+                        }
+
+                        // Result Set 2: Holdings List
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Holdings.Add(new PortfolioHolding
+                                {
+                                    HoldingId = GetSafeLong(reader, "HoldingId"),
+                                    HoldingType = GetSafeString(reader, "HoldingType") ?? "",
+                                    HoldingName = GetSafeString(reader, "HoldingName") ?? "",
+                                    SubTitle = GetSafeString(reader, "SubTitle") ?? "",
+                                    InvestedAmount = GetSafeDecimal(reader, "InvestedAmount"),
+                                    CurrentValue = GetSafeDecimal(reader, "CurrentValue"),
+                                    ProfitLoss = GetSafeDecimal(reader, "ProfitLoss"),
+                                    ROIPercent = GetSafeDecimal(reader, "ROIPercent"),
+                                  //  Status = GetSafeInt(reader, "Status"),
+                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
+                                    StartDate = reader["StartDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["StartDate"]),
+                                    EndDate = reader["EndDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["EndDate"]),
+                                    IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-circle",
+                                    ColorClass = GetSafeString(reader, "ColorClass") ?? "muted",
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC"
+                                });
+                            }
+                        }
+
+                        // Result Set 3: Total Count
+                        if (reader.NextResult() && reader.Read())
+                        {
+                            result.TotalCount = GetSafeInt(reader, "TotalCount");
+                        }
+
+                        // Result Set 4: Allocation Breakdown
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Allocations.Add(new PortfolioAllocation
+                                {
+                                    CategoryName = GetSafeString(reader, "CategoryName") ?? "",
+                                    CategorySlug = GetSafeString(reader, "CategorySlug") ?? "",
+                                    CategoryValue = GetSafeDecimal(reader, "CategoryValue"),
+                                    AllocationPercent = GetSafeDecimal(reader, "AllocationPercent")
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get portfolio holdings for User {userId}", ex);
+            }
+
+            return result;
+        }
+
+
         public PortfolioSummary GetPortfolioSummary(int userId)
         {
             var results = ExecuteStoredProcedure<PortfolioSummary>(
@@ -62,7 +174,7 @@ namespace Mexify.DataAccess.Repositories
                     Earned = GetSafeDecimal(reader, "Earned"),
                     DailyIncome = GetSafeDecimal(reader, "DailyIncome"),
                     ChangePercent = GetSafeDecimal(reader, "ChangePercent"),
-                    Status = GetSafeString(reader, "Status") ?? "Active",
+                    Status = GetSafeInt(reader, "Status"),
                     Progress = GetSafeInt(reader, "Progress"),
                     CurrentDay = GetSafeInt(reader, "CurrentDay"),
                     TotalDays = GetSafeInt(reader, "TotalDays")

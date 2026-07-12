@@ -464,6 +464,7 @@
     <Compile Include="Web\Models\BlogPost.cs" />
     <Compile Include="Web\Models\Certificate.cs" />
     <Compile Include="Web\Models\DashboardModels.cs" />
+    <Compile Include="Web\Models\EarningModels.cs" />
     <Compile Include="Web\Models\FAQ.cs" />
     <Compile Include="Web\Models\ICOInvestment.cs" />
     <Compile Include="Web\Models\ICOModels.cs" />

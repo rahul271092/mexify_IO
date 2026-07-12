@@ -44,16 +44,46 @@ namespace Mexify.Web.User
                 }
 
                 // Portfolio summary
+                PortfolioService _portfolioService = new PortfolioService();
                 var summary = _portfolioService.GetPortfolioSummary(_userId);
-                litTotalValue.Text = summary.TotalValue.ToString("0.00");
-                litTotalUSD.Text = (summary.TotalValue * 0.042m).ToString("0.00");
-                litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
-                litActiveCount.Text = summary.ActiveInvestments.ToString();
-                litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
-                litROI.Text = summary.OverallROI.ToString("0.00");
-                litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
-                litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
-                IsPositiveChange = summary.ChangePercent >= 0;
+
+
+                if (summary != null)
+                {
+                    // 1. Total Value & USD Conversion (Assuming 1 PNC = $0.042 USD)
+                    litTotalValue.Text = summary.TotalValue.ToString();
+
+                    decimal totalValue = Convert.ToDecimal( summary.TotalValue);
+                    decimal tv = totalValue * 0.042m;
+                    litTotalUSD.Text = tv.ToString(); // 'm' suffix makes it a decimal literal
+
+                    // 2. Earnings & Stats
+                    litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
+                  //  litActiveCount.Text = summary.ActiveInvestments.ToString();
+                  //  litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
+                   // litROI.Text = summary.OverallROI.ToString("0.00") + "%";
+
+                    // 3. Change Indicators (Up/Down arrows)
+                 //   litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
+                  //  litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
+
+                    // Determine if the change is positive or negative for UI styling
+                   // IsPositiveChange = summary.ChangePercent >= 0;
+
+                    // Optional: Apply CSS classes based on IsPositiveChange
+                    // pnlChangeIndicator.CssClass = IsPositiveChange ? "stat-change up" : "stat-change down";
+                }
+
+
+                //litTotalValue.Text = summary.TotalValue.ToString("0.00");
+                //litTotalUSD.Text = (summary.TotalValue * 0.042m).ToString("0.00");
+                //litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
+                //litActiveCount.Text = summary.ActiveInvestments.ToString();
+                //litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
+                //litROI.Text = summary.OverallROI.ToString("0.00");
+                //litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
+                //litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
+                //IsPositiveChange = summary.ChangePercent >= 0;
 
                 // Wallet holdings
                 var wallets = _portfolioService.GetWalletHoldings(_userId);

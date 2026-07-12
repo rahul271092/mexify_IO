@@ -19,9 +19,8 @@ namespace Mexify.Web.User
                 Response.Redirect(ResolveUrl("~/Web/login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
                 return;
             }
-
-            _userId = Convert.ToInt32(Session["UserId"]);
-            _miningService = new MiningService();
+            Logger.Info("Mining Page");
+          
 
             if (!IsPostBack)
             {
@@ -33,6 +32,9 @@ namespace Mexify.Web.User
         {
             try
             {
+
+                _userId = Convert.ToInt32(Session["UserId"]);
+                _miningService = new MiningService();
                 var master = this.Master as Mexify.Web.MasterPages.UserMaster;
                 if (master != null)
                 {
@@ -101,6 +103,7 @@ namespace Mexify.Web.User
             catch (Exception ex)
             {
                 Logger.Error("Mining page load failed for user " + _userId, ex);
+                Logger.Info("Exception:" + ex.ToString());
             }
         }
 

@@ -194,6 +194,7 @@ namespace Mexify.Business.Services
             catch (Exception ex)
             {
                 Logger.Error("Failed to get active investments", ex);
+                Logger.Info("Exception:" + ex.ToString());
                 return new List<Models.ActiveInvestment>();
             }
         }
@@ -210,6 +211,7 @@ namespace Mexify.Business.Services
             catch (Exception ex)
             {
                 Logger.Error("Failed to get matured investments", ex);
+                Logger.Info("Exception:" + ex.ToString());
                 return new List<UserInvestment>();
             }
         }
@@ -226,6 +228,7 @@ namespace Mexify.Business.Services
             catch (Exception ex)
             {
                 Logger.Error("Failed to get all investments", ex);
+                Logger.Info("Exception:" + ex.ToString());
                 return new List<UserInvestment>();
             }
         }

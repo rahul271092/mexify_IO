@@ -34,7 +34,7 @@ namespace Mexify.DataAccess.Repositories
                     {
                         MiningPlanId = GetSafeInt(reader, "MiningPlanId"),
                         PlanName = GetSafeString(reader, "PlanName") ?? "Mining Plan",
-                        Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
+                     //   Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
                         Hashrate = GetSafeDecimal(reader, "Hashrate").ToString("0.00"),
                         HashrateFormatted = GetSafeDecimal(reader, "Hashrate").ToString("0.00") + " TH/s",
                         PowerConsumption = GetSafeDecimal(reader, "PowerConsumption").ToString("0"),
@@ -42,8 +42,8 @@ namespace Mexify.DataAccess.Repositories
                         ContractDays = GetSafeInt(reader, "ContractDays"),
                         DailyOutput = GetSafeDecimal(reader, "DailyOutput"),
                         MaintenanceFee = 0,
-                        MaintenanceFeeFormatted = "Included",
-                        RewardCurrency = "PNC",
+                      //  MaintenanceFeeFormatted = "Included",
+                       // RewardCurrency = "PNC",
                         RoiDays = CalculateRoiDays(
                             GetSafeDecimal(reader, "Price"),
                             GetSafeDecimal(reader, "DailyOutput")),
@@ -56,6 +56,7 @@ namespace Mexify.DataAccess.Repositories
             catch (Exception ex)
             {
                 Logger.Error("Failed to get active mining plans", ex);
+                Logger.Info("Exception:" + ex.ToString());
                 return new List<MiningPlanViewModel>();
             }
         }

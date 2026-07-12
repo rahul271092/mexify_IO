@@ -5,12 +5,119 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Mexify.Models;
-
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class WalletRepository : BaseRepository
     {
+
+        public TransactionListResult GetUserWalletTransactions(
+            int userId,
+            string typeSlug = null,
+            string currencyCode = null,
+            string statusSlug = null,
+            string searchTerm = null,
+            DateTime? dateFrom = null,
+            DateTime? dateTo = null,
+            int pageNumber = 1,
+            int pageSize = 25,
+            string sortBy = "date_desc")
+        {
+            var result = new TransactionListResult();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserWalletTransactions", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@TypeSlug", string.IsNullOrEmpty(typeSlug) ? (object)DBNull.Value : typeSlug);
+                    cmd.Parameters.AddWithValue("@CurrencyCode", string.IsNullOrEmpty(currencyCode) ? (object)DBNull.Value : currencyCode);
+                    cmd.Parameters.AddWithValue("@StatusSlug", string.IsNullOrEmpty(statusSlug) ? (object)DBNull.Value : statusSlug);
+                    cmd.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+                    cmd.Parameters.AddWithValue("@DateFrom", dateFrom.HasValue ? (object)dateFrom.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DateTo", dateTo.HasValue ? (object)dateTo.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.Parameters.AddWithValue("@SortBy", sortBy);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Pagination Info
+                        if (reader.Read())
+                        {
+                            result.TotalCount = GetSafeInt(reader, "TotalCount");
+                            result.PageSize = GetSafeInt(reader, "PageSize");
+                            result.CurrentPage = GetSafeInt(reader, "CurrentPage");
+                            result.TotalPages = reader["TotalPages"] != DBNull.Value
+                                ? Convert.ToInt32(reader["TotalPages"]) : 1;
+                        }
+
+                        // Result Set 2: Transactions List
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Transactions.Add(new WalletTransaction
+                                {
+                                    TransactionId = GetSafeLong(reader, "WalletTransactionId"),
+                                    WalletId = GetSafeInt(reader, "WalletId"),
+                                    UserId = GetSafeInt(reader, "UserId"),
+                                    TransactionType = GetSafeInt(reader, "TransactionType"),
+                                    TypeName = GetSafeString(reader, "TypeName") ?? "",
+                                    TypeSlug = GetSafeString(reader, "TypeSlug") ?? "",
+                                    CurrencyId = GetSafeInt(reader, "CurrencyId"),
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "",
+                                    Amount = GetSafeDecimal(reader, "Amount"),
+                                    Fee = GetSafeDecimal(reader, "Fee"),
+                                    NetAmount = GetSafeDecimal(reader, "NetAmount"),
+                                    Status = GetSafeInt(reader, "Status"),
+                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
+                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+                                    CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+                                    Direction = GetSafeString(reader, "Direction") ?? "neutral",
+                                    IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-exchange-alt",
+                                    CategoryClass = GetSafeString(reader, "CategoryClass") ?? "other",
+                                    CurrentWalletBalance = GetSafeDecimal(reader, "CurrentWalletBalance")
+                                });
+                            }
+                        }
+
+                        // Result Set 3: Summary Stats
+                        if (reader.NextResult())
+                        {
+                            if (reader.Read())
+                            {
+                                result.Summary = new Web.Models.TransactionSummary
+                                {
+                                    TotalDeposits = GetSafeDecimal(reader, "TotalDeposits"),
+                                    TotalWithdrawals = GetSafeDecimal(reader, "TotalWithdrawals"),
+                                    TotalROIEarned = GetSafeDecimal(reader, "TotalROIEarned"),
+                                    TotalCommissions = GetSafeDecimal(reader, "TotalCommissions"),
+                                    TotalFeesPaid = GetSafeDecimal(reader, "TotalFeesPaid"),
+                                    TotalTransactionCount = GetSafeInt(reader, "TotalTransactionCount"),
+                                    PendingCount = GetSafeInt(reader, "PendingCount"),
+                                    FailedCount = GetSafeInt(reader, "FailedCount")
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get wallet transactions for User {userId}", ex);
+            }
+
+            return result;
+        }
+
+
+
         public List<WalletInfo> GetUserWallets(int userId)
         {
             return ExecuteStoredProcedure<WalletInfo>(
@@ -124,6 +231,141 @@ namespace Mexify.DataAccess.Repositories
                 Logger.Error($"Failed to get wallet for User {userId}, Currency {currencyId}", ex);
                 return null;
             }
+        }
+
+
+        //public TransactionListResult GetUserWalletTransactions(
+        //   int userId,
+        //   string typeSlug = null,
+        //   string currencyCode = null,
+        //   string statusSlug = null,
+        //   string searchTerm = null,
+        //   DateTime? dateFrom = null,
+        //   DateTime? dateTo = null,
+        //   int pageNumber = 1,
+        //   int pageSize = 25,
+        //   string sortBy = "date_desc")
+        //{
+        //    var result = new TransactionListResult();
+
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetUserWalletTransactions", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+        //            cmd.Parameters.AddWithValue("@TypeSlug", string.IsNullOrEmpty(typeSlug) ? (object)DBNull.Value : typeSlug);
+        //            cmd.Parameters.AddWithValue("@CurrencyCode", string.IsNullOrEmpty(currencyCode) ? (object)DBNull.Value : currencyCode);
+        //            cmd.Parameters.AddWithValue("@StatusSlug", string.IsNullOrEmpty(statusSlug) ? (object)DBNull.Value : statusSlug);
+        //            cmd.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+        //            cmd.Parameters.AddWithValue("@DateFrom", dateFrom.HasValue ? (object)dateFrom.Value : DBNull.Value);
+        //            cmd.Parameters.AddWithValue("@DateTo", dateTo.HasValue ? (object)dateTo.Value : DBNull.Value);
+        //            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+        //            cmd.Parameters.AddWithValue("@SortBy", sortBy);
+        //            conn.Open();
+
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                // Result Set 1: Pagination Info
+        //                if (reader.Read())
+        //                {
+        //                    result.TotalCount = GetSafeInt(reader, "TotalCount");
+        //                    result.PageSize = GetSafeInt(reader, "PageSize");
+        //                    result.CurrentPage = GetSafeInt(reader, "CurrentPage");
+        //                    result.TotalPages = reader["TotalPages"] != DBNull.Value
+        //                        ? Convert.ToInt32(reader["TotalPages"]) : 1;
+        //                }
+
+        //                // Result Set 2: Transactions
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        result.Transactions.Add(new WalletTransaction
+        //                        {
+        //                            TransactionId = GetSafeLong(reader, "TransactionId"),
+        //                            WalletId = GetSafeInt(reader, "WalletId"),
+        //                            UserId = GetSafeInt(reader, "UserId"),
+        //                            TransactionType = GetSafeInt(reader, "TransactionType"),
+        //                            TypeName = GetSafeString(reader, "TypeName") ?? "",
+        //                            TypeSlug = GetSafeString(reader, "TypeSlug") ?? "",
+        //                            CurrencyId = GetSafeInt(reader, "CurrencyId"),
+        //                            CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "",
+        //                            Amount = GetSafeDecimal(reader, "Amount"),
+        //                            Fee = GetSafeDecimal(reader, "Fee"),
+        //                            NetAmount = GetSafeDecimal(reader, "NetAmount"),
+        //                            Status = GetSafeInt(reader, "Status"),
+        //                            StatusName = GetSafeString(reader, "StatusName") ?? "",
+        //                            StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+        //                            CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+        //                            Direction = GetSafeString(reader, "Direction") ?? "neutral",
+        //                            IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-exchange-alt",
+        //                            CategoryClass = GetSafeString(reader, "CategoryClass") ?? "other",
+        //                            CurrentWalletBalance = GetSafeDecimal(reader, "CurrentWalletBalance")
+        //                        });
+        //                    }
+        //                }
+
+        //                // Result Set 3: Summary Stats
+        //                if (reader.NextResult())
+        //                {
+        //                    if (reader.Read())
+        //                    {
+        //                        result.Summary = new Web.Models.TransactionSummary
+        //                        {
+        //                            TotalDeposits = GetSafeDecimal(reader, "TotalDeposits"),
+        //                            TotalWithdrawals = GetSafeDecimal(reader, "TotalWithdrawals"),
+        //                            TotalROIEarned = GetSafeDecimal(reader, "TotalROIEarned"),
+        //                            TotalCommissions = GetSafeDecimal(reader, "TotalCommissions"),
+        //                            TotalFeesPaid = GetSafeDecimal(reader, "TotalFeesPaid"),
+        //                            TotalTransactionCount = GetSafeInt(reader, "TotalTransactionCount"),
+        //                            PendingCount = GetSafeInt(reader, "PendingCount"),
+        //                            FailedCount = GetSafeInt(reader, "FailedCount")
+        //                        };
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get wallet transactions for User {userId}", ex);
+        //    }
+
+        //    return result;
+        //}
+
+
+        public List<CurrencyInfo> GetActiveCurrencies()
+        {
+            var currencies = new List<CurrencyInfo>();
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("SELECT CurrencyId, CurrencyCode, CurrencyName FROM Currencies WHERE Status = 1 ORDER BY CurrencyCode", conn))
+                {
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            currencies.Add(new CurrencyInfo
+                            {
+                                CurrencyId = GetSafeInt(reader, "CurrencyId"),
+                                CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "",
+                                CurrencyName = GetSafeString(reader, "CurrencyName") ?? ""
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get active currencies", ex);
+            }
+            return currencies;
         }
 
         /// <summary>

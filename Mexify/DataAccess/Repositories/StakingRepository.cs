@@ -10,6 +10,78 @@ namespace Mexify.DataAccess.Repositories
 {
     public class StakingRepository : BaseRepository
     {
+
+        private string _connStr = ConfigurationManager.ConnectionStrings["MexifyDB"].ConnectionString;
+
+        public StakingViewModel GetUserStakingRewards(int userId, int? status = null, int pageNumber = 1, int pageSize = 10)
+        {
+            var model = new StakingViewModel { PageNumber = pageNumber, PageSize = pageSize };
+
+            using (var conn = new SqlConnection(_connStr))
+            {
+                using (var cmd = new SqlCommand("usp_GetUserStakingRewards", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Status", status.HasValue ? (object)status.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // 1. Summary Stats
+                        if (reader.Read())
+                        {
+                            model.Summary = new StakingSummary
+                            {
+                                TotalStaked = reader["TotalStaked"] != DBNull.Value ? Convert.ToDecimal(reader["TotalStaked"]) : 0,
+                                TotalEarned = reader["TotalEarned"] != DBNull.Value ? Convert.ToDecimal(reader["TotalEarned"]) : 0,
+                                TotalRewardsPaid = reader["TotalRewardsPaid"] != DBNull.Value ? Convert.ToDecimal(reader["TotalRewardsPaid"]) : 0,
+                                ActivePlans = reader["ActivePlans"] != DBNull.Value ? Convert.ToInt32(reader["ActivePlans"]) : 0,
+                                CompletedPlans = reader["CompletedPlans"] != DBNull.Value ? Convert.ToInt32(reader["CompletedPlans"]) : 0,
+                                TodayEarnings = reader["TodayEarnings"] != DBNull.Value ? Convert.ToDecimal(reader["TodayEarnings"]) : 0,
+                                AverageAPY = reader["AverageAPY"] != DBNull.Value ? Convert.ToDecimal(reader["AverageAPY"]) : 0,
+                                NextExpiryDate = reader["NextExpiryDate"] != DBNull.Value ? Convert.ToDateTime(reader["NextExpiryDate"]) : (DateTime?)null
+                            };
+                        }
+
+                        // 2. Staking Investments List
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                model.Investments.Add(new StakingInvestmentItem
+                                {
+                                    StakingInvestmentId = Convert.ToInt64(reader["StakingInvestmentId"]),
+                                    PlanName = reader["PlanName"].ToString(),
+                                    APY = Convert.ToDecimal(reader["APY"]),
+                                    DurationDays = Convert.ToInt32(reader["DurationDays"]),
+                                    Amount = Convert.ToDecimal(reader["Amount"]),
+                                    StartDate = Convert.ToDateTime(reader["StartDate"]),
+                                    EndDate = Convert.ToDateTime(reader["EndDate"]),
+                                    TotalEarned = Convert.ToDecimal(reader["TotalEarned"]),
+                                    Status = Convert.ToInt32(reader["Status"]),
+                                    StatusName = reader["StatusName"].ToString(),
+                                    DailyReward = Convert.ToDecimal(reader["DailyReward"]),
+                                    DaysRemaining = Convert.ToInt32(reader["DaysRemaining"]),
+                                    ProgressPercent = Convert.ToDecimal(reader["ProgressPercent"]),
+                                    ProjectedTotal = Convert.ToDecimal(reader["ProjectedTotal"])
+                                });
+                            }
+                        }
+
+                        // 3. Total Count
+                        if (reader.NextResult() && reader.Read())
+                        {
+                            model.TotalCount = Convert.ToInt32(reader["TotalCount"]);
+                        }
+                    }
+                }
+            }
+            return model;
+        }
+
         public List<StakingPool> GetAvailablePools()
         {
             return ExecuteStoredProcedure<StakingPool>(

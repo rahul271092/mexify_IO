@@ -19,43 +19,59 @@ namespace Mexify.Business.Services
         public PortfolioStats GetPortfolioStats(int userId)
         {
             try { return _repository.GetPortfolioStats(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get portfolio stats", ex); return new PortfolioStats(); }
+            catch (Exception ex) { Logger.Error("Failed to get portfolio stats", ex);
+                Logger.Info("Exception:" + ex.ToString());
+
+                return new PortfolioStats(); }
         }
 
         public List<WalletSummary> GetUserWallets(int userId)
         {
             try { return _repository.GetUserWallets(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get user wallets", ex); return new List<WalletSummary>(); }
+            catch (Exception ex) { Logger.Error("Failed to get user wallets", ex);
+                Logger.Info("Exception:" + ex.ToString());
+                return new List<WalletSummary>(); }
         }
 
         public List<ActiveInvestment> GetActiveInvestments(int userId)
         {
             try { return _repository.GetActiveInvestments(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get active investments", ex); return new List<ActiveInvestment>(); }
+            catch (Exception ex) { Logger.Error("Failed to get active investments", ex);
+                Logger.Info("Exception:" + ex.ToString());
+                return new List<ActiveInvestment>(); }
         }
 
         public List<RecentTransaction> GetRecentTransactions(int userId, int count)
         {
             try { return _repository.GetRecentTransactions(userId, count); }
-            catch (Exception ex) { Logger.Error("Failed to get recent transactions", ex); return new List<RecentTransaction>(); }
+            catch (Exception ex) { Logger.Error("Failed to get recent transactions", ex);
+                Logger.Info("Exception:" + ex.ToString());
+                return new List<RecentTransaction>(); }
         }
 
         public ReferralStats GetReferralStats(int userId)
         {
             try { return _repository.GetReferralStats(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get referral stats", ex); return new ReferralStats(); }
+            catch (Exception ex) { Logger.Error("Failed to get referral stats", ex);
+                Logger.Info("Exception:" + ex.ToString());
+                return new ReferralStats(); }
         }
 
         public List<PortfolioPoint> GetPortfolioHistory(int userId, int days)
         {
             try { return _repository.GetPortfolioHistory(userId, days); }
-            catch (Exception ex) { Logger.Error("Failed to get portfolio history", ex); return new List<PortfolioPoint>(); }
+            catch (Exception ex) { Logger.Error("Failed to get portfolio history", ex);
+                Logger.Info("Exception:" + ex.ToString());
+                return new List<PortfolioPoint>(); }
         }
 
         public EarningsBreakdown GetEarningsBreakdown(int userId)
         {
             try { return _repository.GetEarningsBreakdown(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get earnings breakdown", ex); return new EarningsBreakdown(); }
+            catch (Exception ex) { Logger.Error("Failed to get earnings breakdown", ex);
+                Logger.Info("Exception:" + ex.ToString());
+
+                return new EarningsBreakdown(); }
         }
     }
 }

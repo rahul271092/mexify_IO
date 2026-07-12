@@ -18,6 +18,8 @@ namespace Mexify.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            Logger.Info("Page: Meta-login.aspx");
             // Redirect if already logged in
             if (Session["UserId"] != null)
             {
@@ -59,6 +61,8 @@ namespace Mexify.Web
             }
             catch (Exception ex)
             {
+
+                Logger.Error("Get Nonce Function Error:", ex);
                 return JsonConvert.SerializeObject(new
                 {
                     success = false,
@@ -171,7 +175,7 @@ namespace Mexify.Web
                     }
                     else
                     {
-                        Response.Redirect("~/Web/User/Dashboard.aspx");
+                        Response.Redirect("~/Web/User/Dashboard.aspx",false);
                     }
                 }
                 else
@@ -203,6 +207,7 @@ namespace Mexify.Web
             catch (Exception ex)
             {
                 Logger.Error("MetaMask login error for wallet: " + walletAddress, ex);
+                Logger.Info("Exception:" + ex.ToString());
                 ShowError("An error occurred during login. Please try again later.");
             }
         }

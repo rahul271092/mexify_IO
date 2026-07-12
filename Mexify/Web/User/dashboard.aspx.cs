@@ -25,7 +25,6 @@ namespace Mexify.Web.User
 
             if (!IsPostBack)
             {
-                _dashboardService = new DashboardService();
                 _userId = Int32.Parse( Session["UserID"].ToString());
                 try
                 {
@@ -33,12 +32,15 @@ namespace Mexify.Web.User
                 }
                 catch (System.Data.SqlClient.SqlException sqlEx)
                 {
+                    Logger.Error("Load Dashboard Data Function: ", sqlEx);
                     // This will show you the EXACT SQL error on the screen
                     Response.Write("<div style='color:red; padding:20px; background:#fff;'><b>SQL ERROR:</b> " + sqlEx.Message + "</div>");
                     Response.End();
                 }
                 catch (Exception ex)
                 {
+                    Logger.Error("Load Dashboard Data Function: ", ex);
+
                     Response.Write("<div style='color:red; padding:20px; background:#fff;'><b>GENERAL ERROR:</b> " + ex.Message + "</div>");
                     Response.End();
                 }
@@ -140,6 +142,9 @@ namespace Mexify.Web.User
         {
             try
             {
+
+                _dashboardService = new DashboardService();
+
                 // ✅ Display Welcome Name
                 string userName = Session["UserName"]?.ToString() ?? "User";
                 litWelcomeName.Text = userName;
@@ -173,10 +178,12 @@ namespace Mexify.Web.User
 
                         // Update session
                         Session["TotalBalance"] = totalBalance;
+                        Logger.Info("Load Dashboad Balance success");
                     }
                     catch (Exception ex)
                     {
                         Logger.Error("Failed to fetch wallets on dashboard", ex);
+                        Logger.Info("Exception:" + ex.ToString());
                     }
                 }
 
@@ -239,6 +246,7 @@ namespace Mexify.Web.User
                 catch (Exception ex)
                 {
                     Logger.Error("Failed to load investments", ex);
+                    Logger.Info("Exception :" + ex.ToString());
                     pnlNoInvestments.Visible = true;
                 }
 
@@ -296,6 +304,7 @@ namespace Mexify.Web.User
         {
             try
             {
+
                 var investmentService = new InvestmentService();
                 var investments = investmentService.GetUserActiveInvestments(userId);
                 decimal totalDailyROI = 0;

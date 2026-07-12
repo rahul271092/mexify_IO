@@ -2,11 +2,58 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Mexify.Web.Models;
+using Mexify.Utilities;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class DashboardRepository : BaseRepository
     {
+
+
+        public UserEarningsBreakdown GetUserEarningsBreakdown(int userId)
+        {
+            var breakdown = new UserEarningsBreakdown();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserEarningsBreakdown", conn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Lifetime
+                            breakdown.InvestmentLifetime = GetSafeDecimal(reader, "InvestmentLifetime");
+                            breakdown.MiningLifetime = GetSafeDecimal(reader, "MiningLifetime");
+                            breakdown.StakingLifetime = GetSafeDecimal(reader, "StakingLifetime");
+                            breakdown.RoyaltyLifetime = GetSafeDecimal(reader, "RoyaltyLifetime");
+                            breakdown.CommissionLifetime = GetSafeDecimal(reader, "CommissionLifetime");
+                            breakdown.TotalLifetime = GetSafeDecimal(reader, "TotalLifetime");
+
+                            // Today
+                            breakdown.InvestmentToday = GetSafeDecimal(reader, "InvestmentToday");
+                            breakdown.MiningToday = GetSafeDecimal(reader, "MiningToday");
+                            breakdown.StakingToday = GetSafeDecimal(reader, "StakingToday");
+                            breakdown.RoyaltyToday = GetSafeDecimal(reader, "RoyaltyToday");
+                            breakdown.CommissionToday = GetSafeDecimal(reader, "CommissionToday");
+                            breakdown.TotalToday = GetSafeDecimal(reader, "TotalToday");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get earnings breakdown for User {userId}", ex);
+            }
+
+            return breakdown;
+        }
+
         public PortfolioStats GetPortfolioStats(int userId)
         {
             var results = ExecuteStoredProcedure<PortfolioStats>(
@@ -114,6 +161,10 @@ namespace Mexify.DataAccess.Repositories
 
         public EarningsBreakdown GetEarningsBreakdown(int userId)
         {
+
+            try
+            {
+
             var results = ExecuteStoredProcedure<EarningsBreakdown>(
                 "usp_GetUserEarningsBreakdown",
                 reader => new EarningsBreakdown
@@ -127,6 +178,14 @@ namespace Mexify.DataAccess.Repositories
                 CreateParameter("@UserId", userId)
             );
             return results.Count > 0 ? results[0] : new EarningsBreakdown();
+            }
+            catch (Exception ex)
+            {
+
+                Logger.Error("Error in GetEarningBreakdown function in DashboardRepository", ex);
+                return new EarningsBreakdown();
+            }
+
         }
     }
 }
