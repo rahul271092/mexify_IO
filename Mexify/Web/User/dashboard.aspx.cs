@@ -7,6 +7,7 @@ using Mexify.Utilities;
 using System.Data.SqlClient;
 using System.Web.Script.Serialization;
 using Mexify.DataAccess.Repositories;
+using System.Data;
 
 namespace Mexify.Web.User
 {
@@ -292,7 +293,7 @@ namespace Mexify.Web.User
 
                 // Load Today's ROI
                 decimal todayROI = CalculateTodayROI(_userId);
-                litTodayROI.Text = todayROI.ToString("0.00") + " PNC";
+                litTodayROI.Text = todayROI.ToString("0.00") + " USDT";
                 litTodayProfit.Text = todayROI.ToString("0.00");
 
                 // Load Transactions
@@ -300,16 +301,43 @@ namespace Mexify.Web.User
                 {
                     var walletService = new WalletService();
                     var transactions = walletService.GetUserTransactions(_userId, 10);
-                    if (transactions != null && transactions.Count > 0)
+
+                    string sql = "select top 10 * from walletTransactions where UserID=@UserId order by CreatedDate desc";
+                    using (SqlCommand cmd = Web.Models.Connection.SqlQuery(sql))
                     {
-                        rptTransactions.DataSource = transactions;
-                        rptTransactions.DataBind();
-                        pnlNoTransactions.Visible = false;
+                        cmd.Parameters.AddWithValue("@UserId", Session["UserID"] as string);
+                        SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            rptTransactions.DataSource = dt;
+                            rptTransactions.DataBind();
+                            pnlNoTransactions.Visible = false;
+                        }
+                        else
+                        {
+                            pnlNoTransactions.Visible = true;
+                        }
+
+
                     }
-                    else
-                    {
-                        pnlNoTransactions.Visible = true;
-                    }
+                    
+
+
+
+
+                    //if (transactions != null && transactions.Count > 0)
+                    //{
+                    //    rptTransactions.DataSource = transactions;
+                    //    rptTransactions.DataBind();
+                    //    pnlNoTransactions.Visible = false;
+                    //}
+                    //else
+                    //{
+                    //    pnlNoTransactions.Visible = true;
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -450,9 +478,9 @@ namespace Mexify.Web.User
             string c = code.ToString().ToUpper();
             switch (c)
             {
-                case "PNC": return "fas fa-coins";
-                case "BTC": return "fab fa-bitcoin";
-                case "ETH": return "fab fa-ethereum";
+                //case "PNC": return "fas fa-coins";
+                //case "BTC": return "fab fa-bitcoin";
+                //case "ETH": return "fab fa-ethereum";
                 case "USDT": return "fas fa-dollar-sign";
                 default: return "fas fa-coins";
             }

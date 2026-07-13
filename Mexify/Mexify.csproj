@@ -207,6 +207,7 @@
     <Content Include="Web\api\getnonce.aspx" />
     <Content Include="Web\Assets\css\dashboard.css" />
     <Content Include="Web\Assets\css\mexify-theme.css" />
+    <Content Include="Web\Assets\css\style2.css" />
     <Content Include="Web\Assets\css\user-master.css" />
     <Content Include="Web\Assets\images\metamask1.png" />
     <Content Include="Web\Assets\images\mexify_logo.png" />

@@ -4,6 +4,7 @@ using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using System.Data.SqlClient;
 
 namespace Mexify.Web.User
 {
@@ -48,15 +49,32 @@ namespace Mexify.Web.User
                 }
 
                 // Get referral code
-                string refCode = _referralService.GetUserReferralCode(_userId);
-                if (string.IsNullOrEmpty(refCode))
+
+                string referralCode = string.Empty;
+                string sql = "select ReferralCode from Users where UserId=@UserId";
+                using (SqlCommand cmd = Web.Models.Connection.SqlQuery(sql))
                 {
-                    refCode = _referralService.GenerateReferralCode(_userId);
+                    cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    if(sdr.HasRows && sdr.Read())
+                    {
+                        referralCode = sdr["ReferralCode"] as string;
+                        ReferralLink = "https://mexify.io/Web/meta-login.aspx?ref=" + referralCode;
+
+                    }
                 }
 
-                // Build referral link
-                string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
-                ReferralLink = baseUrl + ResolveUrl("~/register.aspx?ref=" + refCode);
+
+
+                //    string refCode = _referralService.GetUserReferralCode(_userId);
+                //if (string.IsNullOrEmpty(refCode))
+                //{
+                //    refCode = _referralService.GenerateReferralCode(_userId);
+                //}
+
+                //// Build referral link
+                //string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
+                //ReferralLink = baseUrl + ResolveUrl("~/Web/MetaMaskLogin.aspx?ref=" + refCode);
 
                 // Stats
                 var stats = _referralService.GetUserReferralStats(_userId);
@@ -81,7 +99,7 @@ namespace Mexify.Web.User
                 CurrentRankIcon = rank.RankIcon;
                 RankProgress = rank.ProgressPercent;
                 litRankProgress.Text = rank.ProgressText;
-                litRankBonus.Text = rank.MonthlyBonus.ToString("0") + " PNC";
+                litRankBonus.Text = rank.MonthlyBonus.ToString("0") + " USDT";
                 _currentRankName = rank.RankName;
 
                 // 15 Levels

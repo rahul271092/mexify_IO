@@ -2,6 +2,7 @@
 using Mexify.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -117,7 +118,21 @@ namespace Mexify.Web
                 Logger.Info("My Wallet Address:" + walletAddress + ", My Signature: " + signature + ", My Nonce:" + nonce);
                 var _authService = new AuthService();
                 // 1. Verify the signature and nonce on the server
-                var result = _authService.VerifyMetaMaskLogin(walletAddress, signature, nonce);
+
+                bool isNewUser = true;
+
+                string sql = "  SELECT COUNT(*) FROM Users WHERE WalletAddress = @WalletAddress;";
+                using (SqlCommand cmd = Web.Models.Connection.SqlQuery(sql))
+                {
+                    cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    isNewUser = count == 0;
+
+                }
+
+
+
+                    var result = _authService.VerifyMetaMaskLogin(walletAddress, signature, nonce);
                 Logger.Info($"MetaMask Login Result -> Success: {result.Success}, UserId: {result.UserId}, Message: '{result.ErrorMessage}'");
 
                 if (result.Success)

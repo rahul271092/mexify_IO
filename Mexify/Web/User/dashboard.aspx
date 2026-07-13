@@ -284,7 +284,7 @@
                 <p>Here's what's happening with your portfolio today.</p>
                 <div class="daily-roi-banner">
                     <i class="fas fa-bolt"></i>
-                    Today's ROI: <strong><asp:Literal ID="litTodayROI" runat="server" Text="0.00 PNC"></asp:Literal></strong>
+                    Today's ROI: <strong><asp:Literal ID="litTodayROI" runat="server" Text="0.00 USDT"></asp:Literal></strong>
                 </div>
             </div>
             <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
@@ -359,7 +359,7 @@
                 <div class="stat-icon"><i class="fas fa-wallet"></i></div>
                 <div class="stat-label">Net Worth</div>
                 <div class="stat-value text-gradient-gold"><asp:Literal ID="litNetWorth" runat="server" Text="0.00" /></div>
-                <small class="text-muted">Total PNC Value</small>
+                <small class="text-muted">Total USDT Value</small>
             </div>
         </div>
         <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
@@ -516,7 +516,7 @@
                                 <div>
                                     <div class="investment-title"><%# Eval("PlanName") %></div>
                                     <small class="text-muted">
-                                        Invested: <%# string.Format("{0:0.00}", Eval("PrincipalAmount")) %> PNC
+                                        Invested: <%# string.Format("{0:0.00}", Eval("PrincipalAmount")) %> USDT
                                     </small>
                                 </div>
                                 <span class='investment-status <%# GetInvestmentStatusClass(Eval("Status")) %>'>
@@ -531,8 +531,8 @@
                                 <div class="progress-fill" style='width: '<%# Eval("ProgressPercent") %>'%;'></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2">
-                                <small class="text-muted">Earned: <strong class="text-accent"><%# string.Format("{0:0.00}", Eval("TotalEarned")) %> PNC</strong></small>
-                                <small class="text-muted">Daily: <strong class="text-white"><%# string.Format("{0:0.00}", Eval("DailyROI")) %> PNC</strong></small>
+                                <small class="text-muted">Earned: <strong class="text-accent"><%# string.Format("{0:0.00}", Eval("TotalEarned")) %> USDT</strong></small>
+                                <small class="text-muted">Daily: <strong class="text-white"><%# string.Format("{0:0.00}", Eval("DailyROI")) %> USDT</strong></small>
                             </div>
                         </div>
                     </ItemTemplate>
@@ -565,11 +565,11 @@
                                 <i class='<%# GetTransactionIcon(Eval("TransactionType")) %>'></i>
                             </div>
                             <div class="transaction-info">
-                                <div class="transaction-title"><%# Eval("Title") %></div>
-                                <div class="transaction-date"><%# Eval("DateFormatted") %></div>
+                                <div class="transaction-title"><%# Eval("TypeName") %></div>
+                                <div class="transaction-date"><%# Eval("CreatedDate") %></div>
                             </div>
                             <div class='transaction-amount <%# Convert.ToDecimal(Eval("Amount")) >= 0 ? "positive" : "negative" %>'>
-                                <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format("{0:0.00}", Eval("Amount")) %>
+                                <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format(" {0:0.00} $", Eval("Amount")) %>
                             </div>
                         </div>
                     </ItemTemplate>
@@ -627,7 +627,7 @@
                                     <div class="stat-label">Total Commission Earned</div>
                                     <div class="stat-value" style="font-size: 1.5rem;">
                                         <asp:Literal ID="litTotalCommission" runat="server" Text="0.00"></asp:Literal>
-                                        <small style="font-size: 0.8rem; color: var(--text-gray);"> PNC</small>
+                                        <small style="font-size: 0.8rem; color: var(--text-gray);"> USDT</small>
                                     </div>
                                 </div>
                                 <i class="fas fa-coins fa-3x" style="color: var(--gold); opacity: 0.3;"></i>
@@ -660,7 +660,7 @@
                     data: {
                         labels: portfolioData.labels,
                         datasets: [{
-                            label: 'Portfolio Value (PNC)',
+                            label: 'Portfolio Value (USDT)',
                             data: portfolioData.values,
                             borderColor: '#00FFB2',
                             backgroundColor: 'rgba(0, 255, 178, 0.1)',
@@ -683,7 +683,7 @@
                                 borderWidth: 1,
                                 padding: 12,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                 }
                             }
                         },
@@ -746,7 +746,7 @@
                                 borderWidth: 1,
                                 padding: 12,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' USDT'; }
                                 }
                             }
                         }
@@ -845,7 +845,7 @@
                             displayColors: true,
                             callbacks: {
                                 label: function(context) {
-                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' PNC';
+                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' USDT';
                                 }
                             }
                         }

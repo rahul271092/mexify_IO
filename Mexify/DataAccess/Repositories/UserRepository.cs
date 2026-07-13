@@ -732,7 +732,7 @@ namespace Mexify.DataAccess.Repositories
                                 EarnedDate = GetSafeDateTime(reader, "EarnedDate"),
                                 RewardSource = GetSafeString(reader, "RewardSource") ?? "",
                                 RewardType = GetSafeString(reader, "RewardType") ?? "",
-                                CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
+                                CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
                                 RewardAmount = GetSafeDecimal(reader, "RewardAmount"),
                                 Status = GetSafeString(reader, "Status") ?? "Completed"
                             });

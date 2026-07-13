@@ -559,7 +559,7 @@
                     <div class="balance-label">Total Portfolio Value</div>
                     <div class="balance-amount">
                         <asp:Literal ID="litTotalBalance" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 1.2rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 1.2rem; color: var(--text-gray);"> USDT</small>
                     </div>
                     <div class="balance-usd">
                         ≈ $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
@@ -746,12 +746,8 @@
             <label>Select Token <span class="required">*</span></label>
             <div class="input-icon-wrap">
                 <select id="ddlWeb3Token" onchange="updateWeb3DepositAddress()">
-                    <option value="ETH">ETH (Ethereum)</option>
                     <option value="USDT">USDT (Tether)</option>
-                    <option value="USDC">USDC (USD Coin)</option>
-                    <option value="BNB">BNB (Binance Coin)</option>
-                    <option value="PNC">PNC (Pinnacle Coin)</option>
-                </select>
+                 </select>
                 <i class="fas fa-coins input-icon"></i>
             </div>
         </div>

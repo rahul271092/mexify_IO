@@ -55,6 +55,17 @@ namespace Mexify.Web.User
                     rptICOProjects.DataBind();
                     pnlNoICO.Visible = false;
 
+                    // ✅ FIX: Use dt.Rows[0] instead of dt[0]
+                    hfICOId.Value = dt.Rows[0]["ICOId"].ToString();
+
+                    // ✅ Get other values
+                    if (dt.Rows[0]["PricePerToken"] != DBNull.Value)
+                    {
+                        decimal pricePerToken = Convert.ToDecimal(dt.Rows[0]["PricePerToken"]);
+                        hfPricePerToken.Value = pricePerToken.ToString();
+                        litPricePerToken.Text = pricePerToken.ToString("0.00");
+                    } 
+                    
                     //hfICOId.Value = [0].ICOId.ToString();
                     //hfPricePerToken.Value = icos[0].PricePerToken.ToString();
                     //litPricePerToken.Text = icos[0].PricePerToken.ToString("0.00");

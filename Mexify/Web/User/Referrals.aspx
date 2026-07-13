@@ -615,7 +615,7 @@
                     <div class="value" style="color: var(--gold);">
                         <asp:Literal ID="litTotalCommission" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <div class="label">Total Commission (PNC)</div>
+                    <div class="label">Total Commission (USDT)</div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
@@ -623,7 +623,7 @@
                     <div class="value" style="color: var(--secondary);">
                         <asp:Literal ID="litMonthCommission" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <div class="label">This Month (PNC)</div>
+                    <div class="label">This Month (USDT)</div>
                 </div>
             </div>
         </div>
@@ -690,7 +690,7 @@
                         <h6 class="text-white mb-2">Rank Benefits</h6>
                         <ul class="list-unstyled text-gray small mb-0">
                             <li><i class="fas fa-check text-accent me-2"></i> Base commission: 15 levels</li>
-                            <li><i class="fas fa-check text-accent me-2"></i> Monthly bonus: <asp:Literal ID="litRankBonus" runat="server" Text="500 PNC"></asp:Literal></li>
+                            <li><i class="fas fa-check text-accent me-2"></i> Monthly bonus: <asp:Literal ID="litRankBonus" runat="server" Text="500 USDT"></asp:Literal></li>
                             <li><i class="fas fa-check text-accent me-2"></i> Priority support</li>
                         </ul>
                     </div>
@@ -723,7 +723,7 @@
                                     </div>
                                 </div>
                                 <div class="commission-amount">
-                                    +<%# string.Format("{0:0.00}", Eval("Amount")) %> PNC
+                                    +<%# string.Format("{0:0.00}", Eval("Amount")) %> USDT
                                 </div>
                             </div>
                         </ItemTemplate>
@@ -778,11 +778,11 @@
                     <div class="team-stats">
                         <div class="team-stat">
                             <small>Invested</small>
-                            <div class="value"><%# string.Format("{0:0.00}", Eval("InvestedAmount")) %> PNC</div>
+                            <div class="value"><%# string.Format("{0:0.00}", Eval("InvestedAmount")) %> USDT</div>
                         </div>
                         <div class="team-stat">
                             <small>Your Earnings</small>
-                            <div class="value accent">+<%# string.Format("{0:0.00}", Eval("YourEarnings")) %> PNC</div>
+                            <div class="value accent">+<%# string.Format("{0:0.00}", Eval("YourEarnings")) %> USDT</div>
                         </div>
                         <div class="team-stat">
                             <small>Status</small>
@@ -858,7 +858,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litTotalLevelEarnings" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC lifetime</small>
+                    <small class="text-muted">USDT lifetime</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -883,7 +883,7 @@
                     <div class="summary-value" style="color: #10B981;">
                         <asp:Literal ID="litLifetimeCommissions" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -892,7 +892,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litMonthCommissions" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -901,7 +901,7 @@
                     <div class="summary-value" style="color: var(--secondary);">
                         <asp:Literal ID="litTodayCommissions" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
         </div>
@@ -929,7 +929,7 @@
                             </div>
                         </div>
                         <div class="commission-amount">
-                            +<%# string.Format("{0:0.00}", Eval("Amount")) %> PNC
+                            +<%# string.Format("{0:0.00}", Eval("Amount")) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>
@@ -968,7 +968,7 @@
                                     <td class="text-muted"><%# Convert.ToDateTime(Eval("CreatedDate")).ToString("MMM dd, yyyy HH:mm") %></td>
                                     <td><span class="level-number" style="padding: 2px 8px; font-size: 0.7rem;">L<%# Eval("Level") %></span></td>
                                     <td class="text-white"><%# Eval("ReferralName") %></td>
-                                    <td class="text-accent">+<%# string.Format("{0:0.00}", Eval("Amount")) %> PNC</td>
+                                    <td class="text-accent">+<%# string.Format("{0:0.00}", Eval("Amount")) %> USDT</td>
                                     <td class="text-muted"><%# Eval("SourceType") %></td>
                                     <td>
                                         <span class='status-badge status-active'>
@@ -1020,7 +1020,7 @@
                     data: {
                         labels: commData.labels,
                         datasets: [{
-                            label: 'Commissions (PNC)',
+                            label: 'Commissions (USDT)',
                             data: commData.values,
                             borderColor: '#10B981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -1041,7 +1041,7 @@
                                 borderColor: '#10B981',
                                 borderWidth: 1,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                 }
                             }
                         },
@@ -1085,7 +1085,7 @@
                     legendHtml += '<div class="d-flex align-items-center gap-2 mb-1">' +
                         '<span style="width: 10px; height: 10px; border-radius: 50%; background: ' + levelData.colors[i] + '; display: inline-block;"></span>' +
                         '<span class="text-gray small flex-grow-1">' + levelData.labels[i] + '</span>' +
-                        '<span class="text-white small fw-bold">' + levelData.values[i].toFixed(2) + ' PNC</span>' +
+                        '<span class="text-white small fw-bold">' + levelData.values[i].toFixed(2) + ' USDT</span>' +
                         '</div>';
                 }
                 document.getElementById('levelLegend').innerHTML = legendHtml;

@@ -373,7 +373,7 @@
 
                         <div class="d-flex gap-3 mt-4 flex-wrap">
                             <asp:Button ID="btnRenew" runat="server" Text="Renew Now" CssClass="btn btn-primary-glow" OnClick="btnRenew_Click" />
-                            <a href="<%= ResolveUrl("~/User/Licenses.aspx") %>?tab=upgrade" class="btn btn-outline-glass" onclick="document.querySelector('[data-tab=upgrade]').click()">Upgrade Tier</a>
+                            <a href="<%= ResolveUrl("~/WEb/User/Royalty.aspx") %>?tab=upgrade" class="btn btn-outline-glass" onclick="document.querySelector('[data-tab=upgrade]').click()">Upgrade Tier</a>
                         </div>
                     </div>
                     <div class="col-lg-4 mt-4 mt-lg-0">
