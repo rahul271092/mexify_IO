@@ -399,6 +399,56 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : "";
         }
 
+
+        /// <summary>
+        /// Gets or generates a deposit address for the user
+        /// </summary>
+        public DepositAddressInfo GetUserDepositAddress(int userId, string currencyCode = "PNC")
+        {
+            var result = new DepositAddressInfo();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserDepositAddress", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@CurrencyCode", string.IsNullOrEmpty(currencyCode) ? "PNC" : currencyCode);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            result.Success = GetSafeBool(reader, "Success");
+                            result.Message = GetSafeString(reader, "Message") ?? "";
+                            result.DepositAddress = GetSafeString(reader, "DepositAddress") ?? "";
+                            result.Network = GetSafeString(reader, "Network") ?? "";
+                            result.Memo = GetSafeString(reader, "Memo");
+                            result.QRCodeData = GetSafeString(reader, "QRCodeData") ?? "";
+                            result.CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "";
+                            result.CurrencyName = GetSafeString(reader, "CurrencyName") ?? "";
+                            result.MinDeposit = GetSafeDecimal(reader, "MinDeposit");
+                            result.MaxDeposit = GetSafeDecimal(reader, "MaxDeposit");
+                            result.NetworkFee = GetSafeDecimal(reader, "NetworkFee");
+                            result.EstimatedTime = GetSafeString(reader, "EstimatedTime") ?? "";
+                            result.Warning = GetSafeString(reader, "Warning") ?? "";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get deposit address for User {userId}", ex);
+                result.Success = false;
+                result.Message = "Failed to generate deposit address.";
+            }
+
+            return result;
+        }
+
+
         public List<WalletTransaction> GetUserTransactions(int userId, int count)
         {
             return ExecuteStoredProcedure<WalletTransaction>(

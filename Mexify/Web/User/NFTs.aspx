@@ -383,7 +383,7 @@
                     <div class="summary-label">Total NFT Portfolio Value</div>
                     <div class="summary-value">
                         <asp:Literal ID="litTotalValue" runat="server" Text="0.00"></asp:Literal>
-                        <small> PNC</small>
+                        <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
                         ≈ $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
@@ -475,7 +475,7 @@
                             </div>
                         </div>
                         <div class='activity-amount <%# Convert.ToDecimal(Eval("Amount")) >= 0 ? "positive" : "negative" %>'>
-                            <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format("{0:0.00}", Eval("Amount")) %> PNC
+                            <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format("{0:0.00}", Eval("Amount")) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>
@@ -538,7 +538,7 @@
                                         <div class="nft-price-label">Current Value</div>
                                         <div class="nft-price-value">
                                             <%# string.Format("{0:0.00}", Eval("CurrentValue")) %>
-                                            <small>PNC</small>
+                                            <small>USDT</small>
                                         </div>
                                     </div>
                                     <div class="text-end">
@@ -598,7 +598,7 @@
                                         <div class="nft-price-label">Last Sale</div>
                                         <div class="nft-price-value">
                                             <%# string.Format("{0:0.00}", Eval("LastSalePrice")) %>
-                                            <small>PNC</small>
+                                            <small>USDT</small>
                                         </div>
                                     </div>
                                     <div class="text-end">
@@ -635,7 +635,7 @@
                     <div class="summary-label">Total Purchases</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">
                         <asp:Literal ID="litTotalPurchases" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -644,7 +644,7 @@
                     <div class="summary-label">Total Sales</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--gold);">
                         <asp:Literal ID="litTotalSalesActivity" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -653,7 +653,7 @@
                     <div class="summary-label">Minting Fees</div>
                     <div style="font-size: 2rem; font-weight: 800; color: #9C27B0;">
                         <asp:Literal ID="litMintingFees" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -679,7 +679,7 @@
                             </div>
                         </div>
                         <div class='activity-amount <%# Convert.ToDecimal(Eval("Amount")) >= 0 ? "positive" : "negative" %>'>
-                            <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format("{0:0.00}", Eval("Amount")) %> PNC
+                            <%# (Convert.ToDecimal(Eval("Amount")) >= 0 ? "+" : "") + string.Format("{0:0.00}", Eval("Amount")) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>
@@ -723,7 +723,7 @@
                     data: {
                         labels: valueData.labels,
                         datasets: [{
-                            label: 'Portfolio Value (PNC)',
+                            label: 'Portfolio Value (USDT)',
                             data: valueData.values,
                             borderColor: '#9C27B0',
                             backgroundColor: 'rgba(156, 39, 176, 0.1)',
@@ -744,7 +744,7 @@
                                 borderColor: '#9C27B0',
                                 borderWidth: 1,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                 }
                             }
                         },

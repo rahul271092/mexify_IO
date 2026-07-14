@@ -176,7 +176,7 @@
                         Double Your Investment in <br><span>Just 51 Days</span>
                     </h1>
                     <p class="hero-subtitle mx-auto">
-                        Invest minimum 100 PNC with unlimited maximum. Earn 1.96% daily ROI with automatic reinvestment of profits.
+                        Invest minimum 100 USDT with unlimited maximum. Earn 1.96% daily ROI with automatic reinvestment of profits.
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap" data-aos="fade-up" data-aos-delay="200">
                         <a href="#invest" class="btn btn-primary-glow">
@@ -210,7 +210,7 @@
                             <div class="col-6">
                                 <div class="glass-card p-3 text-center">
                                     <small class="text-muted d-block">Minimum</small>
-                                    <strong class="text-white">100 PNC</strong>
+                                    <strong class="text-white">100 USDT</strong>
                                 </div>
                             </div>
                             <div class="col-6">

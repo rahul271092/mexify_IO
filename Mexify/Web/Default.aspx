@@ -33,7 +33,7 @@
                         Institutional-grade crypto investment solutions with AI-driven portfolio management, enterprise mining, staking, NFTs, ICO participation, and royalty income.
                     </p>
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="<%= ResolveUrl("~/register.aspx") %>" class="btn btn-primary-glow">
+                        <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow">
                             Start Investing <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                         <a href="#features" class="btn btn-outline-glass">

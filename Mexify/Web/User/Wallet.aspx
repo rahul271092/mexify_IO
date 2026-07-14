@@ -1139,7 +1139,7 @@
         // Set withdraw percentage
         function setWithdrawPercent(percent) {
             var balance = parseFloat('<%= AvailableBalance %>') || 0;
-            var amount = (balance * percent / 100).toFixed(8);
+            var amount = (balance * percent / 100).toFixed(2);
             var amountInput = document.getElementById('<%= txtWithdrawAmount.ClientID %>');
             if (amountInput) {
                 amountInput.value = amount;
@@ -1150,12 +1150,12 @@
         // Calculate receive amount
         function calculateReceive() {
             var amountInput = document.getElementById('<%= txtWithdrawAmount.ClientID %>');
-            var amount = amountInput ? parseFloat(amountInput.value) || 0 : 0;
-            var fee = parseFloat('<%= NetworkFee %>') || 0;
-            var receive = Math.max(0, amount - fee);
+            var amount = amountInput ? parseFloat(amountInput.value).toFixed(2) || 0 : 0;
+            var fee = parseFloat('<%= NetworkFee %>').toFixed(2) || 0;
+            var receive = Math.max(0, amount - fee).toFixed(2);
             var receiveElement = document.getElementById('<%= litYouReceive.ClientID %>');
             if (receiveElement) {
-                receiveElement.innerText = receive.toFixed(8);
+                receiveElement.innerText = receive.toFixed(2);
             }
         }
 

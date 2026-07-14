@@ -666,7 +666,7 @@
             <div class="col-6 col-md-3">
                 <div class="glass-card text-center">
                     <h3>1.2M+</h3>
-                    <small>PNC Volume</small>
+                    <small>USDT Volume</small>
                 </div>
             </div>
             <div class="col-6 col-md-3">

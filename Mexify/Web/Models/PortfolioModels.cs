@@ -101,6 +101,7 @@ namespace Mexify.Web.Models
         public decimal OverallROI { get;  set; }
         public decimal ChangePercent { get;  set; }
         public decimal ChangeAmount { get;  set; }
+        public int Count { get; internal set; }
     }
 
     public class PortfolioHistoryPoint
@@ -108,16 +109,58 @@ namespace Mexify.Web.Models
         public DateTime Date { get; set; }
         public decimal Inflow { get; set; }
         public decimal Outflow { get; set; }
+        public decimal NetChange => Inflow - Outflow;
     }
 
     public class PortfolioViewModel
     {
         public PortfolioSummary Summary { get; set; } = new PortfolioSummary();
         public List<PortfolioHistoryPoint> History { get; set; } = new List<PortfolioHistoryPoint>();
+        public object Date { get; internal set; }
     }
 
+    //public class PortfolioSummary
+    //{
+    //    public decimal TotalWalletBalance { get; set; }
+    //    public decimal TotalInvested { get; set; }
+    //    public decimal TotalEarnings { get; set; }
+    //    public decimal TotalWithdrawn { get; set; }
+    //    public decimal TotalDeposited { get; set; }
 
-   
+    //    // Calculated
+    //    public decimal NetWorth => TotalWalletBalance + TotalInvested;
+    //    public decimal ProfitLoss => TotalEarnings - TotalWithdrawn;
+    //}
+
+
+
+    public class DashboardSummary
+    {
+        public decimal TotalBalance { get; set; }
+        public decimal TotalInvested { get; set; }
+        public decimal TotalEarnings { get; set; }
+        public decimal TodayEarnings { get; set; }
+        public int ActiveInvestments { get; set; }
+        public int TotalReferrals { get; set; }
+    }
+
+    public class ActivityItem
+    {
+        public long ActivityId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string IconClass { get; set; }
+        public string ColorClass { get; set; }
+        public decimal Amount { get; set; }
+        public string CurrencyCode { get; set; }
+        public string TimeAgo { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        // Calculated
+        public string AmountClass => Amount >= 0 ? "text-success" : "text-danger";
+        public string FormattedAmount => (Amount >= 0 ? "+" : "") + Amount.ToString("N4") + " " + CurrencyCode;
+    }
+
 
     public class WalletHolding
     {

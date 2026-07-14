@@ -772,7 +772,8 @@ namespace Mexify.DataAccess.Repositories
                 Tier = GetSafeString(reader, "Tier") ?? "Standard",
                 IsEmailVerified = GetSafeBool(reader, "IsEmailVerified"),
                 Status = GetSafeInt(reader, "Status"),
-                CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+                EntryFee=GetSafeInt(reader, "entryfee")
             };
         }
     }

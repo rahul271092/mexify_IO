@@ -4,12 +4,15 @@ using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web.User
 {
     public partial class Staking : System.Web.UI.Page
     {
-        private UserStakingService _stakingService;
+        private StakingService _stakingService;
+        private UserStakingService _userstakingService;
         private int _userId;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -21,7 +24,8 @@ namespace Mexify.Web.User
             }
 
             _userId = Convert.ToInt32(Session["UserId"]);
-            _stakingService = new UserStakingService();
+            _userstakingService = new UserStakingService();
+            _stakingService = new StakingService();
 
             if (!IsPostBack)
             {
@@ -29,6 +33,7 @@ namespace Mexify.Web.User
             }
         }
 
+      
         private void LoadStakingData()
         {
             try
@@ -40,17 +45,35 @@ namespace Mexify.Web.User
                     master.SetBreadcrumb("Staking");
                 }
 
-
                 int userId = Convert.ToInt32(Session["UserId"]);
                 // Summary stats
-                var summary = _stakingService.GetUserStakingSummary(_userId);
-                litTotalStaked.Text = summary.TotalStaked.ToString("0.00");
-                litTotalUSD.Text = (summary.TotalStaked * 0.042m).ToString("0.00");
-                litActiveStakes.Text = summary.ActiveStakes.ToString();
-                litTotalRewards.Text = summary.TotalRewards.ToString("0.00");
-                litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
-                litAvgAPY.Text = summary.AverageAPY.ToString("0.00");
-                litActiveCount.Text = summary.ActiveStakes.ToString();
+
+
+
+
+//                var summary = _stakingService.GetUserStakingSummary(_userId);
+
+                //using (SqlCommand cmd = Web.Models.Connection.Sql("usp_GetActiveStakingPools"))
+                //{
+                //    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                //    DataTable dt = new DataTable();
+                //    sda.Fill(dt);
+                //    if(dt.Rows.Count>0)
+                //    {
+                //        litTotalStaked.Text = dt.Rows[0]["TotalStaked"].ToString();
+                //        litTotalUSD.Text = (Decimal.Parse(dt.Rows[0]["TotalStaked"].ToString()) * 0.042m).ToString();
+                //        litActiveStakes.Text=dt.Rows[0][""]
+                //    }
+                //}
+
+
+                //    litTotalStaked.Text = summary.TotalStaked.ToString("0.00");
+                //litTotalUSD.Text = (summary.TotalStaked * 0.042m).ToString("0.00");
+                //litActiveStakes.Text = summary.ActiveStakes.ToString();
+                //litTotalRewards.Text = summary.TotalRewards.ToString("0.00");
+                //litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
+                //litAvgAPY.Text = summary.AverageAPY.ToString("0.00");
+                //litActiveCount.Text = summary.ActiveStakes.ToString();
 
                 // Reward stats
 
@@ -72,16 +95,49 @@ namespace Mexify.Web.User
 
 
 
-                litLifetimeRewards.Text = summary.TotalRewards.ToString("0.00");
-                litMonthRewards.Text = summary.MonthRewards.ToString("0.00");
-                litPendingRewards.Text = summary.PendingRewards.ToString("0.00");
+                //litLifetimeRewards.Text = summary.TotalRewards.ToString("0.00");
+                //litMonthRewards.Text = summary.MonthRewards.ToString("0.00");
+                //litPendingRewards.Text = summary.PendingRewards.ToString("0.00");
 
                 // Available pools
-                rptPools.DataSource = _stakingService.GetActivePools();
-                rptPools.DataBind();
+
+                string stakingpoolsql= "select * from StakingPools order by PoolID asc";
+                using (SqlCommand cmd = Web.Models.Connection.SqlQuery(stakingpoolsql))
+                {
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+
+                    sda.Fill(dt);
+                    rptPools.DataSource = dt;
+                    rptPools.DataBind();
+
+                }
+
+
+                StakingService _stakingService;
+                _stakingService = new StakingService();
+                var pools = _stakingService.GetAvailablePools();
+
+
+                if (pools != null && pools.Count > 0)
+                {
+                    rptPools.DataSource = pools;
+                    rptPools.DataBind();
+                    pnlNoPools.Visible = false;
+                }
+                else
+                {
+                    pnlNoPools.Visible = true;
+                }
+
+
+
+
+                //    rptPools.DataSource = _stakingService.GetActivePools();
+                //rptPools.DataBind();
 
                 // Active stakes
-                var activeStakes = _stakingService.GetUserActiveStakes(_userId);
+                var activeStakes = _userstakingService.GetUserActiveStakes(_userId);
                 if (activeStakes != null && activeStakes.Count > 0)
                 {
                     rptActiveStakes.DataSource = activeStakes;
@@ -93,8 +149,12 @@ namespace Mexify.Web.User
                     pnlNoActive.Visible = true;
                 }
 
+
+
+
+
                 // History
-                var history = _stakingService.GetUserStakingHistory(_userId);
+                var history = _userstakingService.GetUserStakingHistory(_userId);
                 if (history != null && history.Count > 0)
                 {
                     rptHistory.DataSource = history;
@@ -107,7 +167,7 @@ namespace Mexify.Web.User
                 }
 
                 // Rewards
-                var rewards = _stakingService.GetUserRewards(_userId, 20);
+                var rewards = _userstakingService.GetUserRewards(_userId, 20);
                 if (rewards != null && rewards.Count > 0)
                 {
                     rptRewards.DataSource = rewards;
@@ -183,7 +243,7 @@ namespace Mexify.Web.User
         {
             try
             {
-                var distribution = _stakingService.GetStakeDistribution(_userId);
+                var distribution = _userstakingService.GetStakeDistribution(_userId);
                 var labels = new List<string>();
                 var values = new List<string>();
                 var colors = new List<string>();

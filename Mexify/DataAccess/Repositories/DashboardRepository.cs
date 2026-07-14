@@ -56,6 +56,8 @@ namespace Mexify.DataAccess.Repositories
         }
 
 
+
+
         public PortfolioViewModel GetUserPortfolioHistory(int userId, string timeframe = "30d")
         {
             var model = new PortfolioViewModel();
@@ -67,7 +69,9 @@ namespace Mexify.DataAccess.Repositories
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserId", userId);
-                    cmd.Parameters.AddWithValue("@Timeframe", timeframe);
+
+                    // ✅ This now matches the stored procedure
+                    cmd.Parameters.AddWithValue("@Timeframe", string.IsNullOrEmpty(timeframe) ? "30d" : timeframe);
 
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
@@ -201,19 +205,19 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : new ReferralStats();
         }
 
-        public List<PortfolioPoint> GetPortfolioHistory(int userId, int days)
-        {
-            return ExecuteStoredProcedure<PortfolioPoint>(
-                "usp_GetUserPortfolioHistory",
-                reader => new PortfolioPoint
-                {
-                    Date = GetSafeDateTime(reader, "Date"),
-                    Value = GetSafeDecimal(reader, "Value")
-                },
-                CreateParameter("@UserId", userId),
-                CreateParameter("@Days", days)
-            );
-        }
+        //public List<PortfolioPoint> GetPortfolioHistory(int userId, int days)
+        //{
+        //    return ExecuteStoredProcedure<PortfolioPoint>(
+        //        "usp_GetUserPortfolioHistory",
+        //        reader => new PortfolioPoint
+        //        {
+        //            Date = GetSafeDateTime(reader, "Date"),
+        //            Value = GetSafeDecimal(reader, "Value")
+        //        },
+        //        CreateParameter("@UserId", userId),
+        //        CreateParameter("@Days", days)
+        //    );
+        //}
 
         public EarningsBreakdown GetEarningsBreakdown(int userId)
         {

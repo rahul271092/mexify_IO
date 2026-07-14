@@ -34,20 +34,20 @@ namespace Mexify.DataAccess.Repositories
                     {
                         MiningPlanId = GetSafeInt(reader, "MiningPlanId"),
                         PlanName = GetSafeString(reader, "PlanName") ?? "Mining Plan",
-                     //   Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
+                        Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
                         Hashrate = GetSafeDecimal(reader, "Hashrate").ToString("0.00"),
                         HashrateFormatted = GetSafeDecimal(reader, "Hashrate").ToString("0.00") + " TH/s",
                         PowerConsumption = GetSafeDecimal(reader, "PowerConsumption").ToString("0"),
                         Price = GetSafeDecimal(reader, "Price"),
-                        ContractDays = GetSafeInt(reader, "ContractDays"),
+                        ContractDays = GetSafeInt(reader, "DurationDays"),
                         DailyOutput = GetSafeDecimal(reader, "DailyOutput"),
                         MaintenanceFee = 0,
                       //  MaintenanceFeeFormatted = "Included",
-                       // RewardCurrency = "PNC",
+                        RewardCurrency = GetSafeString(reader,"RewardCurrency"),
                         RoiDays = CalculateRoiDays(
                             GetSafeDecimal(reader, "Price"),
-                            GetSafeDecimal(reader, "DailyOutput")),
-                        IsPopular = GetSafeBool(reader, "IsPopular"),
+                            GetSafeDecimal(reader, "ExpectedDailyReward")),
+                       // IsPopular = GetSafeBool(reader, "IsPopular"),
                         IsActive = GetSafeBool(reader, "IsActive"),
                   //      CreatedDate = GetSafeDateTime(reader, "CreatedDate")
                     }
@@ -74,13 +74,13 @@ namespace Mexify.DataAccess.Repositories
                     {
                         MiningPlanId = GetSafeInt(reader, "MiningPlanId"),
                         PlanName = GetSafeString(reader, "PlanName") ?? "Mining Plan",
-                        Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
+                     //   Algorithm = GetSafeString(reader, "Algorithm") ?? "SHA-256",
                         Hashrate = GetSafeDecimal(reader, "Hashrate").ToString("0.00"),
                         HashrateFormatted = GetSafeDecimal(reader, "Hashrate").ToString("0.00") + " TH/s",
                         PowerConsumption = GetSafeDecimal(reader, "PowerConsumption").ToString("0"),
                         Price = GetSafeDecimal(reader, "Price"),
                         ContractDays = GetSafeInt(reader, "ContractDays"),
-                        DailyOutput = GetSafeDecimal(reader, "DailyOutput"),
+                        DailyOutput = GetSafeDecimal(reader, "DailyReward"),
                         IsPopular = GetSafeBool(reader, "IsPopular"),
                         IsActive = GetSafeBool(reader, "IsActive"),
                         CreatedDate = GetSafeDateTime(reader, "CreatedDate")

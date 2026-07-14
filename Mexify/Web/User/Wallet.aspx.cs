@@ -77,7 +77,7 @@ namespace Mexify.Web.User
                 }
 
                 litTotalBalance.Text = totalPNC.ToString("0.00");
-                litTotalUSD.Text = (totalPNC * 0.042m).ToString("0.00"); // PNC to USD rate
+                litTotalUSD.Text = totalPNC.ToString("0.00"); // PNC to USD rate
             }
             catch (Exception ex)
             {

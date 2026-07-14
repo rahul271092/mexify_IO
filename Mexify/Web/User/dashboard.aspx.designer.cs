@@ -13,6 +13,24 @@ namespace Mexify.Web.User {
     public partial class Dashboard {
         
         /// <summary>
+        /// pnlEntryFeeModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEntryFeeModal;
+        
+        /// <summary>
+        /// EntryFeeModal1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Mexify.Web.User.Controls.EntryFeeModal EntryFeeModal1;
+        
+        /// <summary>
         /// litDate control.
         /// </summary>
         /// <remarks>
@@ -40,42 +58,6 @@ namespace Mexify.Web.User {
         protected global::System.Web.UI.WebControls.Literal litTodayROI;
         
         /// <summary>
-        /// litTotalBalance control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalBalance;
-        
-        /// <summary>
-        /// litTotalInvested control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalInvested;
-        
-        /// <summary>
-        /// litTotalEarnings control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalEarnings;
-        
-        /// <summary>
-        /// litTodayProfit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTodayProfit;
-        
-        /// <summary>
         /// litNetWorth control.
         /// </summary>
         /// <remarks>
@@ -94,49 +76,22 @@ namespace Mexify.Web.User {
         protected global::System.Web.UI.WebControls.Literal litWalletBalance;
         
         /// <summary>
-        /// Literal1 control.
+        /// litTotalInvested control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Literal1;
+        protected global::System.Web.UI.WebControls.Literal litTotalInvested;
         
         /// <summary>
-        /// Literal2 control.
+        /// litTotalEarnings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Literal2;
-        
-        /// <summary>
-        /// hidChartLabels control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidChartLabels;
-        
-        /// <summary>
-        /// hidChartInflow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidChartInflow;
-        
-        /// <summary>
-        /// hidChartOutflow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidChartOutflow;
+        protected global::System.Web.UI.WebControls.Literal litTotalEarnings;
         
         /// <summary>
         /// rptWallets control.
@@ -218,5 +173,32 @@ namespace Mexify.Web.User {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litTotalCommission;
+        
+        /// <summary>
+        /// hidChartLabels control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidChartLabels;
+        
+        /// <summary>
+        /// hidChartInflows control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidChartInflows;
+        
+        /// <summary>
+        /// hidChartOutflows control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidChartOutflows;
     }
 }

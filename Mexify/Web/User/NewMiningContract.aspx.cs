@@ -28,7 +28,7 @@ namespace Mexify.Web.User
             _walletService = new WalletService();
 
 
-            _planId = Int32.Parse(Request.QueryString["planId"]);
+          //  _planId = Int32.Parse(Request.QueryString["planId"]);
 
             //if (!int.TryParse(Request.QueryString["planId"], out _planId) || _planId <= 0)
             //{
@@ -85,7 +85,7 @@ namespace Mexify.Web.User
 
                 if (wallets != null)
                 {
-                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "PNC");
+                    var usdtWallet = wallets.FirstOrDefault(w => w.CurrencyCode == "USDT");
                     if (usdtWallet != null)
                     {
                         usdtBalance = usdtWallet.Balance;

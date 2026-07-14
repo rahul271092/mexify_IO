@@ -54,10 +54,10 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserActiveStakes",
                 reader => new UserStake
                 {
-                    StakingInvestmentId = GetSafeLong(reader, "StakingInvestmentId"),
+                    StakingInvestmentId = GetSafeLong(reader, "StakeId"),
                     PlanName = GetSafeString(reader, "PlanName") ?? "Stake",
                     CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
-                    Amount = GetSafeDecimal(reader, "Amount"),
+                    Amount = GetSafeDecimal(reader, "StakedAmount"),
                     APY = GetSafeDecimal(reader, "APY"),
                     LockPeriodDays = GetSafeInt(reader, "LockPeriodDays"),
                     TotalRewards = GetSafeDecimal(reader, "TotalRewards"),
@@ -79,14 +79,14 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserStakingHistory",
                 reader => new UserStake
                 {
-                    StakingInvestmentId = GetSafeLong(reader, "StakingInvestmentId"),
-                    PlanName = GetSafeString(reader, "PlanName") ?? "Stake",
+                    StakingInvestmentId = GetSafeLong(reader, "StakeId"),
+                    PlanName = GetSafeString(reader, "PoolName") ?? "Stake",
                     CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
-                    Amount = GetSafeDecimal(reader, "Amount"),
+                    Amount = GetSafeDecimal(reader, "StakedAmount"),
                     APY = GetSafeDecimal(reader, "APY"),
                     TotalRewards = GetSafeDecimal(reader, "TotalRewards"),
                     Status = GetSafeInt(reader, "Status"),
-                    StartDate = GetSafeDateTime(reader, "StartDate")
+                    StartDate = GetSafeDateTime(reader, "StakedDate")
                 },
                 CreateParameter("@UserId", userId)
             );

@@ -82,7 +82,29 @@ namespace Mexify.Web.Models
         public bool IsActive { get; set; }
     }
 
-  
+
+    public class DepositAddressInfo
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public string DepositAddress { get; set; }
+        public string Network { get; set; }
+        public string Memo { get; set; }
+        public string QRCodeData { get; set; }
+        public string CurrencyCode { get; set; }
+        public string CurrencyName { get; set; }
+        public decimal MinDeposit { get; set; }
+        public decimal MaxDeposit { get; set; }
+        public decimal NetworkFee { get; set; }
+        public string EstimatedTime { get; set; }
+        public string Warning { get; set; }
+
+        // Calculated
+        public bool HasMemo => !string.IsNullOrEmpty(Memo);
+        public string ShortAddress => DepositAddress?.Length > 20
+            ? DepositAddress.Substring(0, 10) + "..." + DepositAddress.Substring(DepositAddress.Length - 8)
+            : DepositAddress;
+    }
 
     public class WithdrawalResult
     {

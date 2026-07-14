@@ -73,13 +73,40 @@
                     <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="nav-link <%= IsActive("Dashboard") %>">
                         <i class="fas fa-th-large"></i> <span>Dashboard</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="nav-link <%= IsActive("Wallet") %>">
-                        <i class="fas fa-wallet"></i> <span>My Wallet</span>
-                    </a>
-                    <a href="<%= ResolveUrl("~/Web/User/Portfolio.aspx") %>" class="nav-link <%= IsActive("Portfolio") %>">
+
+                     <a href="<%= ResolveUrl("~/Web/User/Portfolio.aspx") %>" class="nav-link <%= IsActive("Portfolio") %>">
                         <i class="fas fa-chart-pie"></i> <span>Portfolio</span>
                     </a>
                 </div>
+
+
+                <div class="nav-section">
+    <span class="nav-label">Wallet</span>
+    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="nav-link">
+        <i class="fas fa-wallet"></i><span>My Wallet</span>
+    </a>
+
+
+
+    <a href="<%= ResolveUrl("~/Web/User/Transfer.aspx") %>" class="nav-link">
+        <i class="fas fa-paper-plane"></i><span>Send</span>
+    </a>
+    <a href="<%= ResolveUrl("~/Web/User/Receive.aspx") %>" class="nav-link">
+        <i class="fas fa-qrcode"></i><span>Receive</span>
+    </a>
+
+                                       
+
+                     <a href="<%= ResolveUrl("~/Web/User/P2P.aspx") %>" class="nav-link <%= IsActive("P2P") %>">
+                        <i class="fas fa-chart-pie"></i> <span>P2P</span>
+                    </a>
+
+
+    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="nav-link">
+        <i class="fas fa-history"></i><span>Transactions</span>
+    </a>
+</div>
+
 
                 <!-- Investments Section -->
                 <div class="nav-section">
@@ -94,7 +121,7 @@
                             </a>
 
                     
-                       <a href="<%= ResolveUrl("~/Web/User/Staking.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
+                       <a href="<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
                         <i class="fas fa-coins"></i> <span>Staking</span>
                     </a>
 
@@ -143,9 +170,14 @@
 
                 <!-- Logout -->
                 <div class="nav-section">
-                    <a href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>" class="nav-link nav-logout">
+                    <%--<a href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>" class="nav-link nav-logout">
                         <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-                    </a>
+                    </a>--%>
+
+                    <asp:LinkButton ID="LogoutButton" runat="server" Text="Logout" CssClass="nav-link nav-logout" OnClick="LogoutButton_Click" >
+                    <i class="fas fa-sign-out-alt"></i>
+
+                        </asp:LinkButton>
                 </div>
             </nav>
 
@@ -255,9 +287,14 @@
                                 <i class="fas fa-headset me-2"></i> Support
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>">
-                                <i class="fas fa-sign-out-alt me-2"></i> Logout
-                            </a>
+                            <asp:LinkButton runat="server" ID="Logout2Button" 
+    OnClick="Logout2Button_Click" 
+    CssClass="dropdown-item text-danger">
+    <i class="fas fa-sign-out-alt me-2"></i>
+    <span>Logout</span>
+</asp:LinkButton>
+
+
                         </div>
                     </div>
                 </div>

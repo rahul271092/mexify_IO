@@ -47,10 +47,10 @@ namespace Mexify.Business.Services
                     "usp_CreateInvestment",
                     _repository.CreateParameter("@UserId", userId),
                     _repository.CreateParameter("@PlanId", planId),
-                    _repository.CreateParameter("@Amount", amount),
-                    _repository.CreateParameter("@ParentInvestmentId", DBNull.Value),
-                    _repository.CreateParameter("@ReinvestCount", 0),
-                    _repository.CreateParameter("@AutoReinvest", true),
+                    _repository.CreateParameter("@InvestAmount", amount),
+                    //_repository.CreateParameter("@ParentInvestmentId", DBNull.Value),
+                    //_repository.CreateParameter("@ReinvestCount", 0),
+                    //_repository.CreateParameter("@AutoReinvest", true),
                     outputId,
                     outputSuccess,
                     outputMessage
@@ -114,8 +114,8 @@ namespace Mexify.Business.Services
             decimal directReferral = amount * plan.DirectReferralPercent / 100;
             decimal adminFee = amount * plan.AdminFeePercent / 100;
             decimal royaltyFee = amount * plan.RoyaltyPercent / 100;
-            decimal totalFees = depositFee;
-            decimal investmentPool = amount + depositFee;
+            decimal totalFees = depositFee + withdrawalFee + adminFee + directReferral + royaltyFee; 
+            decimal investmentPool = amount - depositFee - withdrawalFee - adminFee - directReferral - royaltyFee;
 
             return new FeeBreakdown
             {

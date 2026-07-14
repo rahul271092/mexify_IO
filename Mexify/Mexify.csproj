@@ -224,6 +224,7 @@
     <Content Include="Web\roi.aspx" />
     <Content Include="Web\royalty.aspx" />
     <Content Include="Web\staking.aspx" />
+    <Content Include="Web\User\Controls\EntryFeeModal.ascx" />
     <Content Include="Web\User\dashboard.aspx" />
     <Content Include="Web\User\ICO.aspx" />
     <Content Include="Web\User\Investments.aspx" />
@@ -237,8 +238,10 @@
     <Content Include="Web\User\MyLicenses.aspx" />
     <Content Include="Web\User\NewMiningContract.aspx" />
     <Content Include="Web\User\NFTs.aspx" />
+    <Content Include="Web\User\P2P.aspx" />
     <Content Include="Web\User\Portfolio.aspx" />
     <Content Include="Web\User\Profile.aspx" />
+    <Content Include="Web\User\Receive.aspx" />
     <Content Include="Web\User\Referrals.aspx" />
     <Content Include="Web\User\Royalty.aspx" />
     <Content Include="Web\User\Salary.aspx" />
@@ -247,7 +250,9 @@
     <Content Include="Web\User\StakeNow.aspx" />
     <Content Include="Web\User\Staking.aspx" />
     <Content Include="Web\User\Support.aspx" />
+    <Content Include="Web\User\Trade.aspx" />
     <Content Include="Web\User\Transactions.aspx" />
+    <Content Include="Web\User\Transfer.aspx" />
     <Content Include="Web\User\Wallet.aspx" />
     <Content Include="Web\User\Web3API.aspx" />
     <Content Include="App_Data\logs\error_20260704.log" />
@@ -334,6 +339,7 @@
     <Compile Include="Business\Services\SecurityService.cs" />
     <Compile Include="Business\Services\StakingService.cs" />
     <Compile Include="Business\Services\TransactionService.cs" />
+    <Compile Include="Business\Services\TransferService.cs" />
     <Compile Include="Business\Services\UserICOService.cs" />
     <Compile Include="Business\Services\UserNFTService.cs" />
     <Compile Include="Business\Services\UserProfileService.cs" />
@@ -354,6 +360,7 @@
     <Compile Include="DataAccess\Repositories\MiningRepository.cs" />
     <Compile Include="DataAccess\Repositories\MyMiningRepository.cs" />
     <Compile Include="DataAccess\Repositories\NFTRepository.cs" />
+    <Compile Include="DataAccess\Repositories\P2PRepository.cs" />
     <Compile Include="DataAccess\Repositories\PortfolioRepository.cs" />
     <Compile Include="DataAccess\Repositories\ReferralRepository.cs" />
     <Compile Include="DataAccess\Repositories\RoyaltyRepository.cs" />
@@ -361,6 +368,7 @@
     <Compile Include="DataAccess\Repositories\SecurityRepository.cs" />
     <Compile Include="DataAccess\Repositories\StakingRepository.cs" />
     <Compile Include="DataAccess\Repositories\TransactionRepository.cs" />
+    <Compile Include="DataAccess\Repositories\TransferRepository.cs" />
     <Compile Include="DataAccess\Repositories\UserICORepository.cs" />
     <Compile Include="DataAccess\Repositories\UserMiningRepository.cs" />
     <Compile Include="DataAccess\Repositories\UserNFTRepository.cs" />
@@ -474,11 +482,13 @@
     <Compile Include="Web\Models\InvestmentModels.cs" />
     <Compile Include="Web\Models\InvestmentPlan.cs" />
     <Compile Include="Web\Models\KYCModels.cs" />
+    <Compile Include="Web\Models\LicenseHistoryItem.cs" />
     <Compile Include="Web\Models\MiningModels.cs" />
     <Compile Include="Web\Models\MiningPlan.cs" />
     <Compile Include="Web\Models\MiningResultModels.cs" />
     <Compile Include="Web\Models\NFT.cs" />
     <Compile Include="Web\Models\NFTModels.cs" />
+    <Compile Include="Web\Models\P2PModels.cs" />
     <Compile Include="Web\Models\PortfolioModels.cs" />
     <Compile Include="Web\Models\ReferralModels.cs" />
     <Compile Include="Web\Models\RewardModels.cs" />
@@ -495,6 +505,7 @@
     <Compile Include="Web\Models\TestimonialModels.cs" />
     <Compile Include="Web\Models\TimelineItem.cs" />
     <Compile Include="Web\Models\TransactionModels.cs" />
+    <Compile Include="Web\Models\TransferModels.cs" />
     <Compile Include="Web\Models\User.cs" />
     <Compile Include="Web\Models\UserICOModels.cs" />
     <Compile Include="Web\Models\LicenseModels.cs" />
@@ -538,6 +549,13 @@
     </Compile>
     <Compile Include="Web\staking.aspx.designer.cs">
       <DependentUpon>staking.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Controls\EntryFeeModal.ascx.cs">
+      <DependentUpon>EntryFeeModal.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Controls\EntryFeeModal.ascx.designer.cs">
+      <DependentUpon>EntryFeeModal.ascx</DependentUpon>
     </Compile>
     <Compile Include="Web\User\dashboard.aspx.cs">
       <DependentUpon>dashboard.aspx</DependentUpon>
@@ -630,6 +648,13 @@
     <Compile Include="Web\User\NFTs.aspx.designer.cs">
       <DependentUpon>NFTs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\P2P.aspx.cs">
+      <DependentUpon>P2P.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\P2P.aspx.designer.cs">
+      <DependentUpon>P2P.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\Portfolio.aspx.cs">
       <DependentUpon>Portfolio.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -643,6 +668,13 @@
     </Compile>
     <Compile Include="Web\User\Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Receive.aspx.cs">
+      <DependentUpon>Receive.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Receive.aspx.designer.cs">
+      <DependentUpon>Receive.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\User\Referrals.aspx.cs">
       <DependentUpon>Referrals.aspx</DependentUpon>
@@ -700,12 +732,26 @@
     <Compile Include="Web\User\Support.aspx.designer.cs">
       <DependentUpon>Support.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\Trade.aspx.cs">
+      <DependentUpon>Trade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Trade.aspx.designer.cs">
+      <DependentUpon>Trade.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\Transactions.aspx.cs">
       <DependentUpon>Transactions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Web\User\Transactions.aspx.designer.cs">
       <DependentUpon>Transactions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Transfer.aspx.cs">
+      <DependentUpon>Transfer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Transfer.aspx.designer.cs">
+      <DependentUpon>Transfer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\User\Wallet.aspx.cs">
       <DependentUpon>Wallet.aspx</DependentUpon>

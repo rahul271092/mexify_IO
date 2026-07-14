@@ -861,7 +861,64 @@
             Available Staking Pools
         </h4>
         <div class="row g-4">
-            <asp:Repeater ID="rptPools" runat="server">
+
+                   <asp:Repeater ID="rptPools" runat="server">
+                <ItemTemplate>
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                        <div class='pool-card <%# Convert.ToBoolean(Eval("IsHot")) ? "hot" : (Convert.ToBoolean(Eval("IsNew")) ? "new" : "") %>'>
+                            <div class="pool-header">
+                                <div class='pool-icon <%# Eval("CurrencyCode").ToString().ToLower() %>'>
+                                    <i class='<%# GetCurrencyIcon(Eval("CurrencyCode")) %>'></i>
+                                </div>
+                                <div>
+                                    <div class="pool-name"><%# Eval("PoolName") %></div>
+                                    <div class="pool-symbol"><%# Eval("CurrencyCode") %> Staking</div>
+                                </div>
+                            </div>
+
+                            <div class="pool-apy">
+                                <div class="apy-label">Annual Percentage Yield</div>
+                                <div class="apy-value">
+                                    <%# string.Format("{0:0.##}", Eval("APY")) %><small>% APY</small>
+                                </div>
+                            </div>
+
+                            <div class="pool-stats">
+                                <div class="pool-stat">
+                                    <div class="pool-stat-label">Min Stake</div>
+                                    <div class="pool-stat-value"><%# string.Format("{0:0.##}", Eval("MinStake")) %></div>
+                                </div>
+                                <div class="pool-stat">
+                                    <div class="pool-stat-label">Max Stake</div>
+                                    <div class="pool-stat-value"><%# string.Format("{0:0}", Eval("MaxStake")) %></div>
+                                </div>
+                                <div class="pool-stat">
+                                    <div class="pool-stat-label">Total Staked</div>
+                                    <div class="pool-stat-value"><%# Eval("TotalStakedFormatted") %></div>
+                                </div>
+                                <div class="pool-stat">
+                                    <div class="pool-stat-label">Stakers</div>
+                                    <div class="pool-stat-value"><%# Eval("StakersCount") %></div>
+                                </div>
+                            </div>
+
+                            <div class="pool-lock-period">
+                                <i class="fas fa-lock"></i>
+                                <span>Lock Period:</span>
+                                <strong><%# Eval("LockPeriodDays") %> Days</strong>
+                            </div>
+
+                            <button type="button" class="btn-stake" onclick='openStakeModal(<%# Eval("PoolId") %>, "<%# Eval("PoolName") %>", "<%# Eval("CurrencyCode") %>", <%# Eval("APY") %>, <%# Eval("MinStake") %>, <%# Eval("LockPeriodDays") %>)'>
+                                <i class="fas fa-coins"></i> Stake Now
+                            </button>
+                        </div>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+     
+
+
+<%--            <asp:Repeater ID="rptPools" runat="server">
                 <ItemTemplate>
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
                         <div class='pool-card <%# (Eval("IsHot") != null && Convert.ToBoolean(Eval("IsHot"))) ? "featured" : "" %>'>
@@ -881,8 +938,8 @@
                                 <small>APY</small>
                             </div>
                             <div class="pool-limits">
-                                <span>Min: <%# string.Format("{0:0.##}", Eval("MinStake") ?? 0) %> PNC</span>
-                                <span>Max: <%# string.Format("{0:0.##}", Eval("MaxStake") ?? 0) %> PNC</span>
+                                <span>Min: <%# string.Format("{0:0.##}", Eval("MinStake") ?? 0) %> USDT</span>
+                                <span>Max: <%# string.Format("{0:0.##}", Eval("MaxStake") ?? 0) %> USDT</span>
                             </div>
                             <a href='<%# ResolveUrl("~/Web/User/StakeNow.aspx?poolId=" + Eval("PoolId")) %>' class="btn btn-primary-glow w-100">
                                 <i class="fas fa-bolt me-2"></i> Stake Now
@@ -890,7 +947,7 @@
                         </div>
                     </div>
                 </ItemTemplate>
-            </asp:Repeater>
+            </asp:Repeater>--%>
         </div>
 
         <asp:Panel ID="pnlNoPools" runat="server" Visible="false">

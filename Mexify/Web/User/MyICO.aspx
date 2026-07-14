@@ -4,12 +4,8 @@
     <style>
 
 
-        .user-main{
-            width:85vw;
-        }
-
         .ico-header {
-            display: flex;
+            display: contents;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 32px;
@@ -364,10 +360,10 @@
 
     <!-- Header -->
     <div class="ico-header" data-aos="fade-up">
-        <div>
-            <h2><i class="fas fa-rocket me-2" style="color: var(--gold);"></i>PNC Token ICO</h2>
+       
+            <h2><i class="fas fa-rocket me-2" style="color: var(--gold);"></i>PNC COIN ICO</h2>
             <p class="text-gray mb-0">Initial Coin Offering - 111,111,111 PNC Total Supply</p>
-        </div>
+       
     </div>
 
     <!-- Messages -->
@@ -455,7 +451,7 @@
 
                         <div class="mt-4">
                             <button type="button" class="btn-ico" onclick="switchTab('purchase')">
-                                <i class="fas fa-shopping-cart me-2"></i> Buy PNC Tokens Now
+                                <i class="fas fa-shopping-cart me-2"></i> Buy PNC COIN Now
                             </button>
                         </div>
                     </div>
@@ -482,7 +478,7 @@
                 <div class="purchase-card">
                     <h3 class="text-white mb-4">
                         <i class="fas fa-shopping-cart me-2" style="color: var(--accent);"></i>
-                        Buy PNC Tokens
+                        Buy PNC COIN
                     </h3>
 
                     <div class="alert-box warning">

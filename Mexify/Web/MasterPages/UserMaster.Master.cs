@@ -105,5 +105,20 @@ namespace Mexify.Web.MasterPages
         {
             litBreadcrumb.Text = text;
         }
+
+        protected void LogoutButton_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("~/Web/Default.aspx");
+        }
+
+        protected void Logout2Button_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("~/Web/Default.aspx");
+
+        }
     }
 }

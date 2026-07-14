@@ -2,6 +2,10 @@
 using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Utilities;
+using Mexify.Models;
+using Mexify.DataAccess;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web.User
 {
@@ -107,6 +111,135 @@ namespace Mexify.Web.User
                 Logger.Error("License page load failed for user " + _userId, ex);
             }
         }
+
+
+
+        //public Web.Models.LicenseHistoryResult GetUserLicenseHistory(  int userId,  string statusFilter = "all",  string sortBy = "date_desc",  int pageNumber = 1,  int pageSize = 20)
+        //{
+        //    var result = new LicenseHistoryResult
+        //    {
+        //        PageNumber = pageNumber,
+        //        PageSize = pageSize
+        //    };
+
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetLicenseHistory", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+        //            cmd.Parameters.AddWithValue("@StatusFilter", string.IsNullOrEmpty(statusFilter) ? "all" : statusFilter);
+        //            cmd.Parameters.AddWithValue("@SortBy", string.IsNullOrEmpty(sortBy) ? "date_desc" : sortBy);
+        //            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+        //            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                // Result Set 1: Summary
+        //                if (reader.Read())
+        //                {
+        //                    result.Summary = new LicenseHistorySummary
+        //                    {
+        //                        TotalLicenses = GetSafeInt(reader, "TotalLicenses"),
+        //                        ActiveLicenses = GetSafeInt(reader, "ActiveLicenses"),
+        //                        CompletedLicenses = GetSafeInt(reader, "CompletedLicenses"),
+        //                        CancelledLicenses = GetSafeInt(reader, "CancelledLicenses"),
+        //                        TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+        //                        TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+        //                        TotalProfitLoss = GetSafeDecimal(reader, "TotalProfitLoss"),
+        //                        OverallROI = GetSafeDecimal(reader, "OverallROI"),
+        //                        TodayEarnings = GetSafeDecimal(reader, "TodayEarnings"),
+        //                        MonthEarnings = GetSafeDecimal(reader, "MonthEarnings"),
+        //                        LifetimeEarnings = GetSafeDecimal(reader, "LifetimeEarnings"),
+        //                        AverageDailyROI = GetSafeDecimal(reader, "AverageDailyROI"),
+        //                        TotalPayouts = GetSafeInt(reader, "TotalPayouts")
+        //                    };
+        //                }
+
+        //                // Result Set 2: Licenses List
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        result.Licenses.Add(new Mexify.Web.Models.LicenseHistoryItem
+        //                        {
+        //                            // ✅ FIX: Use "LicenseId" not "HistoryId"
+        //                            LicenseId = GetSafeLong(reader, "LicenseId"),
+        //                            PackageName = GetSafeString(reader, "PackageName") ?? "",
+        //                            PurchasePrice = GetSafeDecimal(reader, "PurchasePrice"),
+        //                            DailyROI = GetSafeDecimal(reader, "DailyROI"),
+        //                            StartDate = GetSafeDateTime(reader, "StartDate"),
+        //                            EndDate = GetSafeDateTime(reader, "EndDate"),
+        //                            TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+        //                            Status = GetSafeInt(reader, "Status"),
+        //                            StatusName = GetSafeString(reader, "StatusName") ?? "",
+        //                            StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+        //                            TotalDays = GetSafeInt(reader, "TotalDays"),
+        //                            DaysRemaining = GetSafeInt(reader, "DaysRemaining"),
+        //                            DaysElapsed = GetSafeInt(reader, "DaysElapsed"),
+        //                            ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+        //                            DailyEarning = GetSafeDecimal(reader, "DailyEarning"),
+        //                            ProjectedTotalReturn = GetSafeDecimal(reader, "ProjectedTotalReturn"),
+        //                            ROIAchieved = GetSafeDecimal(reader, "ROIAchieved"),
+        //                            ProfitLoss = GetSafeDecimal(reader, "ProfitLoss"),
+        //                            NextPayoutDate = reader["NextPayoutDate"] == DBNull.Value
+        //                                ? (DateTime?)null
+        //                                : Convert.ToDateTime(reader["NextPayoutDate"]),
+        //                            CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+        //                        });
+        //                    }
+        //                }
+
+        //                // Result Set 3: Total Count
+        //                if (reader.NextResult() && reader.Read())
+        //                {
+        //                    result.TotalCount = GetSafeInt(reader, "TotalCount");
+        //                }
+
+        //                // Result Set 4: Recent Payouts
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        result.RecentPayouts.Add(new LicensePayout
+        //                        {
+        //                            WalletTransactionId = GetSafeLong(reader, "WalletTransactionId"),
+        //                            Amount = GetSafeDecimal(reader, "Amount"),
+        //                            CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+        //                            CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+        //                            TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+        //                            IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-coins",
+        //                            CategoryClass = GetSafeString(reader, "CategoryClass") ?? "royalty"
+        //                        });
+        //                    }
+        //                }
+
+        //                // Result Set 5: Monthly Earnings
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        result.MonthlyEarnings.Add(new LicenseMonthlyEarning
+        //                        {
+        //                            MonthLabel = GetSafeString(reader, "MonthLabel") ?? "",
+        //                            MonthlyEarnings = GetSafeDecimal(reader, "MonthlyEarnings"),
+        //                            PayoutCount = GetSafeInt(reader, "PayoutCount"),
+        //                            ChartColor = GetSafeString(reader, "ChartColor") ?? "#FFD700"
+        //                        });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get license history for User {userId}", ex);
+        //    }
+
+        //    return result;
+        //}
 
         private string GenerateBenefitsHtml(string licenseType)
         {
@@ -217,5 +350,41 @@ public string GetLicenseColor(object type)
     if (t == "Platinum") return "#E5E4E2";
     return "#6B758D";
 }
+    }
+
+    public class LicenseHistorySummary
+    {
+        public object ActiveLicenses { get; set; }
+        public object AverageDailyROI { get; set; }
+        public object CancelledLicenses { get; set; }
+        public object CompletedLicenses { get; set; }
+        public object LifetimeEarnings { get; set; }
+        public object MonthEarnings { get; set; }
+        public object OverallROI { get; set; }
+        public object TodayEarnings { get; set; }
+        public object TotalEarned { get; set; }
+        public object TotalInvested { get; set; }
+        public object TotalLicenses { get; set; }
+        public object TotalPayouts { get; set; }
+        public object TotalProfitLoss { get; set; }
+    }
+
+    public class LicenseMonthlyEarning
+    {
+        public string ChartColor { get; set; }
+        public string MonthLabel { get; set; }
+        public object MonthlyEarnings { get; set; }
+        public object PayoutCount { get; set; }
+    }
+
+    public class LicensePayout
+    {
+        public object Amount { get; set; }
+        public string CategoryClass { get; set; }
+        public object CreatedDate { get; set; }
+        public string CurrencyCode { get; set; }
+        public string IconClass { get; set; }
+        public string TimeAgo { get; set; }
+        public object WalletTransactionId { get; set; }
     }
 }

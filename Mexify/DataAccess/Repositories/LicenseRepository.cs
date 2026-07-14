@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using Mexify.Models;
 using System.Data;
 using Mexify.Utilities;
+using Mexify.Web.User;
+using Mexify.Web.Models;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -84,6 +86,139 @@ namespace Mexify.DataAccess.Repositories
                 result.Success = false;
                 result.ErrorMessage = "Database error: " + ex.Message;
             }
+            return result;
+        }
+
+
+        public LicenseHistoryResult GetUserLicenseHistory(
+    int userId,
+    string statusFilter = "all",
+    string sortBy = "date_desc",
+    int pageNumber = 1,
+    int pageSize = 20)
+        {
+            var result = new LicenseHistoryResult
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetLicenseHistory", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@StatusFilter", string.IsNullOrEmpty(statusFilter) ? "all" : statusFilter);
+                    cmd.Parameters.AddWithValue("@SortBy", string.IsNullOrEmpty(sortBy) ? "date_desc" : sortBy);
+                    cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Result Set 1: Summary
+                        if (reader.Read())
+                        {
+                            result.Summary = new LicenseHistorySummary
+                            {
+                                TotalLicenses = GetSafeInt(reader, "TotalLicenses"),
+                                ActiveLicenses = GetSafeInt(reader, "ActiveLicenses"),
+                                CompletedLicenses = GetSafeInt(reader, "CompletedLicenses"),
+                                CancelledLicenses = GetSafeInt(reader, "CancelledLicenses"),
+                                TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+                                TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+                                TotalProfitLoss = GetSafeDecimal(reader, "TotalProfitLoss"),
+                                OverallROI = GetSafeDecimal(reader, "OverallROI"),
+                                TodayEarnings = GetSafeDecimal(reader, "TodayEarnings"),
+                                MonthEarnings = GetSafeDecimal(reader, "MonthEarnings"),
+                                LifetimeEarnings = GetSafeDecimal(reader, "LifetimeEarnings"),
+                                AverageDailyROI = GetSafeDecimal(reader, "AverageDailyROI"),
+                                TotalPayouts = GetSafeInt(reader, "TotalPayouts")
+                            };
+                        }
+
+                        // Result Set 2: Licenses List
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Licenses.Add(new LicenseHistoryItem
+                                {
+                                    // ✅ FIX: Use "LicenseId" not "HistoryId"
+                                    LicenseId = GetSafeLong(reader, "LicenseId"),
+                                    PackageName = GetSafeString(reader, "PackageName") ?? "",
+                                    PurchasePrice = GetSafeDecimal(reader, "PurchasePrice"),
+                                    DailyROI = GetSafeDecimal(reader, "DailyROI"),
+                                    StartDate = GetSafeDateTime(reader, "StartDate"),
+                                    EndDate = GetSafeDateTime(reader, "EndDate"),
+                                    TotalEarned = GetSafeDecimal(reader, "TotalEarned"),
+                                    Status = GetSafeInt(reader, "Status"),
+                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
+                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+                                    TotalDays = GetSafeInt(reader, "TotalDays"),
+                                    DaysRemaining = GetSafeInt(reader, "DaysRemaining"),
+                                    DaysElapsed = GetSafeInt(reader, "DaysElapsed"),
+                                    ProgressPercent = GetSafeDecimal(reader, "ProgressPercent"),
+                                    DailyEarning = GetSafeDecimal(reader, "DailyEarning"),
+                                    ProjectedTotalReturn = GetSafeDecimal(reader, "ProjectedTotalReturn"),
+                                    ROIAchieved = GetSafeDecimal(reader, "ROIAchieved"),
+                                    ProfitLoss = GetSafeDecimal(reader, "ProfitLoss"),
+                                    NextPayoutDate = reader["NextPayoutDate"] == DBNull.Value
+                                        ? (DateTime?)null
+                                        : Convert.ToDateTime(reader["NextPayoutDate"]),
+                                    CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                                });
+                            }
+                        }
+
+                        // Result Set 3: Total Count
+                        if (reader.NextResult() && reader.Read())
+                        {
+                            result.TotalCount = GetSafeInt(reader, "TotalCount");
+                        }
+
+                        // Result Set 4: Recent Payouts
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.RecentPayouts.Add(new Web.Models.LicensePayout
+                                {
+                                    WalletTransactionId = GetSafeLong(reader, "WalletTransactionId"),
+                                    Amount = GetSafeDecimal(reader, "Amount"),
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                                    CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+                                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+                                    IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-coins",
+                                    CategoryClass = GetSafeString(reader, "CategoryClass") ?? "royalty"
+                                });
+                            }
+                        }
+
+                        // Result Set 5: Monthly Earnings
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                result.MonthlyEarnings.Add(new Web.Models.LicenseMonthlyEarning
+                                {
+                                    MonthLabel = GetSafeString(reader, "MonthLabel") ?? "",
+                                    MonthlyEarnings = GetSafeDecimal(reader, "MonthlyEarnings"),
+                                    PayoutCount = GetSafeInt(reader, "PayoutCount"),
+                                    ChartColor = GetSafeString(reader, "ChartColor") ?? "#FFD700"
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get license history for User {userId}", ex);
+            }
+
             return result;
         }
 

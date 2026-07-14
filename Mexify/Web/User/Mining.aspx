@@ -903,14 +903,14 @@
                             <div>
                                 <div class="contract-name"><%# Eval("PlanName") %></div>
                                 <div class="contract-algo">
-                                    Contract #<%# Eval("MiningInvestmentId") %> · 
-                                    <%# Eval("Algorithm") %> · 
+                                    Contract #<%# Eval("MiningPlanId") %> 
+                              <%--      <%# Eval("Algorithm") %> · --%>
                                     Started <%# Convert.ToDateTime(Eval("StartDate")).ToString("MMM dd, yyyy") %>
                                 </div>
                             </div>
                         </div>
                         <div class="contract-hashrate">
-                            <div class="contract-hashrate-value"><%# Eval("HashrateFormatted") %></div>
+                            <div class="contract-hashrate-value"><%# Eval("Hashrate") %></div>
                             <div class="contract-status text-accent">● Active</div>
                         </div>
                     </div>
@@ -918,7 +918,7 @@
                     <div class="contract-details">
                         <div class="contract-detail">
                             <div class="label">Duration</div>
-                            <div class="value"><%# Eval("DurationDays") %> Days</div>
+                            <div class="value"><%# Eval("ContractDays") %> Days</div>
                         </div>
                         <div class="contract-detail">
                             <div class="label">Progress</div>
@@ -926,11 +926,11 @@
                         </div>
                         <div class="contract-detail">
                             <div class="label">Total Earned</div>
-                            <div class="value accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> PNC</div>
+                            <div class="value accent"><%# string.Format("{0:0.########}", Eval("TotalEarned")) %> USDT</div>
                         </div>
                         <div class="contract-detail">
                             <div class="label">Daily Reward</div>
-                            <div class="value gold"><%# string.Format("{0:0.########}", Eval("DailyReward")) %> PNC</div>
+                            <div class="value gold"><%# string.Format("{0:0.########}", Eval("DailyOutput")) %> USDT</div>
                         </div>
                     </div>
 
@@ -939,7 +939,7 @@
                             <small class="text-muted">Expires on</small>
                             <div class="text-white fw-bold"><%# Convert.ToDateTime(Eval("EndDate")).ToString("MMMM dd, yyyy") %></div>
                         </div>
-                        <div class="countdown-timer" data-end='<%# Eval("EndDateIso") %>'>
+                        <div class="countdown-timer" data-end='<%# Eval("DaysRemaining") %>'>
                             <div class="countdown-unit">
                                 <span class="value cd-days">00</span>
                                 <span class="label">Days</span>
@@ -964,7 +964,7 @@
                     </div>
 
                     <div class="contract-actions">
-                        <a href='<%# ResolveUrl("~/Web/User/ContractDetails.aspx?id=" + Eval("MiningInvestmentId")) %>' class="contract-btn">
+                        <a href='<%# ResolveUrl("~/Web/User/ContractDetails.aspx?id=" + Eval("MiningPlanId")) %>' class="contract-btn">
                             <i class="fas fa-eye"></i> View Details
                         </a>
                         <span class='status-badge status-active'>

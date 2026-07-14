@@ -416,7 +416,7 @@
                     <div class="tier-icon silver"><i class="fas fa-medal"></i></div>
                     <div class="tier-name">Silver License</div>
                     <div class="tier-price">
-                        500 <small>PNC</small>
+                        500 <small>USDT</small>
                     </div>
                     <div class="tier-duration">Valid for 30 Days</div>
                     <ul class="tier-benefits">
@@ -435,7 +435,7 @@
                     <div class="tier-icon gold"><i class="fas fa-crown"></i></div>
                     <div class="tier-name">Gold License</div>
                     <div class="tier-price">
-                        1,500 <small>PNC</small>
+                        1,500 <small>USDT</small>
                     </div>
                     <div class="tier-duration">Valid for 90 Days</div>
                     <ul class="tier-benefits">
@@ -454,7 +454,7 @@
                     <div class="tier-icon platinum"><i class="fas fa-gem"></i></div>
                     <div class="tier-name">Platinum License</div>
                     <div class="tier-price">
-                        5,000 <small>PNC</small>
+                        5,000 <small>USDT</small>
                     </div>
                     <div class="tier-duration">Valid for 365 Days</div>
                     <ul class="tier-benefits">
@@ -494,7 +494,7 @@
                                             <span class="text-white"><%# Eval("LicenseName") %></span>
                                         </div>
                                     </td>
-                                    <td><%# string.Format("{0:0}", Eval("Amount")) %> PNC</td>
+                                    <td><%# string.Format("{0:0}", Eval("Amount")) %> USDT</td>
                                     <td class="text-muted"><%# Convert.ToDateTime(Eval("PurchaseDate")).ToString("MMM dd, yyyy") %></td>
                                     <td class="text-muted"><%# Convert.ToDateTime(Eval("ExpiryDate")).ToString("MMM dd, yyyy") %></td>
                                     <td>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mexify.DataAccess.Repositories;
-
 using Mexify.Utilities;
 using Mexify.Web.Models;
 
@@ -9,7 +8,7 @@ namespace Mexify.Business.Services
 {
     public class DashboardService
     {
-        private readonly DashboardRepository _repository;
+        private  DashboardRepository _repository;
 
         public DashboardService()
         {
@@ -57,13 +56,22 @@ namespace Mexify.Business.Services
                 return new ReferralStats(); }
         }
 
-        public List<PortfolioPoint> GetPortfolioHistory(int userId, int days)
+        public PortfolioViewModel GetPortfolioHistory(int userId, string timeframe = "30d")
         {
-            try { return _repository.GetPortfolioHistory(userId, days); }
-            catch (Exception ex) { Logger.Error("Failed to get portfolio history", ex);
-                Logger.Info("Exception:" + ex.ToString());
-                return new List<PortfolioPoint>(); }
+            try
+            {
+                // ✅ CORRECT: Calls GetUserPortfolioHistory (not GetPortfolioHistory)
+                return _repository.GetUserPortfolioHistory(userId, timeframe);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get portfolio history for User {userId}", ex);
+                return new PortfolioViewModel();
+            }
         }
+
+      
+      
 
         public EarningsBreakdown GetEarningsBreakdown(int userId)
         {

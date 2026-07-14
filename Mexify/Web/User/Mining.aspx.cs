@@ -4,6 +4,7 @@ using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using System.Data.SqlClient;
 
 namespace Mexify.Web.User
 {
@@ -16,7 +17,7 @@ namespace Mexify.Web.User
         {
             if (!Request.IsAuthenticated || Session["UserId"] == null)
             {
-                Response.Redirect(ResolveUrl("~/Web/login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
+                Response.Redirect(ResolveUrl("~/Web/MetaMaskLogin.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
                 return;
             }
             Logger.Info("Mining Page");
@@ -43,19 +44,50 @@ namespace Mexify.Web.User
                 }
 
                 // Summary stats
-                var summary = _miningService.GetUserMiningSummary(_userId);
-                litTotalHashrate.Text = summary.TotalHashrate.ToString("0.##");
-                litContractCount.Text = summary.ActiveContracts.ToString();
-                litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
-                litTotalEarned.Text = summary.TotalEarned.ToString("0.00");
-                litActiveContracts.Text = summary.ActiveContracts.ToString();
-                litTotalInvested.Text = summary.TotalInvested.ToString("0.00");
-                litActiveCount.Text = summary.ActiveContracts.ToString();
+
+                string sql = "usp_GetUserMiningStats";
+                try
+                {
+                    using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                    {
+                        cmd.Parameters.AddWithValue("@UseId", Session["UserId"].ToString());
+                        SqlDataReader sdr = cmd.ExecuteReader();
+                        if (sdr.HasRows && sdr.Read())
+                        {
+                            litTotalHashrate.Text = sdr["TotalHashRate"].ToString();
+                            litContractCount.Text = sdr["ActiveRigs"].ToString();
+                            litDailyRewards.Text = sdr["DailyEarning"].ToString();
+                            litTotalEarned.Text = sdr["TotalEarned"].ToString();
+
+                            litActiveContracts.Text = sdr["ActiveRigs"].ToString();
+                            // litTotalInvested.Text = summary.TotalInvested.ToString("0.00");
+                            litLifetimeRewards.Text = sdr["TotalEarned"].ToString();
+
+                            litMonthRewards.Text = sdr["ThisMonthEarnings"].ToString();
+
+                            litTodayRewards.Text = sdr["TodayEarnings"].ToString();
+
+
+                            litActiveCount.Text = sdr["ActiveRigs"].ToString();
+                        }
+                        sdr.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("GetUserMiningStats Error:", ex);
+
+                }
+                //    var summary = _miningService.GetUserMiningSummary(_userId);
+                //litTotalHashrate.Text = summary.TotalHashrate.ToString("0.##");
+                //litContractCount.Text = summary.ActiveContracts.ToString();
+                //litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
+                //litTotalEarned.Text = summary.TotalEarned.ToString("0.00");
+                //litActiveContracts.Text = summary.ActiveContracts.ToString();
+                //litTotalInvested.Text = summary.TotalInvested.ToString("0.00");
+                //litActiveCount.Text = summary.ActiveContracts.ToString();
 
                 // Reward stats
-                litLifetimeRewards.Text = summary.TotalEarned.ToString("0.00");
-                litMonthRewards.Text = summary.MonthRewards.ToString("0.00");
-                litTodayRewards.Text = summary.TodayRewards.ToString("0.00");
 
                 // Available contracts
                 rptContracts.DataSource = _miningService.GetActiveContracts();

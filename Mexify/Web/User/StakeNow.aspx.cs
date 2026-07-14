@@ -4,6 +4,8 @@ using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web.User
 {
@@ -28,7 +30,7 @@ namespace Mexify.Web.User
             if (!IsPostBack)
             {
                 // Handle actions from query string
-             //   HandleActions();
+                HandleActions();
                 LoadStakingData();
             }
         }
@@ -99,9 +101,24 @@ namespace Mexify.Web.User
                 Logger.Info("GetUserWallet Function Execution started now !!");
 
                 // Get user's PNC balance
-                var wallet = _walletService.GetUserWallet(_userId, 1); // Assuming PNC is CurrencyId 1
-                decimal balance = wallet != null ? wallet.Balance : 0;
-                hfUserBalance.Value = balance.ToString();
+                // var wallet = _walletService.GetUserWallet(_userId, 6); // Assuming PNC is CurrencyId 1
+
+                string sql = "usp_GetUserWallets";
+                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    if(sdr.HasRows && sdr.Read())
+                    {
+                        hfUserBalance.Value = sdr["Balance"].ToString();
+                    }
+                    sdr.Close();
+                }
+
+
+
+                //    decimal balance = wallet != null ? wallet.Balance : 0;
+                //hfUserBalance.Value = balance.ToString();
 
                 Logger.Info("GetUserStakingStats Function execution is started now !!");
 
@@ -119,7 +136,30 @@ namespace Mexify.Web.User
                 litPendingRewards.Text = stats.PendingRewards.ToString("0.00");
 
                 // Load pools
+
+                //string poolQuery = "select * from StakingPools order by PlanId asc";
+                //using (SqlCommand cmd= Web.Models.Connection.SqlQuery(poolQuery))
+                //{
+                //    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                //    DataTable dt = new DataTable();
+                //    sda.Fill(dt);
+
+                //    if (dt.Rows.Count>0)
+                //    {
+                //        rptPools.DataSource = dt;
+                //        rptPools.DataBind();
+                //        pnlNoPools.Visible = false;
+                //    }
+                //    else
+                //    {
+                //        pnlNoPools.Visible = true;
+                //    }
+                //}
+
+
                 var pools = _stakingService.GetAvailablePools();
+
+
                 if (pools != null && pools.Count > 0)
                 {
                     rptPools.DataSource = pools;
@@ -132,6 +172,9 @@ namespace Mexify.Web.User
                 }
 
                 // Load active stakes
+
+
+
                 var activeStakes = _stakingService.GetActiveStakes(_userId);
                 if (activeStakes != null && activeStakes.Count > 0)
                 {

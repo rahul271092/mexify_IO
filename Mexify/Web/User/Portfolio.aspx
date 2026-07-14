@@ -297,16 +297,16 @@
                 <div class="portfolio-value-label">Total Portfolio Value</div>
                 <div class="portfolio-value">
                     <asp:Literal ID="litTotalValue" runat="server" Text="0.00"></asp:Literal>
-                    <small> PNC</small>
+                    <small> USDT</small>
                 </div>
                 <div style="color: var(--text-gray); font-size: 1.1rem;">
-                    ≈ $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
+                     $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
                 </div>
                 <asp:Panel ID="pnlChange" runat="server">
                     <span class='portfolio-change <%# IsPositiveChange ? "up" : "down" %>'>
                         <i class='fas fa-arrow-<%# IsPositiveChange ? "up" : "down" %>'></i>
                         <asp:Literal ID="litChangePercent" runat="server" Text="0.00"></asp:Literal>%
-                        (<asp:Literal ID="litChangeAmount" runat="server" Text="0.00"></asp:Literal> PNC)
+                        (<asp:Literal ID="litChangeAmount" runat="server" Text="0.00"></asp:Literal> USDT)
                     </span>
                 </asp:Panel>
             </div>
@@ -419,7 +419,7 @@
                                 <%# string.Format("{0:0.########}", Eval("Balance")) %> <%# Eval("CurrencyCode") %>
                             </div>
                             <div class="holding-change up">
-                                ≈ <%# string.Format("{0:0.00}", Eval("ValuePNC")) %> PNC
+                                ≈ <%# string.Format("{0:0.00}", Eval("ValuePNC")) %> USDT
                             </div>
                         </div>
                     </div>
@@ -458,7 +458,7 @@
                     </div>
                     <div class="holding-value">
                         <div class="holding-amount">
-                            <%# string.Format("{0:0.00}", Eval("Value")) %> PNC
+                            <%# string.Format("{0:0.00}", Eval("Value")) %> USDT
                         </div>
                         <div class='holding-change <%# Convert.ToDecimal(Eval("ChangePercent")) >= 0 ? "up" : "down" %>'>
                             <i class='fas fa-arrow-<%# Convert.ToDecimal(Eval("ChangePercent")) >= 0 ? "up" : "down" %>'></i>
@@ -470,7 +470,7 @@
                 <div class="holding-details">
                     <div class="holding-detail">
                         <div class="label">Invested</div>
-                        <div class="value"><%# string.Format("{0:0.00}", Eval("Invested")) %> PNC</div>
+                        <div class="value"><%# string.Format("{0:0.00}", Eval("Invested")) %> USDT</div>
                     </div>
                     <div class="holding-detail">
                         <div class="label">Earned</div>
@@ -478,7 +478,7 @@
                     </div>
                     <div class="holding-detail">
                         <div class="label">Daily Income</div>
-                        <div class="value"><%# string.Format("{0:0.00}", Eval("DailyIncome")) %> PNC</div>
+                        <div class="value"><%# string.Format("{0:0.00}", Eval("DailyIncome")) %> USDT</div>
                     </div>
                     <div class="holding-detail">
                         <div class="label">Status</div>
@@ -554,7 +554,7 @@
                                 borderColor: '#00D4FF',
                                 borderWidth: 1,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                 }
                             }
                         },

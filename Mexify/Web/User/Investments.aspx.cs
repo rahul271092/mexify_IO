@@ -63,7 +63,7 @@ namespace Mexify.Web.User
             // Check authentication
             if (!Request.IsAuthenticated || Session["UserId"] == null)
             {
-                Response.Redirect(ResolveUrl("~/login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
+                Response.Redirect(ResolveUrl("~/Web/MetaMasklogin.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
                 return;
             }
 

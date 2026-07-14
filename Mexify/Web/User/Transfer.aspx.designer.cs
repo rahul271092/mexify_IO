@@ -7,153 +7,144 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Mexify.Web.MasterPages {
+namespace Mexify.Web.User {
     
     
-    public partial class UserMaster {
+    public partial class Transfer {
         
         /// <summary>
-        /// litPageTitle control.
+        /// pnlSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPageTitle;
+        protected global::System.Web.UI.WebControls.Panel pnlSuccess;
         
         /// <summary>
-        /// HeadContent control.
+        /// litSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.WebControls.Literal litSuccessMessage;
         
         /// <summary>
-        /// form1 control.
+        /// pnlForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Panel pnlForm;
         
         /// <summary>
-        /// litUserName control.
+        /// ddlCurrency control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCurrency;
         
         /// <summary>
-        /// litUserTier control.
+        /// txtRecipientAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserTier;
+        protected global::System.Web.UI.WebControls.TextBox txtRecipientAddress;
         
         /// <summary>
-        /// LogoutButton control.
+        /// rfvAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAddress;
         
         /// <summary>
-        /// litSidebarPNC control.
+        /// txtAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litSidebarPNC;
+        protected global::System.Web.UI.WebControls.TextBox txtAmount;
         
         /// <summary>
-        /// litBreadcrumb control.
+        /// litCurrencyCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litBreadcrumb;
+        protected global::System.Web.UI.WebControls.Literal litCurrencyCode;
         
         /// <summary>
-        /// litNotificationCount control.
+        /// litAvailableBalance control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litNotificationCount;
+        protected global::System.Web.UI.WebControls.Literal litAvailableBalance;
         
         /// <summary>
-        /// litTopbarName control.
+        /// rfvAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTopbarName;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAmount;
         
         /// <summary>
-        /// litTopbarEmail control.
+        /// txtMemo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTopbarEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtMemo;
         
         /// <summary>
-        /// litDropdownName control.
+        /// pnlError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDropdownName;
+        protected global::System.Web.UI.WebControls.Panel pnlError;
         
         /// <summary>
-        /// litDropdownEmail control.
+        /// litErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDropdownEmail;
+        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
         
         /// <summary>
-        /// Logout2Button control.
+        /// btnSend control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton Logout2Button;
+        protected global::System.Web.UI.WebControls.Button btnSend;
         
         /// <summary>
-        /// MainContent control.
+        /// rptMyAddresses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
-        
-        /// <summary>
-        /// ScriptsContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ScriptsContent;
+        protected global::System.Web.UI.WebControls.Repeater rptMyAddresses;
     }
 }

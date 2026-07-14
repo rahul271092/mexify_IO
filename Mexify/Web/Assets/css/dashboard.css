@@ -20,18 +20,28 @@
    SIDEBAR
    ========================================= */
 .user-sidebar {
-    width: var(--sidebar-width);
+    width: var(--sidebar-width, 280px);   /* ✅ Fallback value added */
+    max-width: var(--sidebar-width, 280px);
+    min-width: var(--sidebar-width, 280px);
     background: var(--bg-secondary, #0B132B);
-    border-right: 1px solid var(--glass-border, rgba(255,255,255,0.08));
+    border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+    
+    /* ✅ Sticky positioning */
     height: 100vh;
+    height: 100dvh;  /* ✅ Dynamic viewport for mobile */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    
     display: flex;
     flex-direction: column;
-    transition: transform var(--transition-speed) ease;
+    transition: transform var(--transition-speed, 0.3s) ease;
+    
+    /* ✅ Prevent overflow issues */
+    overflow: hidden;
 }
+
 
 .sidebar-header {
     padding: 20px 24px;
@@ -111,10 +121,20 @@
 .sidebar-nav {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 16px 0;
-    scrollbar-width: thin;
-    scrollbar-color: var(--glass-border) transparent;
+    /*scrollbar-width: thin;
+    scrollbar-color: var(--glass-border) transparent;*/
 }
+
+
+
+/*.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px 0;
+}*/
 
 .sidebar-nav::-webkit-scrollbar {
     width: 4px;
@@ -205,19 +225,25 @@
     font-family: 'Space Grotesk', sans-serif;
 }
 
+
+body.sidebar-open {
+    overflow: hidden;
+}
+
 /* =========================================
    MAIN CONTENT AREA
    ========================================= */
 .user-main {
-    width:87vw;
     flex: 1;
-    margin-left: var(--sidebar-width);
+    margin-left: var(--sidebar-width, 280px);  /* ✅ Match sidebar width */
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    transition: margin-left var(--transition-speed) ease;
+    transition: margin-left var(--transition-speed, 0.3s) ease;
+    width: calc(100% - var(--sidebar-width, 280px));  /* ✅ Prevent overflow */
+    max-width: calc(100% - var(--sidebar-width, 280px));
 }
-
 /* Top Bar */
 .user-topbar {
     height: var(--topbar-height);
@@ -648,29 +674,20 @@
    ========================================= */
 @media (max-width: 991px) {
     .user-sidebar {
-        transform: translateX(-100%);
+        transform: translateX(-100%);   /* Hidden by default on mobile */
+        width: 280px;                    /* ✅ Fixed width on mobile */
+        box-shadow: none;
     }
     
     .user-sidebar.open {
-        transform: translateX(0);
+        transform: translateX(0);        /* Slide in when open */
         box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
     }
     
     .user-main {
-        margin-left: 0;
-    }
-    
-    .user-content {
-        padding: 20px 16px;
-    }
-    
-    .user-footer {
-        padding: 16px;
-    }
-    
-    .notification-dropdown {
-        width: 300px;
-        right: -50px;
+        margin-left: 0;                  /* ✅ Full width on mobile */
+        width: 100%;
+        max-width: 100%;
     }
 }
 

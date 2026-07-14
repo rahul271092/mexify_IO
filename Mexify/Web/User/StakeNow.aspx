@@ -704,7 +704,7 @@
                     <div class="summary-label">Total Value Staked</div>
                     <div class="summary-value">
                         <asp:Literal ID="litTotalStaked" runat="server" Text="0.00"></asp:Literal>
-                        <small> PNC</small>
+                        <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
                         ≈ $<asp:Literal ID="litTotalStakedUSD" runat="server" Text="0.00"></asp:Literal> USD
@@ -899,7 +899,7 @@
                     <div class="summary-value" style="color: var(--accent);">
                         <asp:Literal ID="litTotalRewards" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -908,7 +908,7 @@
                     <div class="summary-value" style="color: #8B5CF6;">
                         <asp:Literal ID="litMonthRewards" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -917,7 +917,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litPendingRewards" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
         </div>
@@ -1021,7 +1021,7 @@
     <div class="stake-modal-overlay" id="stakeModal">
         <div class="stake-modal">
             <div class="stake-modal-header">
-                <h5 class="stake-modal-title" id="modalPoolName">Stake PNC</h5>
+                <h5 class="stake-modal-title" id="modalPoolName">Stake USDT</h5>
                 <button type="button" class="stake-modal-close" onclick="closeStakeModal()">&times;</button>
             </div>
             <div class="stake-modal-body">
@@ -1031,7 +1031,7 @@
                 <input type="hidden" id="modalLockDays" />
 
                 <div class="available-balance">
-                    Available Balance: <span id="modalAvailableBalance">0.00</span> PNC
+                    Available Balance: <span id="modalAvailableBalance">0.00</span> USDT
                 </div>
 
                 <div class="form-group-custom">
@@ -1207,18 +1207,18 @@
             }
             
             // Submit via AJAX or form post
-            window.location.href = '<%= ResolveUrl("~/User/StakeNow.aspx") %>?action=stake&pool=' + poolId + '&amount=' + amount;
+            window.location.href = '<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>?action=stake&pool=' + poolId + '&amount=' + amount;
         }
 
         function claimRewards(stakeId) {
             if (confirm('Claim rewards for this stake?')) {
-                window.location.href = '<%= ResolveUrl("~/User/StakeNow.aspx") %>?action=claim&stake=' + stakeId;
+                window.location.href = '<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>?action=claim&stake=' + stakeId;
             }
         }
 
         function unstake(stakeId) {
             if (confirm('Are you sure you want to unstake? This will return your staked amount plus earned rewards.')) {
-                window.location.href = '<%= ResolveUrl("~/User/StakeNow.aspx") %>?action=unstake&stake=' + stakeId;
+                window.location.href = '<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>?action=unstake&stake=' + stakeId;
             }
         }
 
@@ -1237,7 +1237,7 @@
                     data: {
                         labels: rewardsData.labels,
                         datasets: [{
-                            label: 'Rewards (PNC)',
+                            label: 'Rewards (USDT)',
                             data: rewardsData.values,
                             borderColor: '#8B5CF6',
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',

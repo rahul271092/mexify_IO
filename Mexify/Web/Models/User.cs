@@ -22,6 +22,8 @@ namespace Mexify.Web.Models
         public string VerificationToken { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public int EntryFee { get; set; }//0=pending , 1=completed
+
         public bool IsAdmin {
             get;
             set;

@@ -438,10 +438,10 @@
                     <div class="summary-label">Total Transaction Volume</div>
                     <div class="summary-value">
                         <asp:Literal ID="litTotalVolume" runat="server" Text="0.00"></asp:Literal>
-                        <small> PNC</small>
+                        <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
-                        ≈ $<asp:Literal ID="litTotalVolumeUSD" runat="server" Text="0.00"></asp:Literal> USD
+                        <asp:Literal ID="litTotalVolumeUSD" runat="server" Text="0.00" Visible="false"></asp:Literal> 
                     </div>
                 </div>
                 <div class="col-lg-6 mt-3 mt-lg-0">
@@ -473,21 +473,21 @@
                 <div class="quick-stat-icon in"><i class="fas fa-arrow-down"></i></div>
                 <div class="quick-stat-info">
                     <div class="quick-stat-label">Total Inflow</div>
-                    <div class="quick-stat-value">+<asp:Literal ID="litTotalInflow" runat="server" Text="0.00"></asp:Literal> PNC</div>
+                    <div class="quick-stat-value">+<asp:Literal ID="litTotalInflow" runat="server" Text="0.00"></asp:Literal> USDT</div>
                 </div>
             </div>
             <div class="quick-stat-card">
                 <div class="quick-stat-icon out"><i class="fas fa-arrow-up"></i></div>
                 <div class="quick-stat-info">
                     <div class="quick-stat-label">Total Outflow</div>
-                    <div class="quick-stat-value">-<asp:Literal ID="litTotalOutflow" runat="server" Text="0.00"></asp:Literal> PNC</div>
+                    <div class="quick-stat-value">-<asp:Literal ID="litTotalOutflow" runat="server" Text="0.00"></asp:Literal> USDT</div>
                 </div>
             </div>
             <div class="quick-stat-card">
                 <div class="quick-stat-icon net"><i class="fas fa-balance-scale"></i></div>
                 <div class="quick-stat-info">
                     <div class="quick-stat-label">Net Balance</div>
-                    <div class="quick-stat-value"><asp:Literal ID="litNetBalance" runat="server" Text="0.00"></asp:Literal> PNC</div>
+                    <div class="quick-stat-value"><asp:Literal ID="litNetBalance" runat="server" Text="0.00"></asp:Literal> USDT</div>
                 </div>
             </div>
             <div class="quick-stat-card">
@@ -683,7 +683,7 @@
                     <div class="summary-value" style="color: var(--accent);">
                         <asp:Literal ID="litTotalDeposits" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -701,7 +701,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litAvgDeposit" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
         </div>
@@ -750,7 +750,7 @@
                     <div class="summary-value" style="color: #ff3b5c;">
                         <asp:Literal ID="litTotalWithdrawals" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-4">
@@ -768,7 +768,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litTotalFees" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
         </div>
@@ -819,7 +819,7 @@
                     <div class="summary-value" style="color: var(--accent);">
                         <asp:Literal ID="litTotalEarnings" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-3">
@@ -828,7 +828,7 @@
                     <div class="summary-value" style="color: var(--secondary);">
                         <asp:Literal ID="litROIEarnings" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-3">
@@ -837,7 +837,7 @@
                     <div class="summary-value" style="color: var(--gold);">
                         <asp:Literal ID="litStakingEarnings" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-3">
@@ -846,7 +846,7 @@
                     <div class="summary-value" style="color: #10B981;">
                         <asp:Literal ID="litReferralEarnings" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
         </div>
@@ -894,7 +894,7 @@
                     <div class="summary-value" style="color: #6366F1;">
                         <asp:Literal ID="litTotalInvested" runat="server" Text="0.00"></asp:Literal>
                     </div>
-                    <small class="text-muted">PNC</small>
+                    <small class="text-muted">USDT</small>
                 </div>
             </div>
             <div class="col-md-6">
@@ -928,7 +928,7 @@
                             </div>
                         </div>
                         <div class="tx-amount negative">
-                            -<%# string.Format("{0:0.########}", Math.Abs(Convert.ToDecimal(Eval("Amount")))) %> PNC
+                            -<%# string.Format("{0:0.########}", Math.Abs(Convert.ToDecimal(Eval("Amount")))) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>

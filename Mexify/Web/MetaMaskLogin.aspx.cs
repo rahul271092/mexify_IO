@@ -187,6 +187,8 @@ namespace Mexify.Web
                 Session["UserPhoto"] = user.PhotoUrl ?? "";
                 Session["UserTier"] = user.Tier ?? "Standard";
                 Session["IsAdmin"] = user.IsAdmin;
+                Session["EntryFee"] = user.EntryFee;
+
             }
             else
             {
@@ -195,6 +197,7 @@ namespace Mexify.Web
                 Session["UserPhoto"] = "";
                 Session["UserTier"] = "Standard";
                 Session["IsAdmin"] = false;
+                Session["EntryFee"] = user.EntryFee;
             }
 
             // Log the login activity
@@ -208,6 +211,18 @@ namespace Mexify.Web
             {
                 Logger.Error("Failed to log login activity", ex);
             }
+
+
+            //int ce = Int32.Parse( Session["EntryFee"].ToString());
+
+            //if(ce==0)
+            //{
+            //    Response.Redirect("~/Web/User/Dashboard.aspx?entryfee=pending", false);
+            //}
+            //else
+            //{
+            //    Response.Redirect("~/Web/User/Dashboard.aspx", false);
+            //}
 
             // Set auth cookie
             try

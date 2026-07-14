@@ -23,18 +23,6 @@ namespace Mexify.Models
         public long NewLicenseId { get; set; }
     }
 
-    public class LicenseHistoryItem
-    {
-        public long HistoryId { get; set; }
-        public string LicenseType { get; set; }
-        public string LicenseName { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime PurchaseDate { get; set; }
-        public DateTime ExpiryDate { get; set; }
-        public bool IsActive { get; set; }
-    }
-
-
 
     public class LicensePackage
     {

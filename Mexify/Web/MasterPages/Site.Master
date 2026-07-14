@@ -162,8 +162,8 @@
                     <div class="d-flex gap-3">
                         <asp:LoginView runat="server" ID="lvAuth">
                             <AnonymousTemplate>
-                                <a href="<%= ResolveUrl("~/Web/meta-login.aspx") %>" class="btn btn-outline-glass">Login</a>
-                                <a href="<%= ResolveUrl("~/Web/register.aspx") %>" class="btn btn-primary-glow">Start Investing</a>
+                                <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow">Login</a>
+            <%--                    <a href="<%= ResolveUrl("~/Web/register.aspx") %>" class="btn btn-primary-glow">Start Investing</a>--%>
                             </AnonymousTemplate>
                             <LoggedInTemplate>
                                 <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="btn btn-outline-glass">
