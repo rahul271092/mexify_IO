@@ -10,339 +10,267 @@
 namespace Mexify.Web.User {
     
     
-    public partial class Settings {
+    public partial class CreateAd {
         
         /// <summary>
-        /// ScriptManager1 control.
+        /// pnlSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Panel pnlSuccess;
         
         /// <summary>
-        /// imgAvatar control.
+        /// pnlForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgAvatar;
+        protected global::System.Web.UI.WebControls.Panel pnlForm;
         
         /// <summary>
-        /// upProfile control.
+        /// hfAdType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upProfile;
+        protected global::System.Web.UI.WebControls.HiddenField hfAdType;
         
         /// <summary>
-        /// txtFirstName control.
+        /// ddlCryptoCurrency control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFirstName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCryptoCurrency;
         
         /// <summary>
-        /// rfvFirstName control.
+        /// ddlFiatCurrency control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvFirstName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFiatCurrency;
         
         /// <summary>
-        /// txtLastName control.
+        /// txtPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtPrice;
         
         /// <summary>
-        /// rfvLastName control.
+        /// rfvPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLastName;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPrice;
         
         /// <summary>
-        /// txtEmail control.
+        /// txtMinLimit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtMinLimit;
         
         /// <summary>
-        /// revEmail control.
+        /// rfvMinLimit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revEmail;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvMinLimit;
         
         /// <summary>
-        /// txtPhone control.
+        /// txtMaxLimit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhone;
+        protected global::System.Web.UI.WebControls.TextBox txtMaxLimit;
         
         /// <summary>
-        /// pnlProfileMsg control.
+        /// rfvMaxLimit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlProfileMsg;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvMaxLimit;
         
         /// <summary>
-        /// litProfileMsg control.
+        /// pnlBalanceDisplay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litProfileMsg;
+        protected global::System.Web.UI.WebControls.Panel pnlBalanceDisplay;
         
         /// <summary>
-        /// btnSaveProfile control.
+        /// litAvailableBalance control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveProfile;
+        protected global::System.Web.UI.WebControls.Literal litAvailableBalance;
         
         /// <summary>
-        /// litWalletAddress control.
+        /// litBalanceCurrency control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litWalletAddress;
+        protected global::System.Web.UI.WebControls.Literal litBalanceCurrency;
         
         /// <summary>
-        /// upPassword control.
+        /// pm_bank control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upPassword;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_bank;
         
         /// <summary>
-        /// txtCurrentPwd control.
+        /// pm_paypal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCurrentPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_paypal;
         
         /// <summary>
-        /// rfvCurrentPwd control.
+        /// pm_wise control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCurrentPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_wise;
         
         /// <summary>
-        /// txtNewPwd control.
+        /// pm_revolut control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNewPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_revolut;
         
         /// <summary>
-        /// rfvNewPwd control.
+        /// pm_venmo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNewPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_venmo;
         
         /// <summary>
-        /// txtConfirmPwd control.
+        /// pm_cashapp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtConfirmPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_cashapp;
         
         /// <summary>
-        /// cvPwdMatch control.
+        /// pm_zelle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CompareValidator cvPwdMatch;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_zelle;
         
         /// <summary>
-        /// pnlPwdMsg control.
+        /// pm_cash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPwdMsg;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox pm_cash;
         
         /// <summary>
-        /// litPwdMsg control.
+        /// hfPaymentMethods control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPwdMsg;
+        protected global::System.Web.UI.WebControls.HiddenField hfPaymentMethods;
         
         /// <summary>
-        /// btnChangePwd control.
+        /// cvPaymentMethods control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnChangePwd;
+        protected global::System.Web.UI.WebControls.CustomValidator cvPaymentMethods;
         
         /// <summary>
-        /// upNotif control.
+        /// txtTerms control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upNotif;
+        protected global::System.Web.UI.WebControls.TextBox txtTerms;
         
         /// <summary>
-        /// chkEmailNotif control.
+        /// pnlError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkEmailNotif;
+        protected global::System.Web.UI.WebControls.Panel pnlError;
         
         /// <summary>
-        /// chkSmsNotif control.
+        /// litErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkSmsNotif;
+        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
         
         /// <summary>
-        /// chkPushNotif control.
+        /// btnCreateAd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkPushNotif;
+        protected global::System.Web.UI.WebControls.Button btnCreateAd;
         
         /// <summary>
-        /// pnlNotifMsg control.
+        /// litPreviewMerchant control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlNotifMsg;
-        
-        /// <summary>
-        /// litNotifMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litNotifMsg;
-        
-        /// <summary>
-        /// btnSaveNotif control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveNotif;
-        
-        /// <summary>
-        /// upPrefs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upPrefs;
-        
-        /// <summary>
-        /// ddlLanguage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLanguage;
-        
-        /// <summary>
-        /// ddlCurrency control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCurrency;
-        
-        /// <summary>
-        /// pnlPrefMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPrefMsg;
-        
-        /// <summary>
-        /// litPrefMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litPrefMsg;
-        
-        /// <summary>
-        /// btnSavePrefs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSavePrefs;
+        protected global::System.Web.UI.WebControls.Literal litPreviewMerchant;
     }
 }

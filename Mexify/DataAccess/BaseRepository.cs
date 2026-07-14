@@ -235,8 +235,55 @@ namespace Mexify.DataAccess
         /// </summary>
         public decimal GetSafeDecimal(SqlDataReader reader, string columnName)
         {
-            int ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? 0m : reader.GetDecimal(ordinal);
+            //int ordinal = reader.GetOrdinal(columnName);
+            //return reader.IsDBNull(ordinal) ? 0m : reader.GetDecimal(ordinal);
+
+
+
+            try
+            {
+                int ordinal = reader.GetOrdinal(columnName);
+
+                if (reader.IsDBNull(ordinal))
+                    return 0m;
+
+                // ✅ FIX: Handle different data types gracefully
+                var value = reader.GetValue(ordinal);
+
+                if (value == null || value == DBNull.Value)
+                    return 0m;
+
+                // Try direct decimal conversion first
+                if (value is decimal)
+                    return (decimal)value;
+
+                // Handle numeric types that might come back as INT/BIGINT
+                if (value is int)
+                    return (int)value;
+
+                if (value is long)
+                    return (long)value;
+
+                if (value is short)
+                    return (short)value;
+
+                if (value is byte)
+                    return (byte)value;
+
+                if (value is double)
+                    return (decimal)(double)value;
+
+                if (value is float)
+                    return (decimal)(float)value;
+
+                // Last resort: try Convert.ToDecimal
+                return Convert.ToDecimal(value);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"GetSafeDecimal failed for column '{columnName}': {ex.Message}");
+                return 0m;
+            }
         }
 
         /// <summary>
@@ -244,8 +291,24 @@ namespace Mexify.DataAccess
         /// </summary>
         public int GetSafeInt(SqlDataReader reader, string columnName)
         {
-            int ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? 0 : reader.GetInt32(ordinal);
+            try
+            {
+                int ordinal = reader.GetOrdinal(columnName);
+
+                if (reader.IsDBNull(ordinal))
+                    return 0;
+
+                var value = reader.GetValue(ordinal);
+
+                if (value == null || value == DBNull.Value)
+                    return 0;
+
+                return Convert.ToInt32(value);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>
@@ -253,8 +316,24 @@ namespace Mexify.DataAccess
         /// </summary>
         public long GetSafeLong(SqlDataReader reader, string columnName)
         {
-            int ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? 0 : reader.GetInt64(ordinal);
+            try
+            {
+                int ordinal = reader.GetOrdinal(columnName);
+
+                if (reader.IsDBNull(ordinal))
+                    return 0;
+
+                var value = reader.GetValue(ordinal);
+
+                if (value == null || value == DBNull.Value)
+                    return 0;
+
+                return Convert.ToInt64(value);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         /// <summary>

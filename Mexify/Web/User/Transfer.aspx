@@ -52,7 +52,7 @@
                     <div class="mb-3">
                         <label class="form-label text-muted small">Amount</label>
                         <div class="input-group">
-                            <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control bg-dark text-white border-secondary" TextMode="Number" placeholder="0.00" step="0.0001"></asp:TextBox>
+                            <asp:TextBox ID="txtAmount"  runat="server" CssClass="form-control bg-dark text-white border-secondary" TextMode="Number"  placeholder="0.00" step="0.0001"></asp:TextBox>
                             <span class="input-group-text bg-secondary text-white border-secondary">
                                 <asp:Literal ID="litCurrencyCode" runat="server" Text="USDT" />
                             </span>

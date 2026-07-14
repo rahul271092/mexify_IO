@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Mexify.Business.Services;
+using System.Web.Security;
 
 namespace Mexify.Web.MasterPages
 {
@@ -26,8 +27,47 @@ namespace Mexify.Web.MasterPages
                 if (string.IsNullOrEmpty(litPageTitle.Text))
                 {
                     PageTitle = "MEXIFY | Institutional-Grade Crypto Asset Management";
+                    ClearSession();
                 }
             }
+        }
+
+
+        public void ClearSession()
+        {
+            // Log the logout event
+            if (Session["UserId"] != null)
+            {
+                try
+                {
+                    Mexify.Utilities.Logger.Info($"User {Session["UserId"]} logged out");
+                }
+                catch { }
+            }
+
+            // Clear all session data
+            Session.Clear();
+            Session.Abandon();
+
+            // Clear authentication cookie
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("ASP.NET_SessionId", "");
+                cookie.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(cookie);
+            }
+
+            // Clear Forms Authentication cookie (if used)
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+                authCookie.Expires = DateTime.Now.AddYears(-1);
+                Response.Cookies.Add(authCookie);
+            }
+
+            // Redirect to login
+            Response.Redirect("~/Web/MetaMaskLogin.aspx?logout=1", false);
+
         }
 
         protected void btnSubscribe_Click(object sender, EventArgs e)

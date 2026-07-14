@@ -3,11 +3,81 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using Mexify.Web.Models;
 using Mexify.Models;
+using Mexify.Utilities;
+using System.Data;
 
 namespace Mexify.DataAccess.Repositories
 {
     public class UserNFTRepository : BaseRepository
     {
+
+        public List<UserNFT> GetUserOwnedNFTs(int userId)
+        {
+            var nfts = new List<UserNFT>();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserOwnedNFTs", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nfts.Add(new UserNFT
+                            {
+                                UserNFTId = GetSafeLong(reader, "UserNFTId"),
+                                UserId = GetSafeInt(reader, "UserId"),
+                                NFTId = GetSafeLong(reader, "NFTId"),
+                                CollectionId = Convert.ToInt32(reader["CollectionId"]),
+
+                            //    CollectionId = reader["CollectionId"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["CollectionId"]),
+
+                                PurchasePrice = GetSafeDecimal(reader, "PurchasePrice"),
+                                // ✅ Use PurchaseDate (matches the table)
+                                PurchaseDate = GetSafeDateTime(reader, "PurchaseDate"),
+
+                                CurrentValue = GetSafeDecimal(reader, "CurrentValue"),
+                                Status = GetSafeInt(reader, "Status"),
+                                StatusName = GetSafeString(reader, "StatusName") ?? "",
+                                StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+
+                                ProfitLoss = GetSafeDecimal(reader, "ProfitLoss"),
+                                ProfitPercent = GetSafeDecimal(reader, "ProfitPercent"),
+
+                                Title = GetSafeString(reader, "Title") ?? "Untitled",
+                                ImageUrl = GetSafeString(reader, "ImageUrl") ?? "/Images/nft-placeholder.png",
+                                TokenId = GetSafeString(reader, "TokenId") ?? "",
+                                Rarity = GetSafeString(reader, "Rarity") ?? "Common",
+                                RarityClass = GetSafeString(reader, "RarityClass") ?? "common",
+
+                                ListPrice = reader["ListPrice"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["ListPrice"]),
+                                ListDate = reader["ListDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["ListDate"]),
+
+                                SalePrice = reader["SalePrice"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["SalePrice"]),
+                                SaleDate = reader["SaleDate"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["SaleDate"]),
+
+                                CollectionName = GetSafeString(reader, "CollectionName") ?? "",
+                                DaysHeld = GetSafeInt(reader, "DaysHeld"),
+                                CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get owned NFTs for User {userId}", ex);
+            }
+
+            return nfts;
+        }
+
+
         public UserNFTSummary GetUserNFTSummary(int userId)
         {
             var results = ExecuteStoredProcedure<UserNFTSummary>(
@@ -27,25 +97,25 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : new UserNFTSummary();
         }
 
-        public List<UserNFT> GetUserOwnedNFTs(int userId)
-        {
-            return ExecuteStoredProcedure<UserNFT>(
-                "usp_GetUserOwnedNFTs",
-                reader => new UserNFT
-                {
-                    NFTId = GetSafeLong(reader, "NFTId"),
-                    TokenId = GetSafeString(reader, "TokenId") ?? "0",
-                    Title = GetSafeString(reader, "Title") ?? "Untitled",
-                    ImageUrl = GetSafeString(reader, "ImageUrl") ?? "",
-                    CollectionName = GetSafeString(reader, "CollectionName") ?? "Unknown",
-                    CollectionId = GetSafeInt(reader, "CollectionId"),
-                    CreatorName = GetSafeString(reader, "CreatorName") ?? "Unknown",
-                    Rarity = GetSafeString(reader, "Rarity") ?? "Common",
-                    CurrentValue = GetSafeDecimal(reader, "CurrentValue")
-                },
-                CreateParameter("@UserId", userId)
-            );
-        }
+        //public List<UserNFT> GetUserOwnedNFTs(int userId)
+        //{
+        //    return ExecuteStoredProcedure<UserNFT>(
+        //        "usp_GetUserOwnedNFTs",
+        //        reader => new UserNFT
+        //        {
+        //            NFTId = GetSafeLong(reader, "NFTId"),
+        //            TokenId = GetSafeString(reader, "TokenId") ?? "0",
+        //            Title = GetSafeString(reader, "Title") ?? "Untitled",
+        //            ImageUrl = GetSafeString(reader, "ImageUrl") ?? "",
+        //            CollectionName = GetSafeString(reader, "CollectionName") ?? "Unknown",
+        //            CollectionId = GetSafeInt(reader, "CollectionId"),
+        //            CreatorName = GetSafeString(reader, "CreatorName") ?? "Unknown",
+        //            Rarity = GetSafeString(reader, "Rarity") ?? "Common",
+        //            CurrentValue = GetSafeDecimal(reader, "CurrentValue")
+        //        },
+        //        CreateParameter("@UserId", userId)
+        //    );
+        //}
 
         public List<UserNFT> GetUserCreatedNFTs(int userId)
         {

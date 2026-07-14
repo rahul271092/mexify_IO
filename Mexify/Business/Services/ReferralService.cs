@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mexify.DataAccess.Repositories;
 using Mexify.Models;
 using Mexify.Utilities;
+using Mexify.Web.Models;
 
 namespace Mexify.Business.Services
 {
@@ -27,16 +28,16 @@ namespace Mexify.Business.Services
             catch (Exception ex) { Logger.Error("Failed to generate referral code", ex); return "REF" + userId; }
         }
 
-        public ReferralStats GetUserReferralStats(int userId)
+        public Models.ReferralStats GetUserReferralStats(int userId)
         {
             try { return _repository.GetUserReferralStats(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get referral stats", ex); return new ReferralStats(); }
+            catch (Exception ex) { Logger.Error("Failed to get referral stats", ex); return new Models.ReferralStats(); }
         }
 
-        public UserRank GetUserRank(int userId)
+        public UserRankInfo GetUserRank(int userId)
         {
             try { return _repository.GetUserRank(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get user rank", ex); return new UserRank(); }
+            catch (Exception ex) { Logger.Error("Failed to get user rank", ex); return new UserRankInfo(); }
         }
 
         public List<LevelBreakdown> GetLevelBreakdown(int userId)
@@ -45,10 +46,10 @@ namespace Mexify.Business.Services
             catch (Exception ex) { Logger.Error("Failed to get level breakdown", ex); return new List<LevelBreakdown>(); }
         }
 
-        public List<TeamMember> GetUserTeam(int userId, int count)
+        public List<Models.TeamMember> GetUserTeam(int userId, int count)
         {
             try { return _repository.GetUserTeam(userId, count); }
-            catch (Exception ex) { Logger.Error("Failed to get team", ex); return new List<TeamMember>(); }
+            catch (Exception ex) { Logger.Error("Failed to get team", ex); return new List<Models.TeamMember>(); }
         }
 
         public List<CommissionHistory> GetRecentCommissions(int userId, int count)

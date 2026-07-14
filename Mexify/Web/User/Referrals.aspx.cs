@@ -59,7 +59,7 @@ namespace Mexify.Web.User
                     if(sdr.HasRows && sdr.Read())
                     {
                         referralCode = sdr["ReferralCode"] as string;
-                        ReferralLink = "https://mexify.io/Web/meta-login.aspx?ref=" + referralCode;
+                        ReferralLink = "https://mexify.io/Web/MetaMaskLogin.aspx?ref=" + referralCode;
 
                     }
                 }
@@ -92,14 +92,14 @@ namespace Mexify.Web.User
                 IsEligible = stats.DirectReferrals >= 1;
 
                 // Rank
-                var rank = _referralService.GetUserRank(_userId);
+               Models.UserRankInfo rank = _referralService.GetUserRank(_userId);
                 litRankName.Text = rank.RankName;
                 litRankRequirement.Text = rank.Requirement;
-                CurrentRankClass = rank.RankClass.ToLower();
+                CurrentRankClass = rank.RankClass.ToString();
                 CurrentRankIcon = rank.RankIcon;
                 RankProgress = rank.ProgressPercent;
                 litRankProgress.Text = rank.ProgressText;
-                litRankBonus.Text = rank.MonthlyBonus.ToString("0") + " USDT";
+                litRankBonus.Text = rank.MonthlyBonus.ToString() + " USDT";
                 _currentRankName = rank.RankName;
 
                 // 15 Levels

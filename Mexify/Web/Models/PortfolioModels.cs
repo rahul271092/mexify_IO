@@ -102,6 +102,12 @@ namespace Mexify.Web.Models
         public decimal ChangePercent { get;  set; }
         public decimal ChangeAmount { get;  set; }
         public int Count { get; internal set; }
+        public decimal ProfitLoss { get; internal set; }
+        public decimal TodayEarnings { get; internal set; }
+        public decimal MonthEarnings { get; internal set; }
+        public int TotalReferrals { get; internal set; }
+        public decimal USDEquivalent { get; internal set; }
+        public decimal ROIPercent { get; internal set; }
     }
 
     public class PortfolioHistoryPoint

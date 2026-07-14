@@ -29,9 +29,9 @@ namespace Mexify.Web.User
         {
             try
             {
-                var repo = new P2PRepository();
+                P2PRepository repo = new P2PRepository();
                 // Default to showing SELL ads (so user can BUY)
-                var ads = repo.GetActiveP2PAds("USDT", "SELL");
+          List<Models.P2PAd>  ads = repo.GetActiveP2PAds("USDT", "BUY");
 
                 rptP2PAds.DataSource = ads;
                 rptP2PAds.DataBind();
