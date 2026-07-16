@@ -720,7 +720,7 @@
                                 </div>
                                 <div class="meta-item">
                                     <div class="meta-label">Mint Price</div>
-                                    <div class="meta-value gold"><%# string.Format("{0:0.##}", Eval("MintPrice")) %> PNC</div>
+                                    <div class="meta-value gold"><%# string.Format("{0:0.##}", Eval("MintPrice")) %> USDT</div>
                                 </div>
                                 <div class="meta-item">
                                     <div class="meta-label">Available</div>
@@ -827,7 +827,7 @@
                 <div class="price-summary">
                     <div class="price-row">
                         <span>Mint Price</span>
-                        <span class="value"><asp:Literal ID="litMintPrice" runat="server" Text="0.00"></asp:Literal> PNC</span>
+                        <span class="value"><asp:Literal ID="litMintPrice" runat="server" Text="0.00"></asp:Literal> USDT</span>
                     </div>
                     <div class="price-row">
                         <span>Quantity</span>
@@ -835,11 +835,11 @@
                     </div>
                     <div class="price-row">
                         <span>Gas Fee</span>
-                        <span class="value"><asp:Literal ID="litGasFee" runat="server" Text="0.50"></asp:Literal> PNC</span>
+                        <span class="value"><asp:Literal ID="litGasFee" runat="server" Text="0.50"></asp:Literal> USDT</span>
                     </div>
                     <div class="price-row total">
                         <span>Total</span>
-                        <span class="value"><asp:Literal ID="litTotalPrice" runat="server" Text="0.00"></asp:Literal> PNC</span>
+                        <span class="value"><asp:Literal ID="litTotalPrice" runat="server" Text="0.00"></asp:Literal> USDT</span>
                     </div>
                 </div>
 
@@ -847,7 +847,7 @@
                     <i class="fas fa-info-circle"></i>
                     <div>
                         <strong class="text-white">Your Balance:</strong>
-                        <span class="text-accent fw-bold"><asp:Literal ID="litUserBalance" runat="server" Text="0.00"></asp:Literal> PNC</span>
+                        <span class="text-accent fw-bold"><asp:Literal ID="litUserBalance" runat="server" Text="0.00"></asp:Literal> USDT</span>
                     </div>
                 </div>
 
@@ -927,7 +927,7 @@
                                     <td class="text-white"><%# Eval("NFTName") %></td>
                                     <td><%# Eval("CollectionName") %></td>
                                     <td><span class="nft-item-id">#<%# Eval("TokenId") %></span></td>
-                                    <td class="text-accent fw-bold"><%# string.Format("{0:0.##}", Eval("Price")) %> PNC</td>
+                                    <td class="text-accent fw-bold"><%# string.Format("{0:0.##}", Eval("Price")) %> USDT</td>
                                     <td>
                                         <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
                                             <%# Eval("StatusName") %>

@@ -143,7 +143,7 @@ namespace Mexify.Web.User
                 {
                     foreach (var w in wallets)
                     {
-                        if (w.CurrencyCode == "PNC" || w.CurrencyId == 1)
+                        if (w.CurrencyCode == "USDT" || w.CurrencyId == 6)
                         {
                             pncBalance = w.Balance;
                             break;
@@ -222,7 +222,7 @@ namespace Mexify.Web.User
 
                 var result = _nftService.MintNFT(new MintNFTRequest
                 {
-                    UserId = _userId,
+                    UserId = Int32.Parse(Session["UserID"].ToString()),
                     CollectionId = collectionId,
                     NFTName = nftName,
                     Description = description,

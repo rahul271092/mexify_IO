@@ -417,6 +417,74 @@
     <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js"></script>
 
     <script>
+        
+    (function() {
+        'use strict';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // =========================================
+            // 1. ENHANCED DROPDOWN ANIMATIONS
+            // =========================================
+            const dropdowns = document.querySelectorAll('.user-dropdown, .notification-dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.closest('.dropdown');
+                if (!menu) return;
+
+                // Add smooth fade-in on open
+                menu.addEventListener('show.bs.dropdown', function() {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.transform = 'translateY(-10px)';
+                });
+
+                menu.addEventListener('shown.bs.dropdown', function() {
+                    dropdown.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                    dropdown.style.opacity = '1';
+                    dropdown.style.transform = 'translateY(0)';
+                });
+            });
+
+            // =========================================
+            // 2. AUTO-CLOSE DROPDOWN ON LINK CLICK
+            // =========================================
+            document.querySelectorAll('.user-dropdown .dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const dropdown = this.closest('.dropdown');
+                    if (dropdown) {
+                        const bsDropdown = bootstrap.Dropdown.getInstance(dropdown.querySelector('[data-bs-toggle="dropdown"]'));
+                        if (bsDropdown) bsDropdown.hide();
+                    }
+                });
+            });
+
+            // =========================================
+            // 3. CHEVRON ROTATION ON TOGGLE
+            // =========================================
+            document.querySelectorAll('.topbar-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const chevron = this.querySelector('.fa-chevron-down');
+                    if (chevron) {
+                        setTimeout(() => {
+                            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                            chevron.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                            chevron.style.transition = 'transform 0.3s ease';
+                        }, 10);
+                    }
+                });
+            });
+
+            // =========================================
+            // 4. NOTIFICATION BADGE PULSE ANIMATION
+            // =========================================
+            const notifBadge = document.querySelector('.notification-badge');
+            if (notifBadge && parseInt(notifBadge.textContent) > 0) {
+                notifBadge.style.animation = 'pulse 2s ease-in-out infinite';
+            }
+        });
+    })();
+</script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             // ✅ FIX 2: Safely parse data using C# helper methods to prevent null/undefined JS errors
             const labels = <%= GetChartLabels() %>;

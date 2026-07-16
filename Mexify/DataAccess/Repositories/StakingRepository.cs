@@ -117,7 +117,7 @@ namespace Mexify.DataAccess.Repositories
                 {
                     PoolId = GetSafeInt(reader, "PoolId"),
                     PoolName = GetSafeString(reader, "PoolName") ?? "Staking Pool",
-                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
+                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
                     CurrencyId = GetSafeInt(reader, "CurrencyId"),
                     APY = GetSafeDecimal(reader, "APY"),
                     MinStake = GetSafeDecimal(reader, "MinStake"),
@@ -130,7 +130,7 @@ namespace Mexify.DataAccess.Repositories
                     IsNew = GetSafeBool(reader, "IsNew"),
                     IsActive = GetSafeBool(reader, "IsActive")
                 },
-                CreateParameter("@PoolId", poolId)
+                CreateParameter("@StakingPlanId", poolId)
             );
             return results.Count > 0 ? results[0] : null;
         }

@@ -35,5 +35,6 @@ namespace Mexify.Web.Models
         }
 
         public object PlainPassword { get; internal set; }
+        public string ProfilePhoto { get; internal set; }
     }
 }

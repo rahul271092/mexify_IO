@@ -14,6 +14,9 @@ namespace Mexify.Models
 
     public class SupportTicket
     {
+        public int UserID { get; set; }
+
+        public int CategoryId { get; set; }
         public long TicketId { get; set; }
         public string TicketNumber { get; set; }
         public string Subject { get; set; }
@@ -46,6 +49,15 @@ namespace Mexify.Models
             }
         }
 
+        public string TicketKey { get; internal set; }
+        public int UserId { get; internal set; }
+        public string Message { get; internal set; }
+        public string PrioritySlug { get; internal set; }
+        public string StatusSlug { get; internal set; }
+        public int ReplyCount { get; internal set; }
+        public bool HasAdminReply { get; internal set; }
+        public string MessagePreview { get; internal set; }
+        public bool CanReply { get; internal set; }
     }
 
         public class TicketMessage

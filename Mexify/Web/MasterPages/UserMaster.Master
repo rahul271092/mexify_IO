@@ -1,6 +1,7 @@
 ﻿﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserMaster.master.cs" Inherits="Mexify.Web.MasterPages.UserMaster" %>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -20,41 +21,38 @@
     <!-- AOS Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
-   <%-- <link href="<%= ResolveUrl("~/Web/Assets/css/style.css") %>" rel="stylesheet" />--%>
-    <link href="../Assets/css/user-master.css" rel="stylesheet" />
-    <link href="../Assets/css/mexify-theme.css" rel="stylesheet" />
-    <link href="<%= ResolveUrl("~/Web/Assets/css/dashboard.css") %>" rel="stylesheet" />
-    
+    <!-- ✅ SINGLE CSS FILE -->
+    <link href="../Assets/css/mexify-dashboard.css" rel="stylesheet" />
+    <link href="../Assets/css/dashboard.css" rel="stylesheet" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 <body class="dashboard-body">
     <form id="form1" runat="server">
-        
+        <asp:ScriptManager runat="server" EnablePageMethods="true" />
 
 
-        
+
+         <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <!-- =========================================
-             SIDEBAR NAVIGATION
+             SIDEBAR
              ========================================= -->
         <aside class="user-sidebar" id="userSidebar">
             
-            <!-- Sidebar Header -->
             <div class="sidebar-header">
                 <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="navbar-brand">
-                    <img src="../Assets/images/mexify_logo.png" width="130px" height="80px" />
+                    <img src="../Assets/images/mexify_logo.png" width="130" height="50" alt="MEXIFY" />
                 </a>
-           <button type="button" class="sidebar-toggle" id="sidebarToggleBtn">
-    <i class="fas fa-bars"></i>
-</button>
+                <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
-            <!-- User Profile Mini -->
             <div class="sidebar-user">
                 <img src='<%= UserPhotoUrl %>' 
                      alt="User" 
                      class="user-avatar"
-                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff&size=100'">
+                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=D4AF37&color=000&size=100'">
                 <div class="user-info">
                     <h6 class="user-name"><asp:Literal ID="litUserName" runat="server" Text="User"></asp:Literal></h6>
                     <small class="user-tier">
@@ -64,94 +62,69 @@
                 </div>
             </div>
 
-            <!-- Navigation Menu -->
             <nav class="sidebar-nav">
                 
-                <!-- Main Section -->
                 <div class="nav-section">
                     <small class="nav-label">Main</small>
                     <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>" class="nav-link <%= IsActive("Dashboard") %>">
                         <i class="fas fa-th-large"></i> <span>Dashboard</span>
                     </a>
-
-                     <a href="<%= ResolveUrl("~/Web/User/Portfolio.aspx") %>" class="nav-link <%= IsActive("Portfolio") %>">
+                    <a href="<%= ResolveUrl("~/Web/User/Portfolio.aspx") %>" class="nav-link <%= IsActive("Portfolio") %>">
                         <i class="fas fa-chart-pie"></i> <span>Portfolio</span>
                     </a>
                 </div>
 
-
                 <div class="nav-section">
-    <span class="nav-label">Wallet</span>
-    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="nav-link">
-        <i class="fas fa-wallet"></i><span>My Wallet</span>
-    </a>
-
-
-
-    <a href="<%= ResolveUrl("~/Web/User/Transfer.aspx") %>" class="nav-link">
-        <i class="fas fa-paper-plane"></i><span>Send</span>
-    </a>
-    <a href="<%= ResolveUrl("~/Web/User/Receive.aspx") %>" class="nav-link">
-        <i class="fas fa-qrcode"></i><span>Receive</span>
-    </a>
-
-                                       
-
-                     <a href="<%= ResolveUrl("~/Web/User/P2P.aspx") %>" class="nav-link <%= IsActive("P2P") %>">
-                        <i class="fas fa-chart-pie"></i> <span>P2P</span>
+                    <small class="nav-label">Wallet</small>
+                    <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>" class="nav-link <%= IsActive("Wallet") %>">
+                        <i class="fas fa-wallet"></i><span>My Wallet</span>
                     </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Transfer.aspx") %>" class="nav-link <%= IsActive("Transfer") %>">
+                        <i class="fas fa-paper-plane"></i><span>Send</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Receive.aspx") %>" class="nav-link <%= IsActive("Receive") %>">
+                        <i class="fas fa-qrcode"></i><span>Receive</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/P2P.aspx") %>" class="nav-link <%= IsActive("P2P") %>">
+                        <i class="fas fa-handshake"></i> <span>P2P Trading</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="nav-link <%= IsActive("Transactions") %>">
+                        <i class="fas fa-history"></i><span>Transactions</span>
+                    </a>
+                </div>
 
-
-    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="nav-link">
-        <i class="fas fa-history"></i><span>Transactions</span>
-    </a>
-</div>
-
-
-                <!-- Investments Section -->
                 <div class="nav-section">
                     <small class="nav-label">Investments</small>
                     <a href="<%= ResolveUrl("~/Web/User/Investments.aspx") %>" class="nav-link <%= IsActive("Investments") %>">
                         <i class="fas fa-chart-line"></i> <span>2X ROI Plans</span>
                     </a>
-                 
-                       <a href="<%= ResolveUrl("~/Web/User/Salary.aspx") %>" class="nav-link <%= IsActive("Salary") %>">
-                        <i class="fas fa-server"></i> <span>Fixed Salary Plan</span>
-                            
-                            </a>
-
-                    
-                       <a href="<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
+                    <a href="<%= ResolveUrl("~/Web/User/Salary.aspx") %>" class="nav-link <%= IsActive("Salary") %>">
+                        <i class="fas fa-money-check-alt"></i> <span>Fixed Salary Plan</span>
+                    </a>
+                    <a href="<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
                         <i class="fas fa-coins"></i> <span>Staking</span>
                     </a>
-
-                 
                     <a href="<%= ResolveUrl("~/Web/User/Mining.aspx") %>" class="nav-link <%= IsActive("Mining") %>">
-                        <i class="fas fa-server"></i> <span>Mining</span>
+                        <i class="fas fa-microchip"></i> <span>Mining</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/NFTs.aspx") %>" class="nav-link <%= IsActive("NFTs") %>">
+                    <a href="<%= ResolveUrl("~/Web/User/MintNFT.aspx") %>" class="nav-link <%= IsActive("NFTs") %>">
                         <i class="fas fa-cube"></i> <span>My NFTs</span>
                     </a>
                     <a href="<%= ResolveUrl("~/Web/User/MyICO.aspx") %>" class="nav-link <%= IsActive("ICO") %>">
                         <i class="fas fa-rocket"></i> <span>ICO Tokens</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/Royalty.aspx") %>" class="nav-link <%= IsActive("Royalty") %>">
+                    <a href="<%= ResolveUrl("~/Web/User/MyLicenses.aspx") %>" class="nav-link <%= IsActive("Royalty") %>">
                         <i class="fas fa-certificate"></i> <span>Royalties</span>
                     </a>
                 </div>
 
-                <!-- Earnings Section -->
                 <div class="nav-section">
                     <small class="nav-label">Earnings</small>
                     <a href="<%= ResolveUrl("~/Web/User/Referrals.aspx") %>" class="nav-link <%= IsActive("Referrals") %>">
                         <i class="fas fa-users"></i> <span>Networking Incomes</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/Transactions.aspx") %>" class="nav-link <%= IsActive("Transactions") %>">
-                        <i class="fas fa-exchange-alt"></i> <span>Transactions</span>
-                    </a>
                 </div>
 
-                <!-- Account Section -->
                 <div class="nav-section">
                     <small class="nav-label">Account</small>
                     <a href="<%= ResolveUrl("~/Web/User/Profile.aspx") %>" class="nav-link <%= IsActive("Profile") %>">
@@ -168,48 +141,39 @@
                     </a>
                 </div>
 
-                <!-- Logout -->
                 <div class="nav-section">
-                    <%--<a href="<%= ResolveUrl("~/Web/User/Logout2.aspx") %>" class="nav-link nav-logout">
+                    <asp:LinkButton runat="server" ID="Logout2Button" 
+                        OnClick="Logout2Button_Click" 
+                        CssClass="nav-link nav-logout"
+                        CausesValidation="false">
                         <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-                    </a>--%>
-
-                    <asp:LinkButton ID="LogoutButton" runat="server" Text="Logout" CssClass="nav-link nav-logout" OnClick="LogoutButton_Click" >
-                    <i class="fas fa-sign-out-alt"></i>
-
-                        </asp:LinkButton>
+                    </asp:LinkButton>
                 </div>
             </nav>
 
-            <!-- Sidebar Footer -->
             <div class="sidebar-footer">
                 <div class="pnc-balance-mini">
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">USDT Balance</small>
                         <i class="fas fa-coins" style="color: var(--gold);"></i>
                     </div>
-                    <h5 class="text-white mb-0">
+                    <h5 class="mb-0">
                         <asp:Literal ID="litSidebarPNC" runat="server" Text="0.00"></asp:Literal>
                     </h5>
                 </div>
             </div>
         </aside>
-        <!-- OVERLAY (Mobile Only) -->
-   <%-- <div class="sidebar-overlay"></div>--%>
+
         <!-- =========================================
-             MAIN CONTENT AREA
+             MAIN CONTENT
              ========================================= -->
         <div class="user-main">
             
-            <!-- Top Bar -->
             <header class="user-topbar">
-                
-                <!-- Mobile Toggle -->
-                <button class="sidebar-toggle d-lg-none" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+                <button type="button" class="sidebar-toggle" id="sidebarToggleBtn" aria-label="Toggle sidebar">
                     <i class="fas fa-bars"></i>
                 </button>
                 
-                <!-- Breadcrumb -->
                 <div class="topbar-breadcrumb d-none d-md-flex">
                     <a href="<%= ResolveUrl("~/Web/User/Dashboard.aspx") %>">
                         <i class="fas fa-home"></i>
@@ -218,16 +182,12 @@
                     <span class="current-page"><asp:Literal ID="litBreadcrumb" runat="server" Text="Dashboard"></asp:Literal></span>
                 </div>
 
-                <!-- Actions -->
                 <div class="topbar-actions">
-                    
-                    <!-- Quick Deposit -->
                     <a href="<%= ResolveUrl("~/Web/User/Wallet.aspx?action=deposit") %>" class="topbar-btn topbar-action-btn" title="Deposit">
                         <i class="fas fa-plus-circle"></i>
                         <span class="d-none d-xl-inline ms-1">Deposit</span>
                     </a>
                     
-                    <!-- Notifications -->
                     <div class="dropdown">
                         <button class="topbar-btn" data-bs-toggle="dropdown" aria-label="Notifications">
                             <i class="fas fa-bell"></i>
@@ -253,11 +213,59 @@
                         </div>
                     </div>
 
-                    <!-- User Profile -->
+
                     <div class="dropdown">
+    <button class="topbar-user" data-bs-toggle="dropdown" aria-label="User menu">
+        <img src='<%= UserPhotoUrl %>' alt="User" class="topbar-avatar"
+             onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=D4AF37&color=000'">
+        <div class="topbar-user-info d-none d-md-flex">
+            <div class="topbar-user-name"><asp:Literal ID="litTopbarName" runat="server" Text="User"></asp:Literal></div>
+            <small class="topbar-user-email"><asp:Literal ID="litTopbarEmail" runat="server" Text=""></asp:Literal></small>
+        </div>
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    
+    <div class="dropdown-menu dropdown-menu-end user-dropdown">
+        <div class="dropdown-user-info">
+            <img src='<%= UserPhotoUrl %>' alt="User"
+                 onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=D4AF37&color=000'">
+            <div>
+                <strong class="text-white"><asp:Literal ID="litDropdownName" runat="server"></asp:Literal></strong>
+                <small class="text-muted"><asp:Literal ID="litDropdownEmail" runat="server"></asp:Literal></small>
+            </div>
+        </div>
+        
+        <div class="dropdown-divider"></div>
+        
+        <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Profile.aspx") %>">
+            <i class="fas fa-user"></i> My Profile
+        </a>
+        <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Wallet.aspx") %>">
+            <i class="fas fa-wallet"></i> My Wallet
+        </a>
+        <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Settings.aspx") %>">
+            <i class="fas fa-cog"></i> Settings
+        </a>
+        <a class="dropdown-item" href="<%= ResolveUrl("~/Web/User/Support.aspx") %>">
+            <i class="fas fa-headset"></i> Support
+        </a>
+        
+        <div class="dropdown-divider"></div>
+        
+        <asp:LinkButton runat="server" ID="Logout2ButtonDropdown" 
+            OnClick="Logout2Button_Click" 
+            CssClass="dropdown-item text-danger"
+            CausesValidation="false">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </asp:LinkButton>
+    </div>
+</div>
+
+                   <%-- <div class="dropdown">
                         <button class="topbar-user" data-bs-toggle="dropdown" aria-label="User menu">
                             <img src='<%= UserPhotoUrl %>' alt="User" class="topbar-avatar"
-                                 onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff'">
+                                 onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=D4AF37&color=000'">
                             <div class="d-none d-md-inline text-start">
                                 <div class="topbar-user-name"><asp:Literal ID="litTopbarName" runat="server" Text="User"></asp:Literal></div>
                                 <small class="topbar-user-email"><asp:Literal ID="litTopbarEmail" runat="server" Text=""></asp:Literal></small>
@@ -267,7 +275,7 @@
                         <div class="dropdown-menu dropdown-menu-end user-dropdown">
                             <div class="dropdown-user-info">
                                 <img src='<%= UserPhotoUrl %>' alt="User"
-                                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=2563EB&color=fff'">
+                                     onerror="this.src='https://ui-avatars.com/api/?name=<%= Server.UrlEncode(UserName) %>&background=D4AF37&color=000'">
                                 <div>
                                     <strong class="text-white"><asp:Literal ID="litDropdownName" runat="server"></asp:Literal></strong>
                                     <small class="d-block text-muted"><asp:Literal ID="litDropdownEmail" runat="server"></asp:Literal></small>
@@ -287,25 +295,22 @@
                                 <i class="fas fa-headset me-2"></i> Support
                             </a>
                             <div class="dropdown-divider"></div>
-                            <asp:LinkButton runat="server" ID="Logout2Button" 
-    OnClick="Logout2Button_Click" 
-    CssClass="dropdown-item text-danger">
-    <i class="fas fa-sign-out-alt me-2"></i>
-    <span>Logout</span>
-</asp:LinkButton>
-
-
+                            <asp:LinkButton runat="server" ID="Logout2ButtonDropdown" 
+                                OnClick="Logout2Button_Click" 
+                                CssClass="dropdown-item text-danger"
+                                CausesValidation="false">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                <span>Logout</span>
+                            </asp:LinkButton>
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
             </header>
 
-            <!-- Page Content -->
             <main class="user-content">
                 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             </main>
 
-            <!-- Footer -->
             <footer class="user-footer">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <small class="text-muted">
@@ -314,111 +319,256 @@
                     <div class="d-flex gap-3">
                         <a href="<%= ResolveUrl("~/privacy.aspx") %>" class="text-muted small">Privacy</a>
                         <a href="<%= ResolveUrl("~/terms.aspx") %>" class="text-muted small">Terms</a>
-                        <a href="<%= ResolveUrl("~/User/Support.aspx") %>" class="text-muted small">Support</a>
+                        <a href="<%= ResolveUrl("~/Web/User/Support.aspx") %>" class="text-muted small">Support</a>
                     </div>
                 </div>
             </footer>
         </div>
 
-        <!-- Mobile Sidebar Overlay -->
-        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+       
 
-        <!-- Scripts -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
+
+
+
+
+     <%--   <script>
+    (function() {
+        'use strict';
+
+        function setSidebarState(isOpen) {
+            const sidebar = document.getElementById('userSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const body = document.body;
+
+            if (!sidebar || !overlay) return;
+
+            if (isOpen) {
+                sidebar.classList.add('open');
+                overlay.classList.add('show');
+                body.classList.add('sidebar-open');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                body.classList.remove('sidebar-open');
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('userSidebar');
+            if (!sidebar) return;
+            setSidebarState(!sidebar.classList.contains('open'));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const overlay = document.getElementById('sidebarOverlay');
+            const closeBtns = document.querySelectorAll('.sidebar-close-btn, .sidebar-close, #sidebarCloseBtn');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+
+            closeBtns.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSidebarState(false);
+                });
+            });
+
+
+           
+
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    setSidebarState(false);
+                });
+            }
+
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 992) setSidebarState(false);
+                });
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') setSidebarState(false);
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 992) setSidebarState(false);
+            });
+        });
+
+        window.toggleSidebar = toggleSidebar;
+        window.setSidebarState = setSidebarState;
+    })();
+</script>--%>
+    </form>
+
+
+
+            <!-- Scripts -->
+        <script src="../Assets/js/jquery.min.js"></script>
+        <script src="../Assets/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         
-     
 
-<!-- AOS Animation Library -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+    (function() {
+        'use strict';
 
-<!-- =========================================
-     GLOBAL SIDEBAR FUNCTIONS
-     ========================================= -->
-<script>
-    // Global functions (accessible from onclick="functionName()")
-    function toggleSidebar() {
-        const sidebar = document.querySelector('.user-sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
-        
-        if (sidebar && overlay) {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('show');
-            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        //function setSidebarState(isOpen) {
+        //    const sidebar = document.getElementById('userSidebar');
+        //    const overlay = document.getElementById('sidebarOverlay');
+        //    const body = document.body;
+
+        //    if (!sidebar || !overlay) return;
+
+        //    if (isOpen) {
+        //        sidebar.classList.add('open');
+        //        overlay.classList.add('show');
+        //        body.classList.add('sidebar-open');
+        //    } else {
+        //        sidebar.classList.remove('open');
+        //        overlay.classList.remove('show');
+        //        body.classList.remove('sidebar-open');
+        //    }
+        //}
+
+
+
+        function setSidebarState(isOpen) {
+
+            const sidebar = document.getElementById("userSidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+
+            if (isOpen) {
+
+                sidebar.style.display = "flex";
+
+                requestAnimationFrame(function () {
+                    sidebar.classList.add("open");
+                });
+
+                overlay.classList.add("show");
+
+            } else {
+
+                sidebar.classList.remove("open");
+                overlay.classList.remove("show");
+
+            }
+
         }
-    }
 
-    function closeSidebar() {
-        const sidebar = document.querySelector('.user-sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
-        
-        if (sidebar) sidebar.classList.remove('open');
-        if (overlay) overlay.classList.remove('show');
-        document.body.style.overflow = '';
-    }
 
-    function openSidebar() {
-        const sidebar = document.querySelector('.user-sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
-        
-        if (sidebar) sidebar.classList.add('open');
-        if (overlay) overlay.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
+        function toggleSidebar() {
+            const sidebar = document.getElementById('userSidebar');
 
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.querySelector('.user-sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
-        const sidebarToggle = document.querySelector('.sidebar-toggle');
-        const sidebarClose = document.querySelector('.sidebar-close');
-        const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+            console.log("Sidebar:", sidebar);
+            console.log("Before:", sidebar.className);
 
-        // Toggle button click
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleSidebar();
+            sidebar.classList.toggle("open");
+
+            console.log("After:", sidebar.className);
+        }
+
+        //function toggleSidebar() {
+        //    const sidebar = document.getElementById('userSidebar');
+        //    if (!sidebar) return;
+        //    setSidebarState(!sidebar.classList.contains('open'));
+        //}
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            // ✅ FIX: Target BOTH possible close button class names AND the ID
+            const closeBtns = document.querySelectorAll('.sidebar-close-btn, .sidebar-close, #sidebarCloseBtn');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+
+            // Toggle button (hamburger)
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+
+            // ✅ FIX: Attach click event to ALL close buttons
+            closeBtns.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSidebarState(false);
+                });
             });
-        }
 
-        // Close button click
-        if (sidebarClose) {
-            sidebarClose.addEventListener('click', function(e) {
-                e.preventDefault();
-                closeSidebar();
+            // Overlay click closes sidebar
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    setSidebarState(false);
+                });
+            }
+
+            // Nav links close sidebar on mobile
+            sidebarLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 991) {
+                        setSidebarState(false);
+                    }
+                });
             });
-        }
 
-        // Overlay click
-        if (overlay) {
-            overlay.addEventListener('click', closeSidebar);
-        }
-
-        // Nav link click (mobile only)
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 991) {
-                    closeSidebar();
+            // ESC key closes sidebar
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    setSidebarState(false);
                 }
             });
+
+            // Reset sidebar state on window resize to desktop
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991) {
+                    setSidebarState(false);
+                }
+            });
+
+          
+
+            // AOS initialization
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 600,
+                    once: true,
+                    offset: 50,
+                    disable: function () {
+                        return window.innerWidth < 768;
+                    }
+                });
+
+                // Force refresh to fix any stuck elements
+                setTimeout(function () {
+                    AOS.refresh();
+                }, 300);
+            }
         });
 
-        // ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeSidebar();
-        });
 
-        // Window resize
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 991) closeSidebar();
-        });
-    });
-</script>
-     
-        <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
-    </form>
+        // Expose globally (in case other scripts need it)
+        window.toggleSidebar = toggleSidebar;
+        window.setSidebarState = setSidebarState;
+    })();
+</script>     
 </body>
 </html>

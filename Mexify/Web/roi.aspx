@@ -251,13 +251,17 @@
     </section>
 
     <!-- Investment Plans -->
-    <section id="plans" class="section-padding">
+   <%-- <section id="plans" class="section-padding" >
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Choose Your ROI Plan</h2>
             <p class="section-subtitle" data-aos="fade-up">Tailored strategies for every investment size</p>
 
             <div class="row g-4 justify-content-center">
-                <asp:Repeater ID="rptPlans" runat="server">
+            </div>
+        </div>
+    </section>--%>
+
+                    <asp:Repeater ID="rptPlans" runat="server" Visible="false">
                     <ItemTemplate>
                         <div class="col-md-6 col-lg-4" data-aos="fade-up">
                             <div class='roi-card <%# Eval("PlanName").ToString().Contains("Gold") ? "featured" : "" %>'>
@@ -300,9 +304,8 @@
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
-            </div>
-        </div>
-    </section>
+
+
 
     <!-- ROI Calculator -->
     <section id="calculator" class="section-padding" style="background: var(--bg-secondary);">
@@ -314,8 +317,8 @@
 
                     <div class="roi-calculator mt-4">
                         <div class="mb-4">
-                            <label class="form-label text-white">Investment Amount (PNC)</label>
-                            <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control form-control-glass" TextMode="Number" Text="10000000" min="100"></asp:TextBox>
+                            <label class="form-label text-white">Investment Amount</label>
+                            <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control form-control-glass" TextMode="Number" Text="0" min="100"></asp:TextBox>
                         </div>
                         <div class="mb-4">
                             <label class="form-label text-white">Select Plan</label>
@@ -326,11 +329,11 @@
           <div class="result-display">
     <small class="text-muted text-uppercase">Estimated Total Profit</small>
     <div class="result-value">
-        <asp:Literal ID="litProfit" runat="server" Text="0.00 PNC"></asp:Literal>
+        <asp:Literal ID="litProfit" runat="server" Text="0.00 USDT"></asp:Literal>
     </div>
     <small class="text-gray">
         Total Payout: <strong class="text-white">
-            <asp:Literal ID="litTotal" runat="server" Text="0.00 PNC"></asp:Literal>
+            <asp:Literal ID="litTotal" runat="server" Text="0.00 USDT"></asp:Literal>
         </strong>
     </small>
 </div>
@@ -408,7 +411,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="section-padding" style="background: var(--bg-secondary);">
+    <section class="section-padding" >
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">ROI Plan FAQs</h2>
             <p class="section-subtitle" data-aos="fade-up">Common questions about our ROI plans</p>
@@ -474,7 +477,7 @@
             <p class="text-gray mb-4 mx-auto" style="max-width: 600px;">
                 Join thousands of investors earning daily ROI with MEXIFY's institutional-grade platform.
             </p>
-            <a href="<%= ResolveUrl("~/register.aspx") %>" class="btn btn-primary-glow btn-lg">
+            <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow btn-lg">
                 Create Free Account <i class="fas fa-arrow-right ms-2"></i>
             </a>
         </div>

@@ -137,6 +137,72 @@ namespace Mexify.DataAccess.Repositories
             return Tuple.Create(ticket, messages);
         }
 
+
+        //public List<SupportTicket> GetUserTickets(int userId, int statusFilter = -1)
+        //{
+        //    var tickets = new List<SupportTicket>();
+
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetUserTickets", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+        //            cmd.Parameters.AddWithValue("@StatusFilter", statusFilter);
+
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                // Result Set 1: Summary (skip or read)
+        //                if (reader.Read())
+        //                {
+        //                    // Store summary if needed
+        //                }
+
+        //                // Result Set 2: Ticket list
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        tickets.Add(new SupportTicket
+        //                        {
+        //                            TicketId = GetSafeLong(reader, "TicketId"),
+        //                            UserId = GetSafeInt(reader, "UserId"),
+        //                            CategoryId = GetSafeInt(reader, "CategoryId"),
+        //                            TicketKey = GetSafeString(reader, "TicketKey") ?? "",
+        //                            Subject = GetSafeString(reader, "Subject") ?? "",
+        //                            Message = GetSafeString(reader, "Message") ?? "",
+        //                            Priority = GetSafeInt(reader, "Priority"),
+        //                            Status = GetSafeInt(reader, "Status"),
+        //                            PriorityName = GetSafeString(reader, "PriorityName") ?? "",
+        //                            PrioritySlug = GetSafeString(reader, "PrioritySlug") ?? "",
+        //                            StatusName = GetSafeString(reader, "StatusName") ?? "",
+        //                            StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+        //                            StatusColor = GetSafeString(reader, "StatusColor") ?? "",
+        //                            CategoryName = GetSafeString(reader, "CategoryName") ?? "",
+        //                            CategoryIcon = GetSafeString(reader, "CategoryIcon") ?? "",
+        //                            ReplyCount = GetSafeInt(reader, "ReplyCount"),
+        //                            HasAdminReply = GetSafeBool(reader, "HasAdminReply"),
+        //                            TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+        //                            MessagePreview = GetSafeString(reader, "MessagePreview") ?? "",
+        //                            CanReply = GetSafeBool(reader, "CanReply"),
+        //                            CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+        //                        });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get tickets for User {userId}", ex);
+        //    }
+
+        //    return tickets;
+        //}
+
+
         public bool AddTicketReply(long ticketId, int userId, string message, out string responseMsg)
         {
             try

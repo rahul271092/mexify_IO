@@ -202,7 +202,8 @@
                         <div class="vm-icon"><i class="fas fa-eye"></i></div>
                         <h3 class="text-white mb-3">Our Vision</h3>
                         <p class="text-gray">
-                            To become the world's most trusted and innovative crypto asset management platform, democratizing access to institutional-grade investment opportunities and empowering individuals to achieve financial freedom through blockchain technology.
+
+                            To be the World's trusted crypto asset management platform empowering  millions of Investors.
                         </p>
                     </div>
                 </div>
@@ -211,7 +212,7 @@
                         <div class="vm-icon"><i class="fas fa-bullseye"></i></div>
                         <h3 class="text-white mb-3">Our Mission</h3>
                         <p class="text-gray">
-                            To deliver secure, transparent, and high-performance investment solutions by leveraging AI-driven strategies, enterprise infrastructure, and a commitment to regulatory compliance — ensuring every investor achieves sustainable, long-term growth.
+                            To empower people to build wealth through innovative crypto assets.
                         </p>
                     </div>
                 </div>
@@ -231,21 +232,21 @@
                 <div class="col-6 col-md-3" data-aos="fade-up">
                     <div class="glass-card p-4 text-center">
                         <i class="fas fa-users fa-2x text-secondary mb-3"></i>
-                        <h2 class="text-white counter" data-target="150000">0</h2>
+                        <h2 class="text-white counter" data-target="120000">0</h2>
                         <p class="text-gray mb-0">Active Investors</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="glass-card p-4 text-center">
                         <i class="fas fa-dollar-sign fa-2x text-accent mb-3"></i>
-                        <h2 class="text-white">$<span class="counter" data-target="2500">0</span>M+</h2>
+                        <h2 class="text-white">$<span class="counter" data-target="250"></span>M+</h2>
                         <p class="text-gray mb-0">Assets Managed</p>
                     </div>
                 </div>
                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="glass-card p-4 text-center">
                         <i class="fas fa-globe fa-2x text-primary mb-3"></i>
-                        <h2 class="text-white counter" data-target="120">0</h2>
+                        <h2 class="text-white counter" data-target="150">0</h2>
                         <p class="text-gray mb-0">Countries</p>
                     </div>
                 </div>
@@ -353,10 +354,10 @@
                     Be part of a global community of forward-thinking investors shaping the future of finance.
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="<%= ResolveUrl("~/register.aspx") %>" class="btn btn-primary-glow">
+                    <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow">
                         Get Started <i class="fas fa-arrow-right ms-2"></i>
                     </a>
-                    <a href="<%= ResolveUrl("~/contact.aspx") %>" class="btn btn-outline-glass">
+                    <a href="<%= ResolveUrl("~/Web/contact.aspx") %>" class="btn btn-outline-glass">
                         Contact Us
                     </a>
                 </div>

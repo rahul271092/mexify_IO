@@ -34,7 +34,49 @@ namespace Mexify.Models
         public bool IsActive { get; set; }
         public bool IsCurrentTier { get; set; }
         public bool IsQualified { get; set; }
+        public decimal MinInvestment { get;  set; }
+        public string Description { get;  set; }
+        public decimal MaxInvestment { get;  set; }
+        public decimal ReturnPercent { get;  set; }
+        public int DurationDays { get;  set; }
+        public decimal DailyReturn { get; set; }
+        public string CurrencyCode { get;  set; }
+        public string IconClass { get;  set; }
+        public string Features { get;  set; }
+        public string BadgeText { get;  set; }
+        public string ColorClass { get;  set; }
+        public bool IsFeatured { get;  set; }
+        public string FormattedMinInvestment { get;  set; }
+        public string InvestmentRange { get;  set; }
+        public string ReturnDisplay { get;  set; }
+        public string DurationDisplay { get;  set; }
+        public string FormattedMaxInvestment { get;  set; }
+        public decimal EstimatedReturn { get;  set; }
+        public string ROIDisplay { get; set; }
     }
+
+    public class SalaryPayment
+    {
+        public decimal Amount { get; internal set; }
+        public string CurrencyCode { get; internal set; }
+        public int DayNumber { get; internal set; }
+        public string FormattedAmount { get; internal set; }
+        public string FormattedDate { get; internal set; }
+        public string FormattedTime { get; internal set; }
+        public string IconClass { get; internal set; }
+        public DateTime PaymentDate { get; internal set; }
+        public long PaymentId { get; internal set; }
+        public string PlanName { get; internal set; }
+        public decimal SalaryAmount { get; internal set; }
+        public int Status { get; internal set; }
+        public string StatusColor { get; internal set; }
+        public string StatusName { get; internal set; }
+        public string StatusSlug { get; internal set; }
+        public string TimeAgo { get; internal set; }
+        public int UserId { get; internal set; }
+        public long UserSalaryId { get; internal set; }
+    }
+
 
     public class TierProgress
     {

@@ -70,7 +70,6 @@
 </asp:Content>
 
 <asp:Content ID="MainContent1" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-up">
         <div>
             <h2 class="text-white mb-1"><i class="fas fa-cog text-gold me-2"></i>Account Settings</h2>

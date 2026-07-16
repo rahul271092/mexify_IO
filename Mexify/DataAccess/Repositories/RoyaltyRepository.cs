@@ -56,7 +56,7 @@ namespace Mexify.DataAccess.Repositories
                 Title = GetSafeString(reader, "Title") ?? "Untitled License",
                 AssetType = GetSafeString(reader, "AssetType") ?? "General",
                 Description = GetSafeString(reader, "Description"),
-                SharePrice = GetSafeDecimal(reader, "SharePrice"),
+                SharePrice = GetSafeDecimal(reader, "Price"),
                 TotalShares = GetSafeInt(reader, "TotalShares"),
                 SharesAvailable = GetSafeInt(reader, "SharesAvailable"),
                 RoyaltyRate = GetSafeDecimal(reader, "RoyaltyRate"),

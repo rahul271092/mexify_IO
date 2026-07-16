@@ -17,17 +17,18 @@ namespace Mexify.DataAccess.Repositories
         public Models.ReferralStats GetUserReferralStats(int userId)
         {
             var results = ExecuteStoredProcedure<Models.ReferralStats>(
-                "usp_GetUserReferralStats",
-                reader => new Models.ReferralStats
-                {
-                    DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
-                    TotalTeam = GetSafeInt(reader, "TotalTeam"),
-                    TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
-                 //   ThisMonthCommission = GetSafeDecimal(reader, "ThisMonthCommission"),
-                  //  TodayCommission = GetSafeDecimal(reader, "TodayCommission")
-                },
-                CreateParameter("@UserId", userId)
-            );
+     "usp_GetReferralStats", // ✅ Procedure name is now correct
+     reader => new Models.ReferralStats
+     {
+         DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
+         TotalTeam = GetSafeInt(reader, "TotalTeam"),
+         TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
+         ThisMonthCommission = GetSafeDecimal(reader, "ThisMonthCommission"),
+         TodayCommission = GetSafeDecimal(reader, "TodayCommission")
+     },
+     CreateParameter("@UserId", userId)
+ );
+
             return results.Count > 0 ? results[0] : new Models.ReferralStats();
         }
 

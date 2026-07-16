@@ -65,5 +65,10 @@ namespace Mexify.Utilities
             }
             catch { }
         }
+
+        internal static void Warn(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

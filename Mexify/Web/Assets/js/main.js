@@ -1,12 +1,12 @@
 ﻿// MEXIFY Core Logic & Interactions
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize AOS
-    AOS.init({
-        duration: 800,
-        easing: 'ease-out-cubic',
-        once: true,
-        offset: 50
-    });
+    //AOS.init({
+    //    duration: 800,
+    //    easing: 'ease-out-cubic',
+    //    once: true,
+    //    offset: 50
+    //});
 
     // =========================================
     // ROI CALCULATOR LOGIC

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using static Mexify.Web.Models.RewardModels;
+using Mexify.Web.Models;
 
 namespace Mexify.Business.Services
 {
@@ -29,6 +30,11 @@ namespace Mexify.Business.Services
                 Logger.Error("Failed to get rewards history", ex);
                 return new RewardsHistoryResult();
             }
+        }
+
+        internal User GetUserById(int userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

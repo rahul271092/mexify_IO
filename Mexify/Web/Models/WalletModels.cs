@@ -8,7 +8,7 @@ namespace Mexify.Web.Models
 
     public class WalletTransaction
     {
-        public long TransactionId { get; set; }
+        public int TransactionId { get; set; }
         public int WalletId { get; set; }
         public int UserId { get; set; }
         public int TransactionType { get; set; }

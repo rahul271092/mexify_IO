@@ -502,13 +502,13 @@
                         </div>
                         <div class="license-roi">
                             <i class="fas fa-chart-line me-1"></i>
-                            <%# string.Format("{0:0.##}", Eval("DailyROI")) %>% Daily ROI
+                            <%# string.Format("{0:0.##}", Eval("DailyROI")) %>% Monthly Return
                         </div>
 
                         <ul class="license-features">
                             <li><i class="fas fa-check"></i> Royalty Partner Status</li>
                             <li><i class="fas fa-check"></i> 10-Level Direct Income (25%)</li>
-                            <li><i class="fas fa-check"></i> <%# string.Format("{0:0.##}", Eval("DailyROI")) %>% Daily Assured Returns</li>
+                            <li><i class="fas fa-check"></i> <%# string.Format("{0:0.##}", Eval("DailyROI")) %>% Monthly Assured Returns</li>
                             <li><i class="fas fa-check"></i> <%# Eval("DurationDays") %> Days Duration</li>
                             <li><i class="fas fa-check"></i> Monthly Royalty Payouts</li>
                             <li><i class="fas fa-check"></i> Exclusive Partner Benefits</li>

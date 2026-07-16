@@ -34,21 +34,21 @@ namespace Mexify.Web.Models
 
         public long UserNFTId { get; set; }
         public int UserId { get; set; }
-        public string NFTName { get; set; }
-        public string Name { get { return NFTName; } set { NFTName = value; } } // Alias
+        public string Name { get; set; }
         public string TxHash { get; set; }
         public DateTime MintDate { get; set; }
-        public decimal PurchasePrice { get; internal set; }
-        public DateTime PurchaseDate { get; internal set; }
-        public string StatusSlug { get; internal set; }
-        public decimal ProfitLoss { get; internal set; }
-        public decimal ProfitPercent { get; internal set; }
-        public string RarityClass { get; internal set; }
-        public decimal? ListPrice { get; internal set; }
-        public DateTime? ListDate { get; internal set; }
-        public decimal? SalePrice { get; internal set; }
-        public DateTime? SaleDate { get; internal set; }
-        public int DaysHeld { get; internal set; }
+        public decimal PurchasePrice { get;  set; }
+        public DateTime PurchaseDate { get;  set; }
+        public string StatusSlug { get; set; }
+        public decimal ProfitLoss { get;  set; }
+        public decimal ProfitPercent { get;  set; }
+        public string RarityClass { get;  set; }
+        public decimal? ListPrice { get;  set; }
+        public DateTime? ListDate { get; set; }
+        public decimal? SalePrice { get;  set; }
+        public DateTime? SaleDate { get;  set; }
+        public int DaysHeld { get;  set; }
+        public string NFTName { get; internal set; }
     }
 
     public class NFTActivity

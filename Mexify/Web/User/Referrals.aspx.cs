@@ -78,6 +78,9 @@ namespace Mexify.Web.User
 
                 // Stats
                 var stats = _referralService.GetUserReferralStats(_userId);
+
+
+
                 litDirectReferrals.Text = stats.DirectReferrals.ToString();
                 litTotalTeam.Text = stats.TotalTeam.ToString();
                 litTotalCommission.Text = stats.TotalCommission.ToString("0.00");

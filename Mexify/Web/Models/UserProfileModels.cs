@@ -20,6 +20,8 @@ namespace Mexify.Models
         public string KYCStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
+
+        public int? status { get; set; }
     }
 
     public class UserProfileStats

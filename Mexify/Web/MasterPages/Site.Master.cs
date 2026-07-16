@@ -21,13 +21,17 @@ namespace Mexify.Web.MasterPages
 
         protected void Page_Load(object sender, EventArgs e)
         {
+          
+
+
             if (!IsPostBack)
             {
                 // Default Title if not overridden by child page
                 if (string.IsNullOrEmpty(litPageTitle.Text))
                 {
                     PageTitle = "MEXIFY | Institutional-Grade Crypto Asset Management";
-                    ClearSession();
+
+            //        ClearSession();
                 }
             }
         }

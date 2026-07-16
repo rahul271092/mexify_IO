@@ -50,7 +50,7 @@ namespace Mexify.Web.User
                 {
                     using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
                     {
-                        cmd.Parameters.AddWithValue("@UseId", Session["UserId"].ToString());
+                        cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
                         SqlDataReader sdr = cmd.ExecuteReader();
                         if (sdr.HasRows && sdr.Read())
                         {

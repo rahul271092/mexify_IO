@@ -202,10 +202,10 @@
                         <i class="fas fa-coins me-2"></i> Earn Passive Income
                     </div>
                     <h1 class="hero-title">
-                        Flexible Staking with <br><span>Up to 18% APY</span>
+                        Flexible Staking with <br><span>Up to 730% APY</span>
                     </h1>
                     <p class="hero-subtitle mx-auto">
-                        Stake your PNC and other crypto assets to earn predictable rewards with flexible lock periods. Auto-compound or claim manually.
+                        Stake your USDT and other crypto assets to earn predictable rewards with flexible lock periods. Auto-compound or claim manually.
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap" data-aos="fade-up" data-aos-delay="200">
                         <a href="#pools" class="btn btn-primary-glow">
@@ -227,7 +227,7 @@
                 <div class="col-6 col-md-3" data-aos="fade-up">
                     <div class="glass-card p-4 text-center">
                         <h3 class="text-white mb-1">2.5M+</h3>
-                        <small class="text-muted">Total Staked (PNC)</small>
+                        <small class="text-muted">Total Staked (USDT)</small>
                     </div>
                 </div>
                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
@@ -239,7 +239,7 @@
                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="glass-card p-4 text-center">
                         <h3 class="text-white mb-1">450K+</h3>
-                        <small class="text-muted">Rewards Paid (PNC)</small>
+                        <small class="text-muted">Rewards Paid (USDT)</small>
                     </div>
                 </div>
                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
@@ -327,10 +327,11 @@
 
                     <div class="calculator-card mt-4">
                         <div class="mb-4">
-                            <label class="form-label text-white">Stake Amount (PNC)</label>
-                            <asp:TextBox ID="txtStakeAmount" runat="server" CssClass="form-control form-control-glass" TextMode="Number" Text="10000"></asp:TextBox>
+                            <label class="form-label text-white">Stake Amount (USDT)</label>
+                            <asp:TextBox ID="txtStakeAmount" runat="server" CssClass="form-control form-control-glass" TextMode="Number" Text="00"></asp:TextBox>
                         </div>
                         <div class="mb-4">
+
                             <label class="form-label text-white">Select Pool</label>
                             <asp:DropDownList ID="ddlPool" runat="server" CssClass="form-select form-control-glass" AutoPostBack="true" OnSelectedIndexChanged="CalculateStaking"></asp:DropDownList>
                         </div>
@@ -364,7 +365,7 @@
                                     <asp:Literal ID="litDaily" runat="server" Text="0.00"></asp:Literal>
                                 </div>
                                 <small class="text-gray">
-                                    <asp:Literal ID="litDailyCurrency" runat="server" Text="PNC"></asp:Literal>
+                                    <asp:Literal ID="litDailyCurrency" runat="server" Text="USDT"></asp:Literal>
                                 </small>
                             </div>
                         </div>
@@ -376,7 +377,7 @@
                                     <asp:Literal ID="litWeekly" runat="server" Text="0.00"></asp:Literal>
                                 </div>
                                 <small class="text-gray">
-                                    <asp:Literal ID="litWeeklyCurrency" runat="server" Text="PNC"></asp:Literal>
+                                    <asp:Literal ID="litWeeklyCurrency" runat="server" Text="USDT"></asp:Literal>
                                 </small>
                             </div>
                         </div>
@@ -388,7 +389,7 @@
                                     <asp:Literal ID="litMonthly" runat="server" Text="0.00"></asp:Literal>
                                 </div>
                                 <small class="text-gray">
-                                    <asp:Literal ID="litMonthlyCurrency" runat="server" Text="PNC"></asp:Literal>
+                                    <asp:Literal ID="litMonthlyCurrency" runat="server" Text="USDT"></asp:Literal>
                                 </small>
                             </div>
                         </div>
@@ -400,7 +401,7 @@
                                     <asp:Literal ID="litYearly" runat="server" Text="0.00"></asp:Literal>
                                 </div>
                                 <small class="text-gray">
-                                    <asp:Literal ID="litYearlyCurrency" runat="server" Text="PNC"></asp:Literal>
+                                    <asp:Literal ID="litYearlyCurrency" runat="server" Text="USDT"></asp:Literal>
                                 </small>
                             </div>
                         </div>
@@ -500,11 +501,11 @@
         <div class="container">
             <div class="glass-card p-5 text-center" data-aos="zoom-in" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(0, 255, 178, 0.1));">
                 <i class="fas fa-coins fa-3x text-warning mb-3"></i>
-                <h2 class="text-white mb-3">Start Earning with PNC Staking</h2>
+                <h2 class="text-white mb-3">Start Earning with USDT Staking</h2>
                 <p class="text-gray mb-4 mx-auto" style="max-width: 600px;">
                     Join thousands of stakers earning passive income on their PNC holdings with MEXIFY's secure staking platform.
                 </p>
-                <a href="<%= ResolveUrl("~/register.aspx") %>" class="btn btn-primary-glow btn-lg">
+                <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow btn-lg">
                     Create Free Account <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
@@ -545,7 +546,7 @@
                         scales: {
                             y: {
                                 grid: { color: 'rgba(255,255,255,0.05)' },
-                                ticks: { color: '#6B758D', callback: (val) => val.toLocaleString() + ' PNC' }
+                                ticks: { color: '#6B758D', callback: (val) => val.toLocaleString() + ' USDT' }
                             },
                             x: {
                                 grid: { display: false },

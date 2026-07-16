@@ -144,7 +144,9 @@
                 <div class="collapse navbar-collapse" id="navMenu">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/Default.aspx") %>">Home</a></li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/about.aspx") %>">About</a></li>
+               
+                                 <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Investments</a>
                             <ul class="dropdown-menu glass-dropdown">
                                 <li><a class="dropdown-item" href="<%= ResolveUrl("~/Web/roi.aspx") %>">2X ROI Plans</a></li>
@@ -152,10 +154,10 @@
                                 <li><a class="dropdown-item" href="<%= ResolveUrl("~/Web/mining.aspx") %>">Enterprise Mining</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/nft.aspx") %>">NFTs</a></li>
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/ico.aspx") %>">ICO Launchpad</a></li>
+              
+                                  <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/nft.aspx") %>">NFTs</a></li>
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/royalty.aspx") %>">Licenses</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/Web/about.aspx") %>">About</a></li>
                     </ul>
                     
                     <!-- Dynamic Auth Buttons -->

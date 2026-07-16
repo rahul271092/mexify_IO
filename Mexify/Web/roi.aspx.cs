@@ -90,10 +90,10 @@ namespace Mexify.Web
                 decimal monthlyProfit = dailyProfit * 30;
 
                 // Format as PNC
-                litProfit.Text = totalProfit.ToString("0.00") + " PNC";
-                litTotal.Text = totalPayout.ToString("0.00") + " PNC";
-                litDaily.Text = dailyProfit.ToString("0.00") + " PNC";
-                litMonthly.Text = monthlyProfit.ToString("0.00") + " PNC";
+                litProfit.Text = totalProfit.ToString("0.00") + " USDT";
+                litTotal.Text = totalPayout.ToString("0.00") + " USDT";
+                litDaily.Text = dailyProfit.ToString("0.00") + " USDT";
+                litMonthly.Text = monthlyProfit.ToString("0.00") + "USDT";
             }
             catch (Exception ex)
             {

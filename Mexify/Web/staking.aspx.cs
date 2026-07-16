@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web
 {
@@ -44,10 +46,33 @@ namespace Mexify.Web
             try
             {
                 var pools = _service.GetActivePools();
-                ddlPool.DataSource = pools;
-                ddlPool.DataValueField = "StakingPlanId";
-                ddlPool.DataTextField = "DisplayName";
-                ddlPool.DataBind();
+                string sql = "usp_GetStakingPools";
+                try
+                {
+                    using (SqlCommand cmd = Web.Models.Connection.SqlQuery(sql))
+                    {
+                        SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        ddlPool.DataSource = dt;
+                        ddlPool.DataTextField = "PoolName";
+                        ddlPool.DataValueField = "StakingPlanId";
+                        ddlPool.DataBind();
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("Staking Pool Error:", ex);
+
+                }
+                finally
+                {
+                    Web.Models.Connection.CloseConnection();
+                }
+
+              
             }
             catch (Exception ex)
             {
@@ -57,11 +82,13 @@ namespace Mexify.Web
 
         public void CalculateStaking(object sender, EventArgs e)
         {
+            decimal amount;
+            int days;
+            int poolId;
+            string currency = string.Empty;
+
             try
             {
-                decimal amount;
-                int days;
-                int poolId;
 
                 decimal.TryParse(txtStakeAmount.Text, out amount);
                 int.TryParse(txtDays.Text, out days);
@@ -69,34 +96,78 @@ namespace Mexify.Web
 
                 if (amount <= 0 || days <= 0) return;
 
-                var pool = _service.GetPoolById(poolId);
-                if (pool == null) return;
+            //    var pool = _service.GetPoolById(poolId);
+
+
+                try
+                {
+
+                    string sql = "usp_GetStakingPoolById";
+                    using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                    {
+
+                        cmd.Parameters.AddWithValue("@StakingPlanId", Int32.Parse(ddlPool.SelectedValue.ToString()));
+                        SqlDataReader sdr = cmd.ExecuteReader();
+                        if (sdr.HasRows)
+                        {
+                            sdr.Read();
+
+                            decimal dailyRate = Decimal.Parse(sdr["APY"].ToString()) / 100m / 365m;
+                            decimal dailyReward = amount * dailyRate;
+                            // decimal dailyReward = amount * dailyRate;
+                            decimal totalReward = dailyReward * days;
+                            decimal weeklyReward = dailyReward * 7;
+                            decimal monthlyReward = dailyReward * 30;
+                            decimal yearlyReward = dailyReward * 365;
+
+
+
+
+
+
+
+
+
+                             currency = sdr["CurrencyCode"].ToString() ?? "USDT";
+
+                            litReward.Text = totalReward.ToString("0.####") + " " + currency;
+                            litAPY.Text = sdr["APY"].ToString() + "%";
+
+                            litDaily.Text = dailyReward.ToString("0.####");
+                            litDailyCurrency.Text = currency;
+
+                            litWeekly.Text = weeklyReward.ToString("0.####");
+                            litWeeklyCurrency.Text = currency;
+
+                            litMonthly.Text = monthlyReward.ToString("0.####");
+                            litMonthlyCurrency.Text = currency;
+
+                            litYearly.Text = yearlyReward.ToString("0.####");
+                            litYearlyCurrency.Text = currency;
+
+                        }
+                    }
+                }
+                catch(Exception ef)
+                {
+                    Logger.Error("Staking Error:", ef);
+                }
+                finally
+                {
+                    Models.Connection.CloseConnection();
+                }
+
 
                 // APY calculation: (amount * APY/100 * days/365)
-                decimal dailyRate = pool.APY / 100m / 365m;
-                decimal dailyReward = amount * dailyRate;
-                decimal totalReward = dailyReward * days;
-                decimal weeklyReward = dailyReward * 7;
-                decimal monthlyReward = dailyReward * 30;
-                decimal yearlyReward = dailyReward * 365;
+                //decimal dailyRate = pool.APY / 100m / 365m;
+                //decimal dailyReward = amount * dailyRate;
+                //decimal totalReward = dailyReward * days;
+                //decimal weeklyReward = dailyReward * 7;
+                //decimal monthlyReward = dailyReward * 30;
+                //decimal yearlyReward = dailyReward * 365;
 
                 // Format as PNC (or the pool's currency)
-                string currency = pool.CurrencyCode ?? "PNC";
-
-                litReward.Text = totalReward.ToString("0.####") + " " + currency;
-                litAPY.Text = pool.APY.ToString("0.##") + "%";
-
-                litDaily.Text = dailyReward.ToString("0.####");
-                litDailyCurrency.Text = currency;
-
-                litWeekly.Text = weeklyReward.ToString("0.####");
-                litWeeklyCurrency.Text = currency;
-
-                litMonthly.Text = monthlyReward.ToString("0.####");
-                litMonthlyCurrency.Text = currency;
-
-                litYearly.Text = yearlyReward.ToString("0.####");
-                litYearlyCurrency.Text = currency;
+            
             }
             catch (Exception ex)
             {

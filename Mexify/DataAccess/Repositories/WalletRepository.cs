@@ -64,7 +64,10 @@ namespace Mexify.DataAccess.Repositories
                             {
                                 result.Transactions.Add(new WalletTransaction
                                 {
-                                    TransactionId = GetSafeLong(reader, "WalletTransactionId"),
+                                 //   TransactionId = GetSafeInt(reader, "WalletTransactionId"),
+
+                                    // ✅ FIX: Match the exact column name returned by SQL
+                                    TransactionId = reader.GetInt32(reader.GetOrdinal("WalletTransactionId")),
                                     WalletId = GetSafeInt(reader, "WalletId"),
                                     UserId = GetSafeInt(reader, "UserId"),
                                     TransactionType = GetSafeInt(reader, "TransactionType"),
@@ -388,7 +391,7 @@ namespace Mexify.DataAccess.Repositories
             }
         }
 
-        public string GetDepositAddress(int userId, int currencyId)
+        public string GetDepositAddress(int userId, int currencyId=0)
         {
             var results = ExecuteStoredProcedure<string>(
                 "usp_GetUserDepositAddress",
@@ -455,7 +458,7 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserWalletTransactions",
                 reader => new WalletTransaction
                 {
-                    TransactionId = Convert.ToInt64(reader["TransactionId"]),
+                    TransactionId = Int32.Parse(reader["TransactionId"].ToString()),
                     TransactionType = GetSafeInt(reader, "TransactionType"),
                     TypeName = GetSafeString(reader, "TypeName") ?? "Transaction",
                     TypeSlug = GetSafeString(reader, "TypeSlug") ?? "other",

@@ -170,13 +170,18 @@
     <!-- =========================================
          4. INVESTMENT PLANS (DATABOUND FROM SQL)
          ========================================= -->
-    <section id="plans" class="section-padding" style="background: var(--bg-secondary);">
+   <%-- <section id="plans" class="section-padding" style="background: var(--bg-secondary);">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Choose Your Investment Plan</h2>
             <p class="section-subtitle" data-aos="fade-up">Tailored strategies for every portfolio size.</p>
             
             <div class="row g-4 justify-content-center">
-                <asp:Repeater ID="rptPlans" runat="server">
+            </div>
+        </div>
+    </section>--%>
+
+
+                    <asp:Repeater ID="rptPlans" runat="server" Visible="false">
                     <ItemTemplate>
                         <div class="col-md-6 col-lg-4" data-aos="fade-up">
                             <div class="glass-card pricing-card <%# Eval("PlanName").ToString() == "Gold" ? "featured" : "" %>">
@@ -197,9 +202,7 @@
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
-            </div>
-        </div>
-    </section>
+
 
     <!-- =========================================
          5. ROI CALCULATOR (INTERACTIVE JS)
@@ -318,7 +321,7 @@
             <div class="glass-card p-5 text-center" data-aos="zoom-in" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(0, 255, 178, 0.1));">
                 <h2 class="text-white mb-3">Ready to Start Your Crypto Journey?</h2>
                 <p class="text-gray mb-4 mx-auto" style="max-width: 600px;">Join over 150,000 investors globally who trust MEXIFY for secure, high-yield digital asset management.</p>
-                <a href="<%= ResolveUrl("~/register.aspx") %>" class="btn btn-primary-glow btn-lg">Create Free Account</a>
+                <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow btn-lg">Create Free Account</a>
             </div>
         </div>
     </section>

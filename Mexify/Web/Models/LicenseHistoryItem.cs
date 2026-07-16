@@ -29,12 +29,12 @@ namespace Mexify.Web.Models
         public DateTime? NextPayoutDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public long HistoryId { get; internal set; }
-        public string LicenseType { get; internal set; }
-        public string LicenseName { get; internal set; }
-        public DateTime ExpiryDate { get; internal set; }
-        public decimal Amount { get; internal set; }
-        public bool IsActive { get; internal set; }
-        public DateTime PurchaseDate { get; internal set; }
+        public string LicenseType { get;  set; }
+        public string LicenseName { get;  set; }
+        public DateTime ExpiryDate { get;  set; }
+        public decimal Amount { get;  set; }
+        public bool IsActive { get; set; }
+        public DateTime PurchaseDate { get;  set; }
     }
 
 

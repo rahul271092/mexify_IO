@@ -27,7 +27,7 @@ namespace Mexify.Web.User
         {
             if (!Request.IsAuthenticated || Session["UserId"] == null)
             {
-                Response.Redirect(ResolveUrl("~/Web/login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
+                Response.Redirect(ResolveUrl("~/Web/MetaMaskLogin.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
                 return;
             }
 

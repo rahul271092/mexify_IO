@@ -58,13 +58,13 @@ namespace Mexify.Web.MasterPages {
         protected global::System.Web.UI.WebControls.Literal litUserTier;
         
         /// <summary>
-        /// LogoutButton control.
+        /// Logout2Button control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
+        protected global::System.Web.UI.WebControls.LinkButton Logout2Button;
         
         /// <summary>
         /// litSidebarPNC control.
@@ -130,13 +130,13 @@ namespace Mexify.Web.MasterPages {
         protected global::System.Web.UI.WebControls.Literal litDropdownEmail;
         
         /// <summary>
-        /// Logout2Button control.
+        /// Logout2ButtonDropdown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton Logout2Button;
+        protected global::System.Web.UI.WebControls.LinkButton Logout2ButtonDropdown;
         
         /// <summary>
         /// MainContent control.

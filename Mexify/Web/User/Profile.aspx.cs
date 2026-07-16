@@ -112,7 +112,7 @@ namespace Mexify.Web.User
 
                 // Referral link
                 string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
-                litReferralLink.Text = baseUrl + ResolveUrl("~/register.aspx?ref=" + (profile.ReferralCode ?? ""));
+                litReferralLink.Text = baseUrl + ResolveUrl("~/Web/MetaMaskLogin.aspx?ref=" + (profile.ReferralCode ?? ""));
 
                 // Security
                 Is2FAEnabled = profile.Is2FAEnabled;

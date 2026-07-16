@@ -1,0 +1,579 @@
+﻿/* =========================================
+MEXIFY LAYOUT - UNIFIED MASTER LAYOUT
+Clean, conflict-free sidebar & content system
+Version: 1.0
+========================================= */
+
+/* =========================================
+1. LAYOUT SHELL
+========================================= */
+.dashboard-body {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--bg-primary);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* =========================================
+2. SIDEBAR
+========================================= */
+.user-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    height: 100vh;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    
+    /* ✅ CRITICAL: Force visibility regardless of AOS */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    background: rgba(212, 175, 55, 0.02);
+    flex-shrink: 0;
+}
+
+.sidebar-header .navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.sidebar-close-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-white);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-close-btn:hover {
+    background: rgba(255, 59, 92, 0.15);
+    border-color: #ff3b5c;
+    color: #ff3b5c;
+}
+
+/* Sidebar User Profile */
+.sidebar-user {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.user-name {
+    color: var(--text-white);
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-tier {
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 0;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 4px;
+}
+
+.nav-section {
+    margin-bottom: 16px;
+}
+
+.nav-label {
+    display: block;
+    padding: 8px 24px 6px;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    color: var(--text-gray);
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    position: relative;
+}
+
+.sidebar-nav .nav-link:hover {
+    background: rgba(255, 215, 0, 0.05);
+    color: var(--text-white);
+    border-left-color: rgba(255, 215, 0, 0.3);
+}
+
+.sidebar-nav .nav-link.active {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.12), transparent);
+    color: var(--gold);
+    border-left-color: var(--gold);
+    font-weight: 600;
+}
+
+.sidebar-nav .nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.sidebar-nav .nav-link span {
+    flex: 1;
+}
+
+.sidebar-nav .nav-link.nav-logout {
+    color: #ff3b5c;
+}
+
+.sidebar-nav .nav-link.nav-logout:hover {
+    background: rgba(255, 59, 92, 0.1);
+    border-left-color: #ff3b5c;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 14px 18px;
+    border-top: 1px solid var(--glass-border);
+    flex-shrink: 0;
+}
+
+.pnc-balance-mini {
+    padding: 12px 14px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(37, 99, 235, 0.04));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+}
+
+.pnc-balance-mini h5 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-white);
+}
+
+/* =========================================
+3. MAIN CONTENT AREA
+========================================= */
+.user-main {
+    flex: 1;
+    margin-left: 280px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+    width: calc(100% - 280px);
+    max-width: calc(100% - 280px);
+    
+    /* ✅ CRITICAL: Force visibility regardless of AOS */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Top Bar */
+.user-topbar {
+    height: 70px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* ✅ CRITICAL: Force visibility */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.sidebar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    z-index: 1060;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* Breadcrumb */
+.topbar-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+}
+
+.topbar-breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.topbar-breadcrumb a:hover {
+    color: var(--gold);
+}
+
+.topbar-breadcrumb .separator {
+    color: var(--text-muted);
+}
+
+.topbar-breadcrumb .current-page {
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+/* Top Bar Actions */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.topbar-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    color: var(--text-gray);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.topbar-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.topbar-action-btn {
+    width: auto;
+    padding: 0 16px;
+    border-radius: 50px;
+    background: var(--gradient-gold);
+    color: #000;
+    border: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.topbar-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+    color: #000;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: #ff3b5c;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-secondary);
+}
+
+/* User Profile in Topbar */
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 12px 5px 5px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    color: var(--text-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topbar-user:hover {
+    border-color: var(--gold);
+}
+
+.topbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.topbar-user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.topbar-user-email {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* Dropdowns */
+.notification-dropdown,
+.user-dropdown {
+    width: 280px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0;
+    margin-top: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-user-info {
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.dropdown-user-info img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-dropdown .dropdown-item {
+    padding: 10px 16px;
+    color: var(--text-gray);
+    font-size: 0.88rem;
+    transition: all 0.3s ease;
+}
+
+.user-dropdown .dropdown-item:hover {
+    background: rgba(255, 215, 0, 0.05);
+    color: var(--text-white);
+}
+
+.user-dropdown .dropdown-item i {
+    width: 20px;
+    color: var(--gold);
+}
+
+.user-dropdown .dropdown-divider {
+    border-color: var(--glass-border);
+    margin: 4px 0;
+}
+
+/* Content Area */
+.user-content {
+    flex: 1;
+    padding: 28px;
+    
+    /* ✅ CRITICAL: Force visibility */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Footer */
+.user-footer {
+    padding: 18px 28px;
+    border-top: 1px solid var(--glass-border);
+    background: var(--bg-secondary);
+}
+
+/* =========================================
+4. MOBILE OVERLAY
+========================================= */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1040;
+    
+    /* ✅ Use opacity/pointer-events instead of display:none */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =========================================
+5. RESPONSIVE - MOBILE
+========================================= */
+@media (max-width: 991.98px) {
+    .user-sidebar {
+        transform: translateX(-100%);
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .user-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .user-main {
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    .sidebar-close-btn {
+        display: flex;
+    }
+
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 576px) {
+    .user-content {
+        padding: 16px;
+    }
+
+    .user-topbar {
+        padding: 0 14px;
+    }
+
+    .topbar-user > div {
+        display: none;
+    }
+
+    .topbar-action-btn span {
+        display: none;
+    }
+
+    .topbar-action-btn {
+        width: 40px;
+        padding: 0;
+    }
+}
+
+/* =========================================
+6. AOS SAFETY NET
+Prevents AOS from hiding layout elements
+========================================= */
+[data-aos].user-sidebar,
+[data-aos].user-main,
+[data-aos].user-topbar,
+[data-aos].user-content,
+[data-aos].user-footer,
+[data-aos].sidebar-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+}
+
+/* Fix AOS fade animations properly */
+[data-aos^="fade"] {
+    opacity: 0;
+    transition-property: opacity, transform;
+}
+
+[data-aos^="fade"].aos-animate {
+    opacity: 1;
+}
