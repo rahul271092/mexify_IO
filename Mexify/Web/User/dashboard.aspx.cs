@@ -66,10 +66,21 @@ namespace Mexify.Web.User
                 //var walletService = new WalletService();
                 //// ✅ FIX: Use the service method instead of broken raw SQL
                 //var transactions = walletService.GetUserTransactions(_userId, 10);
+                //if(walletService!=null)
+                //{
+                //    rptTransactions.DataSource = transactions;
+                //    rptTransactions.DataBind();
+                //    pnlNoTransactions.Visible = false;
+                //}
+                //else
+                //{
+                //    pnlNoTransactions.Visible = true;
+                //}
 
 
 
-                string sql = "usp_GetUserWalletTransactions";
+
+                string sql = "usp_GetRecentTransactions";
                 using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
                 {
                     cmd.Parameters.AddWithValue("@UserId", UserId);
@@ -79,7 +90,7 @@ namespace Mexify.Web.User
                     DataTable dt = new DataTable();
 
                     sda.Fill(dt);
-                    if(dt.Rows.Count>0)
+                    if (dt.Rows.Count > 0)
                     {
                         rptTransactions.DataSource = dt;
                         rptTransactions.DataBind();

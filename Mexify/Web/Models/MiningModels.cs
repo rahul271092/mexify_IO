@@ -53,6 +53,7 @@ namespace Mexify.Models
 
     public class MiningEarning
     {
+        public int MiningInvestmentId { get; set; }
         public long EarningId { get; set; }
         public long MiningContractId { get; set; }
         public string PlanName { get; set; }

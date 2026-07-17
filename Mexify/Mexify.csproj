@@ -260,6 +260,7 @@
     <Content Include="Web\User\Referrals.aspx" />
     <Content Include="Web\User\Royalty.aspx" />
     <Content Include="Web\User\Salary.aspx" />
+    <Content Include="Web\User\Salary2.aspx" />
     <Content Include="Web\User\Security.aspx" />
     <Content Include="Web\User\Settings.aspx" />
     <Content Include="Web\User\StakeNow.aspx" />
@@ -283,6 +284,7 @@
     <Content Include="App_Data\logs\info_20260709.log" />
     <Content Include="App_Data\logs\info_20260710.log" />
     <Content Include="App_Data\logs\info_20260711.log" />
+    <Content Include="App_Data\logs\error_20260717.log" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -511,6 +513,9 @@
     <Compile Include="Web\Models\RewardModels.cs" />
     <Compile Include="Web\Models\RoyaltyLicense.cs" />
     <Compile Include="Web\Models\SalaryModels.cs" />
+    <Compile Include="Web\Models\SalaryPayment.cs" />
+    <Compile Include="Web\Models\SalaryStats.cs" />
+    <Compile Include="Web\Models\SalaryTier.cs" />
     <Compile Include="Web\Models\SecurityModels.cs" />
     <Compile Include="Web\Models\StackingPlan.cs" />
     <Compile Include="Web\Models\StakingCommissionModels.cs" />
@@ -521,6 +526,7 @@
     <Compile Include="Web\Models\Testimonial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\Models\TestimonialModels.cs" />
+    <Compile Include="Web\Models\TierRequirement.cs" />
     <Compile Include="Web\Models\TimelineItem.cs" />
     <Compile Include="Web\Models\TransactionModels.cs" />
     <Compile Include="Web\Models\TransferModels.cs" />
@@ -531,6 +537,7 @@
     <Compile Include="Web\Models\UserNFTModels.cs" />
     <Compile Include="Web\Models\UserProfileModels.cs" />
     <Compile Include="Web\Models\UserRankInfo.cs" />
+    <Compile Include="Web\Models\UserSalaryDetails.cs" />
     <Compile Include="Web\Models\UserStakingModels.cs" />
     <Compile Include="Web\Models\WalletModels.cs" />
     <Compile Include="Web\Models\Web3Models.cs" />
@@ -723,6 +730,13 @@
     <Compile Include="Web\User\Salary.aspx.designer.cs">
       <DependentUpon>Salary.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\Salary2.aspx.cs">
+      <DependentUpon>Salary2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Salary2.aspx.designer.cs">
+      <DependentUpon>Salary2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\Security.aspx.cs">
       <DependentUpon>Security.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -737,6 +751,7 @@
     <Compile Include="Web\User\Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\Sqlcommand.cs" />
     <Compile Include="Web\User\StakeNow.aspx.cs">
       <DependentUpon>StakeNow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

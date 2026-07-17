@@ -18,7 +18,7 @@ namespace Mexify.DataAccess.Repositories
             try
             {
                 return ExecuteStoredProcedure<NFTCollection>(
-                    "usp_GetActiveCollections",
+                    "[usp_GetActiveCollections]",
                     reader => new NFTCollection
                     {
                         CollectionId = GetSafeInt(reader, "CollectionId"),
@@ -29,7 +29,7 @@ namespace Mexify.DataAccess.Repositories
                 //        LogoUrl = GetSafeString(reader, "ImageUrl"),
                  //       BannerUrl = GetSafeString(reader, "BannerUrl"),
                         Blockchain = GetSafeString(reader, "Blockchain") ?? "BSC",
-                        ContractAddress = GetSafeString(reader, "ContractAddress"),
+                      //  ContractAddress = GetSafeString(reader, "ContractAddress"),
                         MintPrice = GetSafeDecimal(reader, "MintPrice"),
                       //  FloorPrice = GetSafeDecimal(reader, "MintPrice"),
                       //  FloorPriceFormatted = GetSafeDecimal(reader, "MintPrice").ToString("0.00") + " PNC",
@@ -92,15 +92,15 @@ namespace Mexify.DataAccess.Repositories
             try
             {
                 return ExecuteStoredProcedure<UserNFT>(
-                    "usp_GetUserNFTs",
+                    "[usp_GetUserNFTs]",
                     reader => new UserNFT
                     {
                         UserNFTId = GetSafeLong(reader, "UserNFTId"),
                         UserId = GetSafeInt(reader, "UserId"),
                         CollectionId = GetSafeInt(reader, "CollectionId"),
                         CollectionName = GetSafeString(reader, "CollectionName") ?? "",
-                        NFTName = GetSafeString(reader, "NFTName") ?? "",
-                        Description = GetSafeString(reader, "Description"),
+                        NFTName = GetSafeString(reader, "Name") ?? "",
+                        Description = GetSafeString(reader, "Description") ?? " NFT Description",
                         ImageUrl = GetSafeString(reader, "ImageUrl"),
                         TokenId = GetSafeString(reader, "TokenId"),
                         TxHash = GetSafeString(reader, "TxHash"),
@@ -124,14 +124,14 @@ namespace Mexify.DataAccess.Repositories
             try
             {
                 return ExecuteStoredProcedure<NFTTransaction>(
-                    "usp_GetNFTMintHistory",
+                    "[usp_GetNFTMintHistory]",
                     reader => new NFTTransaction
                     {
                         TransactionId = GetSafeLong(reader, "TransactionId"),
                         UserId = GetSafeInt(reader, "UserId"),
                         CollectionId = GetSafeInt(reader, "CollectionId"),
                         CollectionName = GetSafeString(reader, "CollectionName") ?? "",
-                        NFTName = GetSafeString(reader, "NFTName") ?? "",
+                        NFTName = GetSafeString(reader, "Name") ?? "",
                         TokenId = GetSafeLong(reader, "TokenId"),
                         Price = GetSafeDecimal(reader, "Price"),
                         Status = GetSafeInt(reader, "Status"),
@@ -222,12 +222,12 @@ namespace Mexify.DataAccess.Repositories
         // =========================================
         // GET NFTs
         // =========================================
-        public List<NFT> GetNFTs(string category, string sortBy, string search, int pageNumber, int pageSize)
+        public List<NFT> GetNFTs(int _userId,string category, string sortBy, string search, int pageNumber, int pageSize)
         {
             try
             {
                 return ExecuteStoredProcedure<NFT>(
-                    "usp_GetNFTs",
+                    "[usp_GetNFTs]",
                     reader => new NFT
                     {
                         NFTId = GetSafeInt(reader, "NFTId"),
@@ -251,7 +251,8 @@ namespace Mexify.DataAccess.Repositories
                     CreateParameter("@SortBy", (object)sortBy ?? "newest"),
                     CreateParameter("@Search", (object)search ?? DBNull.Value),
                     CreateParameter("@PageNumber", pageNumber),
-                    CreateParameter("@PageSize", pageSize)
+                    CreateParameter("@PageSize", pageSize),
+                    CreateParameter("@UserId", _userId)
                 );
             }
             catch (Exception ex)

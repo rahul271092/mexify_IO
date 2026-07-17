@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Mexify.Models;
 using System.Data;
 using Mexify.Utilities;
+using System.Linq;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -134,9 +135,20 @@ namespace Mexify.DataAccess.Repositories
                     CurrentSelf = GetSafeDecimal(reader, "SelfInvestment"),
                     CurrentStrong = GetSafeDecimal(reader, "StrongLegVolume"),
                     CurrentWeaker = GetSafeDecimal(reader, "WeakerLegVolume"),
-                    SelfProgress = 0,
-                    StrongProgress = 0,
-                    WeakerProgress = 0
+
+                    // ✅ Now populated from SQL directly
+                    SelfProgress = GetSafeDecimal(reader, "SelfProgress"),
+                    StrongProgress = GetSafeDecimal(reader, "StrongProgress"),
+                    WeakerProgress = GetSafeDecimal(reader, "WeakerProgress"),
+
+                    // Extra fields now available
+                    OverallProgress = GetSafeDecimal(reader, "OverallProgress"),
+                    IsQualified = GetSafeBool(reader, "IsQualified"),
+                    IsCurrentTier = GetSafeBool(reader, "IsCurrentTier"),
+                    IsNextTier = GetSafeBool(reader, "IsNextTier"),
+                    SelfRemaining = GetSafeDecimal(reader, "SelfRemaining"),
+                    StrongRemaining = GetSafeDecimal(reader, "StrongRemaining"),
+                    WeakerRemaining = GetSafeDecimal(reader, "WeakerRemaining")
                 },
                 CreateParameter("@UserId", userId)
             );
@@ -166,74 +178,10 @@ namespace Mexify.DataAccess.Repositories
             var history = GetUserSalaryHistory(userId, 1000);
             return new SalaryStats
             {
-                //  TotalEarned = history.Sum(h => h.SalaryAmount),
+                  TotalEarned = history.Sum(h => h.SalaryAmount),
                 PaymentsCount = history.Count,
-                //         AveragePayment = history.Count > 0 ? history.Sum(h => h.SalaryAmount) / history.Count : 0
+                         AveragePayment = history.Count > 0 ? history.Sum(h => h.SalaryAmount) / history.Count : 0
             };
-        }
-
-
-
-        public List<SalaryPayment> GetUserSalaryHistory(int userId)
-        {
-            var payments = new List<SalaryPayment>();
-
-            try
-            {
-                using (var conn = ConnectionManager.GetConnection())
-                using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        // Skip Result Set 1 (Summary)
-                        if (reader.Read()) { /* read or skip */ }
-
-                        // Skip Result Set 2 (Active Plans)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read()) { /* read or skip */ }
-                        }
-
-                        // ✅ Result Set 3: Payment History (with PaymentDate)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read())
-                            {
-                                payments.Add(new SalaryPayment
-                                {
-                                    PaymentId = GetSafeLong(reader, "PaymentId"),
-                                    UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
-                                    UserId = GetSafeInt(reader, "UserId"),
-                                    PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
-                                    Amount = GetSafeDecimal(reader, "Amount"),
-                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
-                                    DayNumber = GetSafeInt(reader, "DayNumber"),
-                                    Status = GetSafeInt(reader, "Status"),
-                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
-                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
-                                    StatusColor = GetSafeString(reader, "StatusColor") ?? "",
-                                    PlanName = GetSafeString(reader, "PlanName") ?? "",
-                                    IconClass = GetSafeString(reader, "IconClass") ?? "",
-                                    FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
-                                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
-                                    FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
-                                    FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to get salary history for User {userId}", ex);
-            }
-
-            return payments;
         }
 
 
@@ -262,7 +210,7 @@ namespace Mexify.DataAccess.Repositories
         //                    while (reader.Read()) { /* read or skip */ }
         //                }
 
-        //                // ✅ Result Set 3: Payment History (with PaymentDate and SalaryAmount)
+        //                // ✅ Result Set 3: Payment History (with PaymentDate)
         //                if (reader.NextResult())
         //                {
         //                    while (reader.Read())
@@ -274,7 +222,6 @@ namespace Mexify.DataAccess.Repositories
         //                            UserId = GetSafeInt(reader, "UserId"),
         //                            PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
         //                            Amount = GetSafeDecimal(reader, "Amount"),
-        //                            SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),  // ✅ Now exists
         //                            CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
         //                            DayNumber = GetSafeInt(reader, "DayNumber"),
         //                            Status = GetSafeInt(reader, "Status"),
@@ -300,6 +247,71 @@ namespace Mexify.DataAccess.Repositories
 
         //    return payments;
         //}
+
+
+
+        public List<SalaryPayment> GetUserSalaryHistory(int userId)
+        {
+            var payments = new List<SalaryPayment>();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Skip Result Set 1 (Summary)
+                        if (reader.Read()) { /* read or skip */ }
+
+                        // Skip Result Set 2 (Active Plans)
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read()) { /* read or skip */ }
+                        }
+
+                        // ✅ Result Set 3: Payment History (with PaymentDate and SalaryAmount)
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                payments.Add(new SalaryPayment
+                                {
+                                    PaymentId = GetSafeLong(reader, "PaymentId"),
+                                    UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
+                                    UserId = GetSafeInt(reader, "UserId"),
+                                    PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
+                                    Amount = GetSafeDecimal(reader, "Amount"),
+                                    SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),  // ✅ Now exists
+                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+                                    DayNumber = GetSafeInt(reader, "DayNumber"),
+                                    Status = GetSafeInt(reader, "Status"),
+                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
+                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+                                    StatusColor = GetSafeString(reader, "StatusColor") ?? "",
+                                    PlanName = GetSafeString(reader, "PlanName") ?? "",
+                                    IconClass = GetSafeString(reader, "IconClass") ?? "",
+                                    FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
+                                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+                                    FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
+                                    FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get salary history for User {userId}", ex);
+            }
+
+            return payments;
+        }
 
 
         //public List<InvestorTier> GetAllTiers()

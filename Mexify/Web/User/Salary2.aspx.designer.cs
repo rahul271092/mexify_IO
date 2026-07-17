@@ -10,277 +10,250 @@
 namespace Mexify.Web.User {
     
     
-    public partial class MintNFT {
+    public partial class Salary2 {
         
         /// <summary>
-        /// pnlError control.
+        /// lblQualifiedBadge control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlError;
+        protected global::System.Web.UI.WebControls.Label lblQualifiedBadge;
         
         /// <summary>
-        /// litError control.
+        /// litTotalEarned control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litError;
+        protected global::System.Web.UI.WebControls.Literal litTotalEarned;
         
         /// <summary>
-        /// pnlSuccess control.
+        /// litPaymentsReceived control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlSuccess;
+        protected global::System.Web.UI.WebControls.Literal litPaymentsReceived;
         
         /// <summary>
-        /// litSuccess control.
+        /// litNextPayment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litSuccess;
+        protected global::System.Web.UI.WebControls.Literal litNextPayment;
         
         /// <summary>
-        /// litMyNFTCount control.
+        /// litQualifiedDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMyNFTCount;
+        protected global::System.Web.UI.WebControls.Literal litQualifiedDate;
         
         /// <summary>
-        /// litTotalCollections control.
+        /// pnlQualified control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalCollections;
+        protected global::System.Web.UI.WebControls.Panel pnlQualified;
         
         /// <summary>
-        /// litTotalMinted control.
+        /// litCurrentTier control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalMinted;
+        protected global::System.Web.UI.WebControls.Literal litCurrentTier;
         
         /// <summary>
-        /// litTotalHolders control.
+        /// litMonthlySalary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalHolders;
+        protected global::System.Web.UI.WebControls.Literal litMonthlySalary;
         
         /// <summary>
-        /// litFloorPrice control.
+        /// pnlNotQualified control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litFloorPrice;
+        protected global::System.Web.UI.WebControls.Panel pnlNotQualified;
         
         /// <summary>
-        /// rptCollections control.
+        /// litSelfInvestment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCollections;
+        protected global::System.Web.UI.WebControls.Literal litSelfInvestment;
         
         /// <summary>
-        /// pnlNoCollections control.
+        /// litRequiredSelf control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlNoCollections;
+        protected global::System.Web.UI.WebControls.Literal litRequiredSelf;
         
         /// <summary>
-        /// mintPreviewImage control.
+        /// pnlSelfMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image mintPreviewImage;
+        protected global::System.Web.UI.WebControls.Panel pnlSelfMissing;
         
         /// <summary>
-        /// pnlMintError control.
+        /// litSelfMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMintError;
+        protected global::System.Web.UI.WebControls.Literal litSelfMissing;
         
         /// <summary>
-        /// litMintError control.
+        /// litStrongLeg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMintError;
+        protected global::System.Web.UI.WebControls.Literal litStrongLeg;
         
         /// <summary>
-        /// pnlMintSuccess control.
+        /// litRequiredStrong control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMintSuccess;
+        protected global::System.Web.UI.WebControls.Literal litRequiredStrong;
         
         /// <summary>
-        /// litMintSuccess control.
+        /// pnlStrongMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMintSuccess;
+        protected global::System.Web.UI.WebControls.Panel pnlStrongMissing;
         
         /// <summary>
-        /// ddlCollection control.
+        /// litStrongMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCollection;
+        protected global::System.Web.UI.WebControls.Literal litStrongMissing;
         
         /// <summary>
-        /// txtNFTName control.
+        /// litWeakerLeg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNFTName;
+        protected global::System.Web.UI.WebControls.Literal litWeakerLeg;
         
         /// <summary>
-        /// txtNFTDescription control.
+        /// litRequiredWeaker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNFTDescription;
+        protected global::System.Web.UI.WebControls.Literal litRequiredWeaker;
         
         /// <summary>
-        /// txtQuantity control.
+        /// pnlWeakerMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
+        protected global::System.Web.UI.WebControls.Panel pnlWeakerMissing;
         
         /// <summary>
-        /// txtRecipientAddress control.
+        /// litWeakerMissing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRecipientAddress;
+        protected global::System.Web.UI.WebControls.Literal litWeakerMissing;
         
         /// <summary>
-        /// litMintPrice control.
+        /// rptNextTiers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litMintPrice;
+        protected global::System.Web.UI.WebControls.Repeater rptNextTiers;
         
         /// <summary>
-        /// litQuantity control.
+        /// pnlNoProgress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litQuantity;
+        protected global::System.Web.UI.WebControls.Panel pnlNoProgress;
         
         /// <summary>
-        /// litGasFee control.
+        /// rptRecentSalaries control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litGasFee;
+        protected global::System.Web.UI.WebControls.Repeater rptRecentSalaries;
         
         /// <summary>
-        /// litTotalPrice control.
+        /// pnlNoRecentSalaries control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litTotalPrice;
+        protected global::System.Web.UI.WebControls.Panel pnlNoRecentSalaries;
         
         /// <summary>
-        /// litUserBalance control.
+        /// rptAllTiers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserBalance;
+        protected global::System.Web.UI.WebControls.Repeater rptAllTiers;
         
         /// <summary>
-        /// btnMint control.
+        /// rptSalaryHistory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnMint;
-        
-        /// <summary>
-        /// rptMyNFTs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMyNFTs;
-        
-        /// <summary>
-        /// pnlNoNFTs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlNoNFTs;
-        
-        /// <summary>
-        /// rptHistory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHistory;
+        protected global::System.Web.UI.WebControls.Repeater rptSalaryHistory;
         
         /// <summary>
         /// pnlNoHistory control.
@@ -290,32 +263,5 @@ namespace Mexify.Web.User {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNoHistory;
-        
-        /// <summary>
-        /// hfActiveTab control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfActiveTab;
-        
-        /// <summary>
-        /// hfMintPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfMintPrice;
-        
-        /// <summary>
-        /// hfGasFee control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfGasFee;
     }
 }

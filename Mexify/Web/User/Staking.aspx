@@ -862,7 +862,7 @@
         </h4>
         <div class="row g-4">
 
-                   <asp:Repeater ID="rptPools" runat="server">
+                 <%--  <asp:Repeater ID="rptPools" runat="server">
                 <ItemTemplate>
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
                         <div class='pool-card <%# Convert.ToBoolean(Eval("IsHot")) ? "hot" : (Convert.ToBoolean(Eval("IsNew")) ? "new" : "") %>'>
@@ -914,11 +914,11 @@
                         </div>
                     </div>
                 </ItemTemplate>
-            </asp:Repeater>
+            </asp:Repeater>--%>
      
 
 
-<%--            <asp:Repeater ID="rptPools" runat="server">
+            <asp:Repeater ID="rptPools" runat="server">
                 <ItemTemplate>
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
                         <div class='pool-card <%# (Eval("IsHot") != null && Convert.ToBoolean(Eval("IsHot"))) ? "featured" : "" %>'>
@@ -947,7 +947,7 @@
                         </div>
                     </div>
                 </ItemTemplate>
-            </asp:Repeater>--%>
+            </asp:Repeater>
         </div>
 
         <asp:Panel ID="pnlNoPools" runat="server" Visible="false">
@@ -1081,7 +1081,7 @@
                                 <tr>
                                     <td>#<%# Eval("StakeId") %></td>
                                     <td class="text-white"><%# Eval("PoolName") %></td>
-                                    <td><%# string.Format("{0:0.########}", Eval("Amount")) %> <%# Eval("CurrencyCode") %></td>
+                                    <td><%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %></td>
                                     <td class="text-accent"><%# string.Format("{0:0.##}", Eval("APY")) %>%</td>
                                     <td class="text-accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> PNC</td>
                                     <td>
@@ -1089,7 +1089,7 @@
                                             <%# GetStatusName(Eval("Status")) %>
                                         </span>
                                     </td>
-                                    <td class="text-muted"><%# Convert.ToDateTime(Eval("StakeDate")).ToString("MMM dd, yyyy") %></td>
+                                    <td class="text-muted"><%# Eval("StakedDate") %></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -1118,7 +1118,7 @@
                     <div class="summary-label">Total Lifetime Rewards</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">
                         <asp:Literal ID="litLifetimeRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1127,7 +1127,7 @@
                     <div class="summary-label">This Month</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--gold);">
                         <asp:Literal ID="litMonthRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1136,7 +1136,7 @@
                     <div class="summary-label">Pending Claim</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--secondary);">
                         <asp:Literal ID="litPendingRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1164,7 +1164,7 @@
                             </div>
                         </div>
                         <div class="reward-amount">
-                            +<%# string.Format("{0:0.########}", Eval("Amount")) %> PNC
+                            +<%# string.Format("{0:0.########}", Eval("Amount")) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>
@@ -1286,7 +1286,7 @@
                         <div class="commission-info">
                             <div class="text-white fw-bold">
                                 <%# Eval("FromUserName") %> 
-                                <small class="text-muted">staked $<%# string.Format("{0:0.00}", Eval("StakedAmount")) %> PNC</small>
+                                <small class="text-muted">staked $<%# string.Format("{0:0.00}", Eval("StakedAmount")) %> USDT</small>
                             </div>
                             <div class="text-muted small">
                                 <%# Convert.ToDateTime(Eval("CreatedDate")).ToString("MMM dd, yyyy hh:mm tt") %> · 
@@ -1369,7 +1369,7 @@
                         data: {
                             labels: rewardsData.labels,
                             datasets: [{
-                                label: 'Rewards (PNC)',
+                                label: 'Rewards (USDT)',
                                 data: rewardsData.values,
                                 borderColor: '#00FFB2',
                                 backgroundColor: 'rgba(0, 255, 178, 0.1)',
@@ -1390,7 +1390,7 @@
                                     borderColor: '#00D4FF',
                                     borderWidth: 1,
                                     callbacks: {
-                                        label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                        label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                     }
                                 }
                             },
@@ -1436,7 +1436,7 @@
                         legendHtml += '<div class="d-flex align-items-center gap-2 mb-1">' +
                             '<span style="width: 10px; height: 10px; border-radius: 50%; background: ' + distData.colors[i] + '; display: inline-block;"></span>' +
                             '<span class="text-gray small flex-grow-1">' + distData.labels[i] + '</span>' +
-                            '<span class="text-white small fw-bold">' + distData.values[i].toFixed(2) + ' PNC</span>' +
+                            '<span class="text-white small fw-bold">' + distData.values[i].toFixed(2) + ' USDT</span>' +
                             '</div>';
                     }
                     document.getElementById('distributionLegend').innerHTML = legendHtml;

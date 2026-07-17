@@ -11,6 +11,9 @@ namespace Mexify.Models
         public DateTime? DateOfBirth { get; set; }
         public string Nationality { get; set; }
         public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+
+
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
@@ -25,5 +28,13 @@ namespace Mexify.Models
         public string RejectionReason { get; set; }
         public DateTime SubmittedDate { get; set; }
         public DateTime? ReviewedDate { get; set; }
+        public string FullName { get; internal set; }
+        public string Country { get; internal set; }
+        public string DocumentNumber { get; internal set; }
+        
+        public string Notes { get; internal set; }
+        public string BackImageUrl { get; internal set; }
+        public string SelfieImageUrl { get; internal set; }
+        public string FrontImageUrl { get; internal set; }
     }
 }

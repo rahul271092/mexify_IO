@@ -35,54 +35,54 @@ namespace Mexify.Web.User
             }
         }
 
-        private void HandleActions()
-        {
-            Logger.Info("Handle Actions Executed !!");
-            string action = Request.QueryString["action"];
-            if (string.IsNullOrEmpty(action)) return;
+        //private void HandleActions()
+        //{
+        //    Logger.Info("Handle Actions Executed !!");
+        //    string action = Request.QueryString["action"];
+        //    if (string.IsNullOrEmpty(action)) return;
 
-            try
-            {
-                switch (action.ToLower())
-                {
-                    case "stake":
-                        int poolId = int.Parse(Request.QueryString["pool"] ?? "0");
-                        decimal amount = decimal.Parse(Request.QueryString["amount"] ?? "0");
-                        var stakeResult = _stakingService.StakeTokens(_userId, poolId, amount);
-                        if (stakeResult.Success)
-                        {
-                            hfActiveTab.Value = "active";
-                        }
-                        else
-                        {
-                            Logger.Error("Stake failed: " + stakeResult.ErrorMessage);
-                        }
-                        break;
+        //    try
+        //    {
+        //        switch (action.ToLower())
+        //        {
+        //            case "stake":
+        //                int poolId = int.Parse(Request.QueryString["pool"] ?? "0");
+        //                decimal amount = decimal.Parse(Request.QueryString["amount"] ?? "0");
+        //                var stakeResult = _stakingService.StakeTokens(_userId, poolId, amount);
+        //                if (stakeResult.Success)
+        //                {
+        //                    hfActiveTab.Value = "active";
+        //                }
+        //                else
+        //                {
+        //                    Logger.Error("Stake failed: " + stakeResult.ErrorMessage);
+        //                }
+        //                break;
 
-                    case "claim":
-                        long claimStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
-                        var claimResult = _stakingService.ClaimRewards(_userId, claimStakeId);
-                        if (claimResult.Success)
-                        {
-                            hfActiveTab.Value = "rewards";
-                        }
-                        break;
+        //            case "claim":
+        //                long claimStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
+        //                var claimResult = _stakingService.ClaimRewards(_userId, claimStakeId);
+        //                if (claimResult.Success)
+        //                {
+        //                    hfActiveTab.Value = "rewards";
+        //                }
+        //                break;
 
-                    case "unstake":
-                        long unstakeStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
-                        var unstakeResult = _stakingService.UnstakeTokens(_userId, unstakeStakeId);
-                        if (unstakeResult.Success)
-                        {
-                            hfActiveTab.Value = "history";
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Staking action failed", ex);
-            }
-        }
+        //            case "unstake":
+        //                long unstakeStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
+        //                var unstakeResult = _stakingService.UnstakeTokens(_userId, unstakeStakeId);
+        //                if (unstakeResult.Success)
+        //                {
+        //                    hfActiveTab.Value = "history";
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Staking action failed", ex);
+        //    }
+        //}
 
         private void LoadStakingData()
         {
@@ -246,70 +246,70 @@ namespace Mexify.Web.User
                 default: return "status-pending";
             }
         }
-        //private void HandleActions()
-        //{
-        //    string action = Request.QueryString["action"];
-        //    if (string.IsNullOrEmpty(action)) return;
+        private void HandleActions()
+        {
+            string action = Request.QueryString["action"];
+            if (string.IsNullOrEmpty(action)) return;
 
-        //    try
-        //    {
-        //        switch (action.ToLower())
-        //        {
-        //            case "stake":
-        //                int poolId = int.Parse(Request.QueryString["pool"] ?? "0");
-        //                decimal amount = decimal.Parse(Request.QueryString["amount"] ?? "0");
+            try
+            {
+                switch (action.ToLower())
+                {
+                    case "stake":
+                        int poolId = int.Parse(Request.QueryString["pool"] ?? "0");
+                        decimal amount = decimal.Parse(Request.QueryString["amount"] ?? "0");
 
-        //                // ✅ Now you can use GetPoolById to validate
-        //                var pool = _stakingService.GetPoolById(poolId);
-        //                if (pool == null)
-        //                {
-        //                    Logger.Error("Invalid pool ID: " + poolId);
-        //                    return;
-        //                }
+                        // ✅ Now you can use GetPoolById to validate
+                        var pool = _stakingService.GetPoolById(poolId);
+                        if (pool == null)
+                        {
+                            Logger.Error("Invalid pool ID: " + poolId);
+                            return;
+                        }
 
-        //                if (!pool.IsActive)
-        //                {
-        //                    Logger.Error("Pool is not active: " + poolId);
-        //                    return;
-        //                }
+                        if (!pool.IsActive)
+                        {
+                            Logger.Error("Pool is not active: " + poolId);
+                            return;
+                        }
 
-        //                if (amount < pool.MinStake)
-        //                {
-        //                    Logger.Error("Amount below minimum: " + amount + " < " + pool.MinStake);
-        //                    return;
-        //                }
+                        if (amount < pool.MinStake)
+                        {
+                            Logger.Error("Amount below minimum: " + amount + " < " + pool.MinStake);
+                            return;
+                        }
 
-        //                var stakeResult = _stakingService.StakeTokens(_userId, poolId, amount);
-        //                if (stakeResult.Success)
-        //                {
-        //                    hfActiveTab.Value = "active";
-        //                }
-        //                break;
+                        var stakeResult = _stakingService.StakeTokens(_userId, poolId, amount);
+                        if (stakeResult.Success)
+                        {
+                            hfActiveTab.Value = "active";
+                        }
+                        break;
 
-        //            case "claim":
-        //                long claimStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
-        //                var claimResult = _stakingService.ClaimRewards(_userId, claimStakeId);
-        //                if (claimResult.Success)
-        //                {
-        //                    hfActiveTab.Value = "rewards";
-        //                }
-        //                break;
+                    case "claim":
+                        long claimStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
+                        var claimResult = _stakingService.ClaimRewards(_userId, claimStakeId);
+                        if (claimResult.Success)
+                        {
+                            hfActiveTab.Value = "rewards";
+                        }
+                        break;
 
-        //            case "unstake":
-        //                long unstakeStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
-        //                var unstakeResult = _stakingService.UnstakeTokens(_userId, unstakeStakeId);
-        //                if (unstakeResult.Success)
-        //                {
-        //                    hfActiveTab.Value = "history";
-        //                }
-        //                break;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Error("Staking action failed", ex);
-        //    }
-        //}
+                    case "unstake":
+                        long unstakeStakeId = long.Parse(Request.QueryString["stake"] ?? "0");
+                        var unstakeResult = _stakingService.UnstakeTokens(_userId, unstakeStakeId);
+                        if (unstakeResult.Success)
+                        {
+                            hfActiveTab.Value = "history";
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Staking action failed", ex);
+            }
+        }
         public string GetRewardsChartData()
         {
             try

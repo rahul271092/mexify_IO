@@ -714,7 +714,7 @@
                                 by <span class="text-accent"><%# Eval("CreatorName") ?? "MEXIFY" %></span>
                             </div>
                             <div class="collection-meta">
-                                <div class="meta-item">
+                                <%--<div class="meta-item">--%>
                                     <div class="meta-label">Items</div>
                                     <div class="meta-value"><%# Eval("TotalItems") %></div>
                                 </div>
@@ -731,11 +731,11 @@
                                     <div class="meta-value"><%# Eval("Blockchain") ?? "BSC" %></div>
                                 </div>
                             </div>
-                            <a href='<%# ResolveUrl("~/Web/User/MintNFT.aspx?action=mint&collectionId=" + Eval("CollectionId")) %>' class="collection-btn">
+                            <a href='<%# ResolveUrl("~/Web/User/MintNFT.aspx?action=mint&collectionId=" + Eval("CollectionId"))+"&url="+Eval("ImageUrl") %>' class="collection-btn">
                                 <i class="fas fa-hammer me-1"></i> Mint Now
                             </a>
                         </div>
-                    </div>
+                    
                 </ItemTemplate>
             </asp:Repeater>
         </div>
@@ -757,8 +757,11 @@
         <div class="mint-container">
             <!-- Preview -->
             <div class="mint-preview">
-                <div class="preview-image" id="mintPreviewImage">
-                    <i class="fas fa-image"></i>
+                <div class="preview-image" >
+                    <i class="fas fa-image">
+
+                    </i>
+                    <asp:Image CssClass="preview-image" ID="mintPreviewImage" runat="server" />
                 </div>
                 <h3 class="preview-title" id="previewTitle">Select a Collection</h3>
                 <p class="preview-description" id="previewDescription">

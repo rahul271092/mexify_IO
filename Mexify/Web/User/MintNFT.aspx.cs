@@ -19,7 +19,7 @@ namespace Mexify.Web.User
         {
             if (Session["UserId"] == null)
             {
-                Response.Redirect("~/Web/meta-login.aspx");
+                Response.Redirect("~/Web/MetaMaskLogin.aspx");
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace Mexify.Web.User
         {
             string action = Request.QueryString["action"];
             string collectionId = Request.QueryString["collectionId"];
-
+            string ImageUrl = Request.QueryString["url"];
             if (action == "mint" && !string.IsNullOrEmpty(collectionId))
             {
                 int id;
@@ -46,8 +46,10 @@ namespace Mexify.Web.User
                 {
                     try
                     {
+
                         ddlCollection.SelectedValue = id.ToString();
                         ddlCollection_SelectedIndexChanged(null, EventArgs.Empty);
+                        mintPreviewImage.ImageUrl = ImageUrl;
                     }
                     catch { }
                 }

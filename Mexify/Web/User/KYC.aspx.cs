@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using Mexify.DataAccess.Repositories;
 
 namespace Mexify.Web.User
 {
@@ -236,7 +237,7 @@ namespace Mexify.Web.User
                     kyc.ProofOfAddressPath = SaveFile(fuProofOfAddress, uploadFolder, "proof_address");
 
                 // Save to database
-                int kycId = _kycService.SubmitKYC(kyc);
+               int kycId = _kycService.SubmitKYC(kyc);
 
                 if (kycId > 0)
                 {

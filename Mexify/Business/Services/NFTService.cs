@@ -65,9 +65,9 @@ namespace Mexify.Business.Services
             catch (Exception ex) { Logger.Error("Failed to get trending collections", ex); return new List<NFTCollection>(); }
         }
 
-        public List<NFT> GetNFTs(string category, string sortBy, string search, int pageNumber, int pageSize)
+        public List<NFT> GetNFTs(int _userId,string category, string sortBy, string search, int pageNumber, int pageSize)
         {
-            try { return _repo.GetNFTs(category, sortBy, search, pageNumber, pageSize); }
+            try { return _repo.GetNFTs( _userId,category, sortBy, search, pageNumber, pageSize); }
             catch (Exception ex) { Logger.Error("Failed to get NFTs", ex); return new List<NFT>(); }
         }
     }

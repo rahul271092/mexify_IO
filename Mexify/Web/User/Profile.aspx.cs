@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
+using System.Data.SqlClient;
 
 namespace Mexify.Web.User
 {
@@ -37,7 +38,70 @@ namespace Mexify.Web.User
 
             if (!IsPostBack)
             {
-                LoadProfileData();
+                UserProfileLoad();
+            }
+        }
+
+        public void CreateParameter(SqlCommand cmd, string Name,string Value)
+        {
+            cmd.Parameters.AddWithValue("@" + Name, Value);
+        }
+
+        public void UserProfileLoad()
+        {
+            try
+            {
+                string sql = "usp_GetUserProfile";
+                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                {
+                    CreateParameter(cmd, "UserId", Session["UserId"].ToString());
+
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    if(sdr.HasRows)
+                    {
+                        while(sdr.Read())
+                        {
+                            UserFullName = sdr["FirstName"]as string + " " +"MEX-" + sdr["UserId"] as string;
+                            ProfilePhotoUrl = !string.IsNullOrEmpty(sdr["PhotoUrl"] as string)
+                                ? sdr["PhotoUrl"] as string
+                                : "https://ui-avatars.com/api/?name=" + Server.UrlEncode(UserFullName) + "&background=14B8A6&color=fff&size=200";
+
+                            // Overview tab
+                            litFullName.Text = UserFullName;
+                            litEmail.Text = sdr["Email"] as string;
+                            litInfoName.Text = UserFullName;
+                            litInfoEmail.Text = sdr["Email"] as string;
+                            litInfoPhone.Text = string.IsNullOrEmpty(sdr["Phone"] as string) ? "Not provided" : sdr["Phone"] as string;
+                            litInfoCountry.Text = string.IsNullOrEmpty(sdr["CountryName"] as string) ? "Not provided" :sdr["CountryName"] as string;
+                            litReferralCode.Text = string.IsNullOrEmpty(sdr["ReferralCode"] as string) ? "—" : sdr["ReferralCode"] as string;
+                            litUserId.Text = "MEX-" + sdr["UserId"] as string;
+                            litInfoTier.Text = sdr["Tier"] as string ?? "Standard";
+                            litJoinDate.Text = DateTime.Parse(sdr["CreatedDate"] as string).ToShortDateString();
+                            litLastLogin.Text = sdr["LastLoginDate"].ToString();
+
+
+                             int memberDays = (DateTime.UtcNow - Convert.ToDateTime( sdr["CreatedDate"])).Days;
+                            litMemberDays.Text = memberDays.ToString();
+
+                            SetTierStyle(sdr["Tier"] as string);
+
+                            // Load countries
+                            LoadCountries(int.Parse( sdr["countryId"].ToString()
+                                ));
+
+                        }
+                    }
+                    sdr.Close();
+                }
+
+            }
+            catch(Exception ef)
+            {
+                Logger.Error("User Profile Load function Error:", ef);
+            }
+            finally
+            {
+                Web.Models.Connection.CloseConnection();
             }
         }
 
@@ -53,40 +117,39 @@ namespace Mexify.Web.User
                 }
 
                 var profile = _profileService.GetUserProfile(_userId);
-                if (profile == null)
-                {
-                    Logger.Error("Profile not found for user " + _userId);
-                    return;
-                }
+                //if (profile == null)
+                //{
+                //    Logger.Error("Profile not found for user " + _userId);
+                //    return;
+                //}
 
-                // Basic info
-                UserFullName = profile.FirstName + " " + profile.LastName;
-                ProfilePhotoUrl = !string.IsNullOrEmpty(profile.PhotoUrl)
-                    ? profile.PhotoUrl
-                    : "https://ui-avatars.com/api/?name=" + Server.UrlEncode(UserFullName) + "&background=14B8A6&color=fff&size=200";
+                //// Basic info
+                //UserFullName = profile.FirstName + " " + profile.LastName;
+                //ProfilePhotoUrl = !string.IsNullOrEmpty(profile.PhotoUrl)
+                //    ? profile.PhotoUrl
+                //    : "https://ui-avatars.com/api/?name=" + Server.UrlEncode(UserFullName) + "&background=14B8A6&color=fff&size=200";
 
-                // Overview tab
-                litFullName.Text = UserFullName;
-                litEmail.Text = profile.Email;
-                litInfoName.Text = UserFullName;
-                litInfoEmail.Text = profile.Email;
-                litInfoPhone.Text = string.IsNullOrEmpty(profile.Phone) ? "Not provided" : profile.Phone;
-                litInfoCountry.Text = string.IsNullOrEmpty(profile.CountryName) ? "Not provided" : profile.CountryName;
-                litReferralCode.Text = string.IsNullOrEmpty(profile.ReferralCode) ? "—" : profile.ReferralCode;
-                litUserId.Text = profile.UserId.ToString();
-                litInfoTier.Text = profile.Tier ?? "Standard";
-                litJoinDate.Text = profile.CreatedDate.ToString("MMMM dd, yyyy");
-                litLastLogin.Text = profile.LastLoginDate.HasValue
-                    ? profile.LastLoginDate.Value.ToString("MMM dd, yyyy HH:mm")
-                    : "—";
+                //// Overview tab
+                //litFullName.Text = UserFullName;
+                //litEmail.Text = profile.Email;
+                //litInfoName.Text = UserFullName;
+                //litInfoEmail.Text = profile.Email;
+                //litInfoPhone.Text = string.IsNullOrEmpty(profile.Phone) ? "Not provided" : profile.Phone;
+                //litInfoCountry.Text = string.IsNullOrEmpty(profile.CountryName) ? "Not provided" : profile.CountryName;
+                //litReferralCode.Text = string.IsNullOrEmpty(profile.ReferralCode) ? "—" : profile.ReferralCode;
+                //litUserId.Text = profile.UserId.ToString();
+                //litInfoTier.Text = profile.Tier ?? "Standard";
+                //litJoinDate.Text = profile.CreatedDate.ToString("MMMM dd, yyyy");
+                //litLastLogin.Text = profile.LastLoginDate.HasValue
+                //    ? profile.LastLoginDate.Value.ToString("MMM dd, yyyy HH:mm")
+                //    : "—";
 
-                // Member days
-                int memberDays = (DateTime.UtcNow - profile.CreatedDate).Days;
-                litMemberDays.Text = memberDays.ToString();
+                //// Member days
+                //int memberDays = (DateTime.UtcNow - profile.CreatedDate).Days;
+                //litMemberDays.Text = memberDays.ToString();
 
                 // Tier styling
-                SetTierStyle(profile.Tier);
-
+                
                 // KYC status
                 SetKYCStatus(profile.KYCStatus);
 
@@ -107,9 +170,7 @@ namespace Mexify.Web.User
                 txtEmail.Text = profile.Email;
                 txtPhone.Text = profile.Phone ?? "";
 
-                // Load countries
-                LoadCountries(profile.CountryId);
-
+              
                 // Referral link
                 string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
                 litReferralLink.Text = baseUrl + ResolveUrl("~/Web/MetaMaskLogin.aspx?ref=" + (profile.ReferralCode ?? ""));

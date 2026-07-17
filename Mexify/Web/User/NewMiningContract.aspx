@@ -103,7 +103,7 @@
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Daily Output</div>
-                        <div class="detail-value" style="color: var(--accent);"><asp:Literal ID="litDailyOutput" runat="server" Text="0.00"></asp:Literal> PNC</div>
+                        <div class="detail-value" style="color: var(--accent);"><asp:Literal ID="litDailyOutput" runat="server" Text="0.00"></asp:Literal> USDT</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Power Consumption</div>

@@ -10,6 +10,9 @@
         <a href="Transfer.aspx" class="btn btn-outline-glass">
             <i class="fas fa-paper-plane me-2"></i> Send
         </a>
+
+        &nbsp;
+        <asp:LinkButton ID="CreateWalletLinkButton" runat="server" Text="Craete Wallet" CssClass="btn btn-outline-glass" OnClick="CreateWalletLinkButton_Click" />
     </div>
 
     <div class="row g-4">

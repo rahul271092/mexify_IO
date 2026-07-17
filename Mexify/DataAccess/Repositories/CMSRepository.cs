@@ -51,7 +51,7 @@ namespace Mexify.DataAccess.Repositories
             return new Testimonial
             {
                 TestimonialId = reader.GetInt32(reader.GetOrdinal("TestimonialId")),
-                Name = reader.GetString(reader.GetOrdinal("Name")),
+                Name = reader.GetString(reader.GetOrdinal("UserName")),
                 Designation = reader.IsDBNull(reader.GetOrdinal("Designation")) ? null : reader.GetString(reader.GetOrdinal("Designation")),
                 Company = reader.IsDBNull(reader.GetOrdinal("Company")) ? null : reader.GetString(reader.GetOrdinal("Company")),
                 Message = reader.GetString(reader.GetOrdinal("Message")),

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mexify.Models;
+using Mexify.DataAccess;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -9,15 +10,22 @@ namespace Mexify.DataAccess.Repositories
         public List<Testimonial> GetActiveTestimonials()
         {
             return ExecuteStoredProcedure<Testimonial>(
-                "usp_GetActiveTestimonials",
+                "dbo.usp_GetActiveTestimonials",
                 reader => new Testimonial
                 {
                     TestimonialId = GetSafeInt(reader, "TestimonialId"),
-                    Name = GetSafeString(reader, "Name") ?? "Anonymous",
-                    Designation = GetSafeString(reader, "Designation") ?? "Investor",
-                    PhotoUrl = GetSafeString(reader, "PhotoUrl") ?? "https://ui-avatars.com/api/?name=User",
+                    UserName = GetSafeString(reader, "UserName") ?? "",
+                    UserTitle = GetSafeString(reader, "UserTitle") ?? "",
+                    UserImage = GetSafeString(reader, "UserImage") ?? "",
+                    Company = GetSafeString(reader, "Company") ?? "",
+                    Rating = GetSafeInt(reader, "Rating"),
                     Message = GetSafeString(reader, "Message") ?? "",
-                    Rating = GetSafeInt(reader, "Rating")
+                    IsActive = GetSafeBool(reader, "IsActive"),
+                    CreatedDate = GetSafeDateTime(reader, "CreatedDate"), // ✅ Reads the column
+                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+                    StarDisplay = GetSafeString(reader, "StarDisplay") ?? "",
+                    SortOrder = GetSafeInt(reader, "SortOrder")
+
                 }
             );
         }

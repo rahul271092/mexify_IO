@@ -11,6 +11,14 @@ namespace Mexify.Models
         public string Message { get; set; }
         public int Rating { get; set; }
         public bool IsActive { get; set; }
+        public DateTime CreatedDate { get; internal set; }
+        public string UserName { get; internal set; }
+        public string UserImage { get; internal set; }
+        public string UserTitle { get; internal set; }
+        public string Company { get; internal set; }
+        public string TimeAgo { get; internal set; }
+        public string StarDisplay { get; internal set; }
+        public int SortOrder { get; internal set; }
     }
 
     public class FAQ

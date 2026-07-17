@@ -758,7 +758,7 @@
                             <div class="pool-apy">
                                 <div class="apy-label">Annual Percentage Yield</div>
                                 <div class="apy-value">
-                                    <%# string.Format("{0:0.##}", Eval("APY")) %><small>% APY</small>
+                                    <%# string.Format("{0:0.##}", Eval("APY")) %><small>% ROI (Daily)</small>
                                 </div>
                             </div>
 

@@ -77,7 +77,7 @@ namespace Mexify.Business.Services
         /// <summary>
         /// Gets user transaction history
         /// </summary>
-        public List<WalletTransaction> GetUserTransactions(int userId, int count)
+        public List<WalletTransaction> GetUserTransactions(int userId, int count=0)
         {
             try { return _repository.GetUserTransactions(userId, count); }
             catch (Exception ex) { Logger.Error("Failed to get transactions", ex); return new List<WalletTransaction>(); }

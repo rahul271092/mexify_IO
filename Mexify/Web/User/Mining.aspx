@@ -767,7 +767,7 @@
                                 <div style="font-size: 1.5rem; font-weight: 800; color: var(--gold);">
                                     <asp:Literal ID="litDailyRewards" runat="server" Text="0.00"></asp:Literal>
                                 </div>
-                                <small class="text-muted">PNC per day</small>
+                                <small class="text-muted">USDT per day</small>
                             </div>
                         </div>
                         <div class="col-6">
@@ -776,7 +776,7 @@
                                 <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">
                                     <asp:Literal ID="litTotalEarned" runat="server" Text="0.00"></asp:Literal>
                                 </div>
-                                <small class="text-muted">PNC lifetime</small>
+                                <small class="text-muted">USDT lifetime</small>
                             </div>
                         </div>
                         <div class="col-6">
@@ -793,7 +793,7 @@
                                 <div style="font-size: 1.5rem; font-weight: 800; color: var(--secondary);">
                                     <asp:Literal ID="litTotalInvested" runat="server" Text="0.00"></asp:Literal>
                                 </div>
-                                <small class="text-muted">PNC</small>
+                                <small class="text-muted">USDT</small>
                             </div>
                         </div>
                     </div>
@@ -861,12 +861,12 @@
                                 </div>
                                 <div class="pool-detail-row">
                                     <span>Daily:</span>
-                                    <span class="text-gold"><%# string.Format("{0:0.########}", Eval("ExpectedDailyReward") ?? 0) %> <%# Eval("RewardCurrency") ?? "PNC" %></span>
+                                    <span class="text-gold"><%# string.Format("{0:0.########}", Eval("ExpectedDailyReward") ?? 0) %> <%# Eval("RewardCurrency") ?? "USDT" %></span>
                                 </div>
                             </div>
                             <div class="pool-price">
                                 <span class="pool-price-value">
-                                    <%# string.Format("{0:0.##}", Eval("Price") ?? 0) %> PNC
+                                    <%# string.Format("{0:0.##}", Eval("Price") ?? 0) %> USDT
                                 </span>
                             </div>
                             <a href='<%# ResolveUrl("~/Web/User/NewMiningContract.aspx?planId=" + Eval("MiningPlanId")) %>' class="btn btn-primary-glow w-100">
@@ -1012,8 +1012,8 @@
                                     <td>#<%# Eval("MiningInvestmentId") %></td>
                                     <td class="text-white"><%# Eval("PlanName") %></td>
                                     <td><%# Eval("HashrateFormatted") %></td>
-                                    <td><%# string.Format("{0:0.##}", Eval("Price")) %> PNC</td>
-                                    <td class="text-accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> PNC</td>
+                                    <td><%# string.Format("{0:0.##}", Eval("Price")) %> USDT</td>
+                                    <td class="text-accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> USDT</td>
                                     <td>
                                         <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
                                             <%# GetStatusName(Eval("Status")) %>
@@ -1048,7 +1048,7 @@
                     <div class="summary-label">Total Lifetime Rewards</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--gold);">
                         <asp:Literal ID="litLifetimeRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1057,7 +1057,7 @@
                     <div class="summary-label">This Month</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">
                         <asp:Literal ID="litMonthRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1066,7 +1066,7 @@
                     <div class="summary-label">Today's Rewards</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--secondary);">
                         <asp:Literal ID="litTodayRewards" runat="server" Text="0.00"></asp:Literal>
-                        <small style="font-size: 0.9rem; color: var(--text-gray);"> PNC</small>
+                        <small style="font-size: 0.9rem; color: var(--text-gray);"> USDT</small>
                     </div>
                 </div>
             </div>
@@ -1094,7 +1094,7 @@
                             </div>
                         </div>
                         <div class="reward-amount">
-                            +<%# string.Format("{0:0.########}", Eval("Amount")) %> PNC
+                            +<%# string.Format("{0:0.########}", Eval("Amount")) %> USDT
                         </div>
                     </div>
                 </ItemTemplate>
@@ -1169,7 +1169,7 @@
                         data: {
                             labels: rewardsData.labels,
                             datasets: [{
-                                label: 'Mining Rewards (PNC)',
+                                label: 'Mining Rewards (USDT)',
                                 data: rewardsData.values,
                                 borderColor: '#FFD700',
                                 backgroundColor: 'rgba(255, 215, 0, 0.1)',
@@ -1190,7 +1190,7 @@
                                     borderColor: '#FFD700',
                                     borderWidth: 1,
                                     callbacks: {
-                                        label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                        label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                     }
                                 }
                             },

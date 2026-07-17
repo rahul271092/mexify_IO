@@ -13,6 +13,15 @@ namespace Mexify.Web.User {
     public partial class Receive {
         
         /// <summary>
+        /// CreateWalletLinkButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton CreateWalletLinkButton;
+        
+        /// <summary>
         /// rptAddresses control.
         /// </summary>
         /// <remarks>

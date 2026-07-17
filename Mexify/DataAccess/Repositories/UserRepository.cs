@@ -1,4 +1,5 @@
 ﻿using Mexify.Business.Services;
+using Mexify.Models;
 using Mexify.Utilities;
 using Mexify.Web.Models;
 using System;
@@ -321,7 +322,10 @@ namespace Mexify.DataAccess.Repositories
             }
         }
 
-    
+
+      
+
+
         /// </summary>
         public User ValidateLogin(string email, string password)
         {

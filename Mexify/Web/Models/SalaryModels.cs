@@ -18,6 +18,9 @@ namespace Mexify.Models
         public decimal RequiredStrongLeg { get; set; }
         public decimal RequiredWeakerLeg { get; set; }
         public bool IsQualified { get; set; }
+        public int StrongMissing { get;  set; }
+        public object SelfMissing { get;  set; }
+        public int WeakerMissing { get; set; }
     }
 
     public class InvestorTier
@@ -60,21 +63,21 @@ namespace Mexify.Models
         public decimal Amount { get; internal set; }
         public string CurrencyCode { get; internal set; }
         public int DayNumber { get; internal set; }
-        public string FormattedAmount { get; internal set; }
-        public string FormattedDate { get; internal set; }
-        public string FormattedTime { get; internal set; }
-        public string IconClass { get; internal set; }
-        public DateTime PaymentDate { get; internal set; }
-        public long PaymentId { get; internal set; }
-        public string PlanName { get; internal set; }
-        public decimal SalaryAmount { get; internal set; }
-        public int Status { get; internal set; }
-        public string StatusColor { get; internal set; }
-        public string StatusName { get; internal set; }
-        public string StatusSlug { get; internal set; }
-        public string TimeAgo { get; internal set; }
-        public int UserId { get; internal set; }
-        public long UserSalaryId { get; internal set; }
+        public string FormattedAmount { get;  set; }
+        public string FormattedDate { get;  set; }
+        public string FormattedTime { get;  set; }
+        public string IconClass { get; set; }
+        public DateTime PaymentDate { get;  set; }
+        public long PaymentId { get;  set; }
+        public string PlanName { get;  set; }
+        public decimal SalaryAmount { get;  set; }
+        public int Status { get;  set; }
+        public string StatusColor { get;  set; }
+        public string StatusName { get;  set; }
+        public string StatusSlug { get;  set; }
+        public string TimeAgo { get; set; }
+        public int UserId { get;  set; }
+        public long UserSalaryId { get;  set; }
     }
 
 
@@ -90,9 +93,21 @@ namespace Mexify.Models
         public decimal CurrentSelf { get; set; }
         public decimal CurrentStrong { get; set; }
         public decimal CurrentWeaker { get; set; }
-        public int SelfProgress { get; set; }
-        public int StrongProgress { get; set; }
-        public int WeakerProgress { get; set; }
+        public decimal SelfProgress { get; set; }
+        public decimal StrongProgress { get; set; }
+        public decimal WeakerProgress { get; set; }
+
+        public decimal OverallProgress { get; set; }
+        public bool IsQualified { get; set; }
+        public bool IsCurrentTier { get; set; }
+        public bool IsNextTier { get; set; }
+        public decimal SelfRemaining { get; set; }
+        public decimal StrongRemaining { get; set; }
+        public decimal WeakerRemaining { get; set; }
+        public string IconClass { get; set; }
+        public string ColorClass { get; set; }
+
+
     }
 
     public class SalaryRecord

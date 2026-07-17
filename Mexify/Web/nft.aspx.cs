@@ -63,8 +63,10 @@ namespace Mexify.Web
                 string category = ddlCategory.SelectedValue;
                 string sortBy = ddlSort.SelectedValue;
                 string search = txtSearch.Text.Trim();
+                int _userId = Int32.Parse(Session["UserId"].ToString());
+                int PageSize = 20;
 
-                var nfts = _nftService.GetNFTs(category, sortBy, search, _currentPage, PageSize);
+                var nfts = _nftService.GetNFTs(_userId,category, sortBy, search, _currentPage, PageSize);
                 rptNFTs.DataSource = nfts;
                 rptNFTs.DataBind();
 

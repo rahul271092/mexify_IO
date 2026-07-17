@@ -154,20 +154,53 @@ namespace Mexify.Web.User
 
 
                 // History
-                var history = _userstakingService.GetUserStakingHistory(_userId);
-                if (history != null && history.Count > 0)
+                //var history = _userstakingService.GetUserStakingHistory(_userId);
+                //if (history != null && history.Count > 0)
+                //{
+                //    rptHistory.DataSource = history;
+                //    rptHistory.DataBind();
+                //    pnlNoHistory.Visible = false;
+                //}
+                //else
+                //{
+                //    pnlNoHistory.Visible = true;
+                //}
+
+                if(Session["UserId"]!=null)
                 {
-                    rptHistory.DataSource = history;
-                    rptHistory.DataBind();
-                    pnlNoHistory.Visible = false;
+                    int _userId = Int32.Parse(Session["UserId"].ToString());
+
+                    string sql = "usp_GetUserStakingHistory";
+                    using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", Session["UserId"]);
+                        SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        if(dt.Rows.Count>0)
+                        {
+                            rptHistory.DataSource = dt;
+                            rptHistory.DataBind();
+                            pnlNoHistory.Visible = false;
+                        }
+                        else
+                        {
+                            pnlNoHistory.Visible = true;
+                        }
+
+                    }
+
                 }
                 else
                 {
-                    pnlNoHistory.Visible = true;
+                    Session.Abandon();
+                    Session.Clear();
+                    Response.Redirect("~/Web/MetaMaskLogin.aspx", false);
                 }
 
-                // Rewards
-                var rewards = _userstakingService.GetUserRewards(_userId, 20);
+
+                    // Rewards
+                    var rewards = _userstakingService.GetUserRewards(_userId, 20);
                 if (rewards != null && rewards.Count > 0)
                 {
                     rptRewards.DataSource = rewards;
