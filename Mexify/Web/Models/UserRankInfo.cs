@@ -7,34 +7,34 @@ namespace Mexify.Web.Models
 {
     public class UserRankInfo
     {
-        internal object RankClass;
-        internal string RankIcon;
-        internal string RankName;
-        internal string Requirement;
+        public decimal RankClass;
+        public string RankIcon;
+        public string RankName;
+        public string Requirement;
 
-        public decimal CurrentCommissionRate { get; internal set; }
-        public string CurrentRankColor { get; internal set; }
-        public string CurrentRankIcon { get; internal set; }
-        public int CurrentRankLevel { get; internal set; }
-        public string CurrentRankName { get; internal set; }
-        public decimal DirectProgressPercent { get; internal set; }
-        public string DirectProgressText { get; internal set; }
-        public int DirectReferrals { get; internal set; }
-        public bool HasNextRank { get; internal set; }
-        public decimal MonthCommission { get; internal set; }
-        public object MonthlyBonus { get; internal set; }
-        public int NextRankDirectRequired { get; internal set; }
-        public int NextRankLevel { get; internal set; }
-        public string NextRankName { get; internal set; }
-        public int NextRankTeamRequired { get; internal set; }
-        public decimal PersonalInvestment { get; internal set; }
-        public decimal ProgressPercent { get; internal set; }
-        public string ProgressText { get; internal set; }
-        public decimal TeamProgressPercent { get; internal set; }
-        public string TeamProgressText { get; internal set; }
-        public int TeamSize { get; internal set; }
-        public decimal TotalCommission { get; internal set; }
-        public int UserId { get; internal set; }
-        public string UserName { get; internal set; }
+        public decimal CurrentCommissionRate { get; set; }
+        public string CurrentRankColor { get; set; }
+        public string CurrentRankIcon { get;  set; }
+        public int CurrentRankLevel { get; set; }
+        public string CurrentRankName { get;  set; }
+        public decimal DirectProgressPercent { get; set; }
+        public string DirectProgressText { get;  set; }
+        public int DirectReferrals { get; set; }
+        public bool HasNextRank { get;  set; }
+        public decimal MonthCommission { get;  set; }
+        public object MonthlyBonus { get;  set; }
+        public int NextRankDirectRequired { get;  set; }
+        public int NextRankLevel { get;  set; }
+        public string NextRankName { get;  set; }
+        public int NextRankTeamRequired { get; set; }
+        public decimal PersonalInvestment { get;  set; }
+        public decimal ProgressPercent { get; set; }
+        public string ProgressText { get; set; }
+        public decimal TeamProgressPercent { get;  set; }
+        public string TeamProgressText { get;  set; }
+        public int TeamSize { get;  set; }
+        public decimal TotalCommission { get;  set; }
+        public int UserId { get;  set; }
+        public string UserName { get;  set; }
     }
 }

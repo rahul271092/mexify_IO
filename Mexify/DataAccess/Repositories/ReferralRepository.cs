@@ -12,7 +12,25 @@ namespace Mexify.DataAccess.Repositories
 {
     public class ReferralRepository : BaseRepository
     {
-
+        public int UserId { get; private set; }
+        public string UserName { get; private set; }
+        public int DirectReferrals { get; private set; }
+        public int TeamSize { get; private set; }
+        public decimal PersonalInvestment { get; private set; }
+        public decimal TotalCommission { get; private set; }
+        public decimal MonthCommission { get; private set; }
+        public int CurrentRankLevel { get; private set; }
+        public string CurrentRankName { get; private set; }
+        public string CurrentRankIcon { get; private set; }
+        public string CurrentRankColor { get; private set; }
+        public decimal CurrentCommissionRate { get; private set; }
+        public int NextRankLevel { get; private set; }
+        public string NextRankName { get; private set; }
+        public int NextRankDirectRequired { get; private set; }
+        public int NextRankTeamRequired { get; private set; }
+        public decimal DirectProgressPercent { get; private set; }
+        public decimal TeamProgressPercent { get; private set; }
+        public bool HasNextRank { get; private set; }
 
         public Models.ReferralStats GetUserReferralStats(int userId)
         {
@@ -35,16 +53,20 @@ namespace Mexify.DataAccess.Repositories
         public List<LevelBreakdown> GetLevelBreakdown(int userId)
         {
             return ExecuteStoredProcedure<LevelBreakdown>(
-                "usp_GetUserLevelBreakdown",
+                "usp_GetUserLevelBreakdown2",
                 reader => new LevelBreakdown
                 {
                     Level = GetSafeInt(reader, "Level"),
                     CommissionPercent = GetSafeDecimal(reader, "CommissionPercent"),
                     TeamCount = GetSafeInt(reader, "TeamCount"),
                     Earned = GetSafeDecimal(reader, "Earned"),
-                    IsEligible = GetSafeBool(reader, "IsEligible")
+                   IsEligible = GetSafeBool(reader, "IsEligible")
                 },
                 CreateParameter("@UserId", userId)
+
+               
+                
+
             );
         }
 
@@ -92,63 +114,134 @@ namespace Mexify.DataAccess.Repositories
         }
 
 
-        public UserRankInfo GetUserRank(int userId)
-        {
-            var result = new UserRankInfo();
 
-            try
-            {
-                using (var conn = ConnectionManager.GetConnection())
-                using (var cmd = new SqlCommand("usp_GetUserRank", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UserId", userId);
+        //public UserRankInfo GetUserRank(int userId)
+        //{
+        //    return ExecuteStoredProcedure<UserRankInfo>(
+        //        "usp_GetUserRank",
+        //        reader => new UserRankInfo
+        //        {
+        //            UserId = GetSafeInt(reader, "UserId"),
+        //            UserName = GetSafeString(reader, "UserName") ?? "",
 
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            result.UserId = GetSafeInt(reader, "UserId");
-                            result.UserName = GetSafeString(reader, "UserName") ?? "";
+        //    // Numeric values
+        //    DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
+        //            TeamSize = GetSafeInt(reader, "TeamSize"),
+        //            PersonalInvestment = GetSafeDecimal(reader, "PersonalInvestment"),
+        //            TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
+        //            MonthCommission = GetSafeDecimal(reader, "MonthCommission"),
 
-                            // ✅ Numeric columns use GetSafeInt/GetSafeDecimal
-                            result.DirectReferrals = GetSafeInt(reader, "DirectReferrals");
-                            result.TeamSize = GetSafeInt(reader, "TeamSize");
-                            result.PersonalInvestment = GetSafeDecimal(reader, "PersonalInvestment");
-                            result.TotalCommission = GetSafeDecimal(reader, "TotalCommission");
-                            result.MonthCommission = GetSafeDecimal(reader, "MonthCommission");
+        //    // Current rank
+        //    CurrentRankLevel = GetSafeInt(reader, "CurrentRankLevel"),
+        //            CurrentRankName = GetSafeString(reader, "CurrentRankName") ?? "",
+        //            CurrentRankIcon = GetSafeString(reader, "CurrentRankIcon") ?? "",
+        //            CurrentRankColor = GetSafeString(reader, "CurrentRankColor") ?? "",
+        //            CurrentCommissionRate = GetSafeDecimal(reader, "CurrentCommissionRate"),
 
-                            result.CurrentRankLevel = GetSafeInt(reader, "CurrentRankLevel");
-                            result.CurrentRankName = GetSafeString(reader, "CurrentRankName") ?? "";
-                            result.CurrentRankIcon = GetSafeString(reader, "CurrentRankIcon") ?? "";
-                            result.CurrentRankColor = GetSafeString(reader, "CurrentRankColor") ?? "";
-                            result.CurrentCommissionRate = GetSafeDecimal(reader, "CurrentCommissionRate");
+        //    // Next rank
+        //    NextRankLevel = GetSafeInt(reader, "NextRankLevel"),
+        //            NextRankName = GetSafeString(reader, "NextRankName") ?? "",
+        //            NextRankDirectRequired = GetSafeInt(reader, "NextRankDirectRequired"),
+        //            NextRankTeamRequired = GetSafeInt(reader, "NextRankTeamRequired"),
 
-                            result.NextRankLevel = GetSafeInt(reader, "NextRankLevel");
-                            result.NextRankName = GetSafeString(reader, "NextRankName") ?? "";
-                            result.NextRankDirectRequired = GetSafeInt(reader, "NextRankDirectRequired");
-                            result.NextRankTeamRequired = GetSafeInt(reader, "NextRankTeamRequired");
+        //    // Progress percentages (numeric)
+        //    DirectProgressPercent = GetSafeDecimal(reader, "DirectProgressPercent"),
+        //            TeamProgressPercent = GetSafeDecimal(reader, "TeamProgressPercent"),
 
-                            result.DirectProgressPercent = GetSafeDecimal(reader, "DirectProgressPercent");
-                            result.TeamProgressPercent = GetSafeDecimal(reader, "TeamProgressPercent");
+        //    // ❌ REMOVED: DirectProgressText and TeamProgressText
 
-                            // ✅ Display strings use GetSafeString
-                            result.DirectProgressText = GetSafeString(reader, "DirectProgressText") ?? "";
-                            result.TeamProgressText = GetSafeString(reader, "TeamProgressText") ?? "";
+        //    HasNextRank = GetSafeBool(reader, "HasNextRank")
+        //        },
+        //        CreateParameter("@UserId", userId)
+        //    );
+        //}
 
-                            result.HasNextRank = GetSafeBool(reader, "HasNextRank");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to get user rank for User {userId}", ex);
-            }
 
-            return result;
-        }
+        //public UserRankInfo GetUserRank(int userId)
+        //{
+        //    var result = new UserRankInfo();
+
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetUserRank", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                if (reader.Read())
+        //                {
+        //                    UserId = GetSafeInt(reader, "UserId"),
+        //                   UserName = GetSafeString(reader, "UserName") ?? "",
+            
+        //    // Numeric values
+        //    DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
+        //    TeamSize = GetSafeInt(reader, "TeamSize"),
+        //    PersonalInvestment = GetSafeDecimal(reader, "PersonalInvestment"),
+        //    TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
+        //    MonthCommission = GetSafeDecimal(reader, "MonthCommission"),
+            
+        //    // Current rank
+        //    CurrentRankLevel = GetSafeInt(reader, "CurrentRankLevel"),
+        //    CurrentRankName = GetSafeString(reader, "CurrentRankName") ?? "",
+        //    CurrentRankIcon = GetSafeString(reader, "CurrentRankIcon") ?? "",
+        //    CurrentRankColor = GetSafeString(reader, "CurrentRankColor") ?? "",
+        //    CurrentCommissionRate = GetSafeDecimal(reader, "CurrentCommissionRate"),
+            
+        //    // Next rank
+        //    NextRankLevel = GetSafeInt(reader, "NextRankLevel"),
+        //    NextRankName = GetSafeString(reader, "NextRankName") ?? "",
+        //    NextRankDirectRequired = GetSafeInt(reader, "NextRankDirectRequired"),
+        //    NextRankTeamRequired = GetSafeInt(reader, "NextRankTeamRequired"),
+            
+        //    DirectProgressPercent = GetSafeDecimal(reader, "DirectProgressPercent"),
+        //    TeamProgressPercent = GetSafeDecimal(reader, "TeamProgressPercent"),
+            
+            
+        //    HasNextRank = GetSafeBool(reader, "HasNextRank"),
+        //                    UserId = GetSafeInt(reader, "UserId"),
+        //    UserName = GetSafeString(reader, "UserName") ?? "",
+            
+        //    // Numeric values
+        //    DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
+        //    TeamSize = GetSafeInt(reader, "TeamSize"),
+        //    PersonalInvestment = GetSafeDecimal(reader, "PersonalInvestment"),
+        //    TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
+        //    MonthCommission = GetSafeDecimal(reader, "MonthCommission"),
+            
+        //    // Current rank
+        //    CurrentRankLevel = GetSafeInt(reader, "CurrentRankLevel"),
+        //    CurrentRankName = GetSafeString(reader, "CurrentRankName") ?? "",
+        //    CurrentRankIcon = GetSafeString(reader, "CurrentRankIcon") ?? "",
+        //    CurrentRankColor = GetSafeString(reader, "CurrentRankColor") ?? "",
+        //    CurrentCommissionRate = GetSafeDecimal(reader, "CurrentCommissionRate"),
+            
+        //    // Next rank
+        //    NextRankLevel = GetSafeInt(reader, "NextRankLevel"),
+        //    NextRankName = GetSafeString(reader, "NextRankName") ?? "",
+        //    NextRankDirectRequired = GetSafeInt(reader, "NextRankDirectRequired"),
+        //    NextRankTeamRequired = GetSafeInt(reader, "NextRankTeamRequired"),
+            
+        //    // Progress percentages (numeric)
+        //    DirectProgressPercent = GetSafeDecimal(reader, "DirectProgressPercent"),
+        //    TeamProgressPercent = GetSafeDecimal(reader, "TeamProgressPercent"),
+            
+           
+        //    HasNextRank = GetSafeBool(reader, "HasNextRank")
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get user rank for User {userId}", ex);
+        //    }
+
+        //    return result;
+        //}
 
         //public UserRank GetUserRank(int userId)
         //{

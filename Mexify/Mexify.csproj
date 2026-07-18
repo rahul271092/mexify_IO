@@ -509,6 +509,7 @@
     <Compile Include="Web\Models\NFTModels.cs" />
     <Compile Include="Web\Models\P2PModels.cs" />
     <Compile Include="Web\Models\PortfolioModels.cs" />
+    <Compile Include="Web\Models\RankInfo.cs" />
     <Compile Include="Web\Models\ReferralModels.cs" />
     <Compile Include="Web\Models\RewardModels.cs" />
     <Compile Include="Web\Models\RoyaltyLicense.cs" />

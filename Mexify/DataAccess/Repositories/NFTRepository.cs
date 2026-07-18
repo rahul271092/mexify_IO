@@ -18,7 +18,7 @@ namespace Mexify.DataAccess.Repositories
             try
             {
                 return ExecuteStoredProcedure<NFTCollection>(
-                    "[usp_GetActiveCollections]",
+                    "usp_GetActiveCollections",
                     reader => new NFTCollection
                     {
                         CollectionId = GetSafeInt(reader, "CollectionId"),

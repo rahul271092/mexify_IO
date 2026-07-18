@@ -312,7 +312,7 @@ namespace Mexify.DataAccess.Repositories
 
             Logger.Info("GetActive Pools code Executed !!");
             return ExecuteStoredProcedure<StakingPool>(
-                "usp_GetStakingPool",
+                "usp_GetStakingPools",
                 reader => new StakingPool
                 {
                     PoolId = GetSafeInt(reader, "PoolId"),

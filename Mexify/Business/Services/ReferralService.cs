@@ -34,11 +34,6 @@ namespace Mexify.Business.Services
             catch (Exception ex) { Logger.Error("Failed to get referral stats", ex); return new Models.ReferralStats(); }
         }
 
-        public UserRankInfo GetUserRank(int userId)
-        {
-            try { return _repository.GetUserRank(userId); }
-            catch (Exception ex) { Logger.Error("Failed to get user rank", ex); return new UserRankInfo(); }
-        }
 
         public List<LevelBreakdown> GetLevelBreakdown(int userId)
         {

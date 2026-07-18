@@ -27,11 +27,12 @@ namespace Mexify.Web.Models
         public string IconClass { get; set; }
         public string CategoryClass { get; set; }
         public decimal CurrentWalletBalance { get; set; }
-        public string CurrencyName { get; internal set; }
-        public decimal Balance { get; internal set; }
-        public decimal LockedBalance { get; internal set; }
-        public string Address { get; internal set; }
-        public string TxHash { get; internal set; }
+        public string CurrencyName { get;  set; }
+        public decimal Balance { get; set; }
+        public decimal LockedBalance { get;  set; }
+        public string Address { get;  set; }
+
+        public string TxHash { get;  set; }
     }
 
     public class TransactionSummary

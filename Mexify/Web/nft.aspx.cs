@@ -6,7 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Mexify.Utilities;
 using Mexify.Business.Services;
-
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web
 {
@@ -34,7 +35,7 @@ namespace Mexify.Web
             try
             {
                 LoadCollections();
-                LoadNFTs();
+              //  LoadNFTs();
             }
             catch (Exception ex)
             {
@@ -46,9 +47,18 @@ namespace Mexify.Web
         {
             try
             {
-                var collections = _nftService.GetTrendingCollections(8);
-                rptCollections.DataSource = collections;
-                rptCollections.DataBind();
+                string sql = "usp_GetActiveCollections;";
+                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                {
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    rptCollections.DataSource = dt;
+                    rptCollections.DataBind();
+                }
+
+                    //                var collections = _nftService.GetTrendingCollections(8);
+                 
             }
             catch (Exception ex)
             {

@@ -458,7 +458,7 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserWalletTransactions",
                 reader => new WalletTransaction
                 {
-                  //  TransactionId = Int32.Parse(reader["TransactionId"].ToString()),
+                    TransactionId = Int32.Parse(reader["TransactionId"].ToString()),
                     TransactionType = GetSafeInt(reader, "TransactionType"),
                     TypeName = GetSafeString(reader, "TypeName") ?? "Transaction",
                     TypeSlug = GetSafeString(reader, "TypeSlug") ?? "other",

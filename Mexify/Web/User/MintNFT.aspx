@@ -758,10 +758,8 @@
             <!-- Preview -->
             <div class="mint-preview">
                 <div class="preview-image" >
-                    <i class="fas fa-image">
-
-                    </i>
-                    <asp:Image CssClass="preview-image" ID="mintPreviewImage" runat="server" />
+                   
+                    <asp:Image CssClass="preview-image" ID="mintPreviewImage" Width="100%" runat="server" />
                 </div>
                 <h3 class="preview-title" id="previewTitle">Select a Collection</h3>
                 <p class="preview-description" id="previewDescription">

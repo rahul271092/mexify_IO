@@ -834,7 +834,7 @@
                             </div>
                             <div class="level-stat">
                                 <small>Earned</small>
-                                <div class="value accent"><%# string.Format("{0:0.00}", Eval("EarnedAmount")) %></div>
+                                <div class="value accent"><%# string.Format("{0:0.00}", Eval("Earned")) %></div>
                             </div>
                         </div>
                         <%# !Convert.ToBoolean(Eval("IsEligible")) ? "<div class='level-lock'><i class='fas fa-lock'></i></div>" : "" %>
@@ -1002,12 +1002,20 @@
             var contents = document.querySelectorAll('.tab-content');
 
             tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
+                tab.addEventListener('click', function(event) {
+                    // ✅ CRITICAL: Prevent ASP.NET form postback/reload
+                    event.preventDefault(); 
+                    
                     tabs.forEach(function(t) { t.classList.remove('active'); });
                     tab.classList.add('active');
+                    
                     var target = tab.dataset.tab;
                     contents.forEach(function(c) { c.style.display = 'none'; });
-                    document.getElementById('tab-' + target).style.display = 'block';
+                    
+                    var targetContent = document.getElementById('tab-' + target);
+                    if (targetContent) {
+                        targetContent.style.display = 'block';
+                    }
                 });
             });
 

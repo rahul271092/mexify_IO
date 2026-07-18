@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace Mexify.Models
 {
+    public class ReferralStats2
+    {
+        public int DirectReferrals { get; set; }
+        public int TotalTeam { get; set; }
+        public decimal TotalCommission { get; set; }
+        public decimal ThisMonthCommission { get; set; }
+         public decimal TodayCommission { get; set; }
+    }
     public class ReferralStats
     {
         public int DirectReferrals { get; set; }
@@ -21,6 +29,25 @@ namespace Mexify.Models
         public decimal ProgressPercent { get; set; }
         public string ProgressText { get; set; }
         public decimal MonthlyBonus { get; set; }
+        public int UserId { get; internal set; }
+        public string UserName { get; internal set; }
+        public int DirectReferrals { get; internal set; }
+        public int TeamSize { get; internal set; }
+        public decimal PersonalInvestment { get; internal set; }
+        public decimal MonthCommission { get; internal set; }
+        public decimal TotalCommission { get; internal set; }
+        public int CurrentRankLevel { get; internal set; }
+        public string CurrentRankName { get; internal set; }
+        public string CurrentRankIcon { get; internal set; }
+        public string CurrentRankColor { get; internal set; }
+        public decimal CurrentCommissionRate { get; internal set; }
+        public int NextRankLevel { get; internal set; }
+        public string NextRankName { get; internal set; }
+        public int NextRankDirectRequired { get; internal set; }
+        public int NextRankTeamRequired { get; internal set; }
+        public decimal DirectProgressPercent { get; internal set; }
+        public decimal TeamProgressPercent { get; internal set; }
+        public bool HasNextRank { get; internal set; }
     }
 
     public class LevelBreakdown
