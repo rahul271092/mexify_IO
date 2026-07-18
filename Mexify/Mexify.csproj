@@ -285,6 +285,7 @@
     <Content Include="App_Data\logs\info_20260710.log" />
     <Content Include="App_Data\logs\info_20260711.log" />
     <Content Include="App_Data\logs\error_20260717.log" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -402,6 +403,7 @@
     </Compile>
     <Compile Include="Utilities\CurrencyHelper.cs" />
     <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\Myreader.cs" />
     <Compile Include="Utilities\PasswordHelper.cs" />
     <Compile Include="Web\about.aspx.cs">
       <DependentUpon>about.aspx</DependentUpon>

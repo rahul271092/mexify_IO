@@ -344,7 +344,7 @@
                         <div class="result-box mt-4">
                             <small class="text-muted text-uppercase">Estimated Total Rewards</small>
                             <div class="result-value">
-                                <asp:Literal ID="litReward" runat="server" Text="0.00 PNC"></asp:Literal>
+                                <asp:Literal ID="litReward" runat="server" Text="0.00 USDT"></asp:Literal>
                             </div>
                             <small class="text-gray">
                                 Effective APY: <strong class="text-white">

@@ -56,7 +56,7 @@ namespace Mexify.Web
                         sda.Fill(dt);
                         ddlPool.DataSource = dt;
                         ddlPool.DataTextField = "PoolName";
-                        ddlPool.DataValueField = "StakingPlanId";
+                        ddlPool.DataValueField = "PoolId";
                         ddlPool.DataBind();
 
                     }
@@ -82,11 +82,16 @@ namespace Mexify.Web
 
         public void CalculateStaking(object sender, EventArgs e)
         {
-            decimal amount;
+            decimal amount,dailyRate,dailyReward;
             int days;
             int poolId;
+            decimal weeklyReward = 0;
+            decimal monthlyReward =0;
+            decimal yearlyReward = 0;
+            decimal totalReward = 0;
             string currency = string.Empty;
-
+            dailyRate = 0;
+            dailyReward=0;
             try
             {
 
@@ -94,9 +99,10 @@ namespace Mexify.Web
                 int.TryParse(txtDays.Text, out days);
                 int.TryParse(ddlPool.SelectedValue, out poolId);
 
+              
                 if (amount <= 0 || days <= 0) return;
 
-            //    var pool = _service.GetPoolById(poolId);
+                var pool = _service.GetPoolById(poolId);
 
 
                 try
@@ -112,13 +118,14 @@ namespace Mexify.Web
                         {
                             sdr.Read();
 
-                            decimal dailyRate = Decimal.Parse(sdr["APY"].ToString()) / 100m / 365m;
-                            decimal dailyReward = amount * dailyRate;
-                            // decimal dailyReward = amount * dailyRate;
-                            decimal totalReward = dailyReward * days;
-                            decimal weeklyReward = dailyReward * 7;
-                            decimal monthlyReward = dailyReward * 30;
-                            decimal yearlyReward = dailyReward * 365;
+                           
+                             dailyRate = Decimal.Parse(sdr["APY"].ToString());
+                            dailyReward = amount * dailyRate;
+                             dailyReward = amount * dailyRate;
+                            totalReward = dailyReward * Decimal.Parse( days.ToString());
+                             weeklyReward = dailyReward * 7;
+                             monthlyReward = dailyReward * 30;
+                             yearlyReward = dailyReward * 365;
 
 
 
@@ -158,7 +165,7 @@ namespace Mexify.Web
                 }
 
 
-                // APY calculation: (amount * APY/100 * days/365)
+              //  APY calculation: (amount * APY / 100 * days / 365)
                 //decimal dailyRate = pool.APY / 100m / 365m;
                 //decimal dailyReward = amount * dailyRate;
                 //decimal totalReward = dailyReward * days;
@@ -167,7 +174,7 @@ namespace Mexify.Web
                 //decimal yearlyReward = dailyReward * 365;
 
                 // Format as PNC (or the pool's currency)
-            
+
             }
             catch (Exception ex)
             {
@@ -239,7 +246,7 @@ namespace Mexify.Web
                 int days;
                 int poolId;
                 amount = Decimal.Parse(txtStakeAmount.Text.ToString());
-//                decimal.TryParse(txtStakeAmount.Text, out amount);
+                decimal.TryParse(txtStakeAmount.Text, out amount);
                 int.TryParse(txtDays.Text, out days);
                 int.TryParse(ddlPool.SelectedValue, out poolId);
 

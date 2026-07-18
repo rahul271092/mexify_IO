@@ -51,23 +51,23 @@ namespace Mexify.Web.User
 
 
 
-//                var summary = _stakingService.GetUserStakingSummary(_userId);
+            //    var summary = _stakingService.GetUserStakingSummary(_userId);
 
                 //using (SqlCommand cmd = Web.Models.Connection.Sql("usp_GetActiveStakingPools"))
                 //{
                 //    SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 //    DataTable dt = new DataTable();
                 //    sda.Fill(dt);
-                //    if(dt.Rows.Count>0)
+                //    if (dt.Rows.Count > 0)
                 //    {
                 //        litTotalStaked.Text = dt.Rows[0]["TotalStaked"].ToString();
                 //        litTotalUSD.Text = (Decimal.Parse(dt.Rows[0]["TotalStaked"].ToString()) * 0.042m).ToString();
-                //        litActiveStakes.Text=dt.Rows[0][""]
+                //        litActiveStakes.Text = dt.Rows[0][""]
                 //    }
                 //}
 
 
-                //    litTotalStaked.Text = summary.TotalStaked.ToString("0.00");
+                //litTotalStaked.Text = summary.TotalStaked.ToString("0.00");
                 //litTotalUSD.Text = (summary.TotalStaked * 0.042m).ToString("0.00");
                 //litActiveStakes.Text = summary.ActiveStakes.ToString();
                 //litTotalRewards.Text = summary.TotalRewards.ToString("0.00");
@@ -75,12 +75,12 @@ namespace Mexify.Web.User
                 //litAvgAPY.Text = summary.AverageAPY.ToString("0.00");
                 //litActiveCount.Text = summary.ActiveStakes.ToString();
 
-                // Reward stats
+             //   Reward stats
 
-                //var model = _stakingService.GetUserStakingRewards(_userId, statusFilter, page, 10);
+            //    var model = _stakingService.GetUserStakingRewards(_userId, statusFilter, page, 10);
 
-                //// Bind Summary Cards
-                //litTotalStaked.Text = model.Summary.TotalStaked.ToString("N2");
+                // Bind Summary Cards
+         //       litTotalStaked.Text = model.Summary.TotalStaked.ToString("N2");
                 //litTotalEarned.Text = model.Summary.TotalEarned.ToString("N2");
                 //litTodayEarnings.Text = model.Summary.TodayEarnings.ToString("N2");
                 //litActivePlans.Text = model.Summary.ActivePlans.ToString();
@@ -133,8 +133,8 @@ namespace Mexify.Web.User
 
 
 
-                //    rptPools.DataSource = _stakingService.GetActivePools();
-                //rptPools.DataBind();
+                    rptPools.DataSource = _stakingService.GetActivePools();
+                rptPools.DataBind();
 
                 // Active stakes
                 var activeStakes = _userstakingService.GetUserActiveStakes(_userId);
@@ -153,20 +153,20 @@ namespace Mexify.Web.User
 
 
 
-                // History
-                //var history = _userstakingService.GetUserStakingHistory(_userId);
-                //if (history != null && history.Count > 0)
-                //{
-                //    rptHistory.DataSource = history;
-                //    rptHistory.DataBind();
-                //    pnlNoHistory.Visible = false;
-                //}
-                //else
-                //{
-                //    pnlNoHistory.Visible = true;
-                //}
+               // History
+               var history = _userstakingService.GetUserStakingHistory(_userId);
+                if (history != null && history.Count > 0)
+                {
+                    rptHistory.DataSource = history;
+                    rptHistory.DataBind();
+                    pnlNoHistory.Visible = false;
+                }
+                else
+                {
+                    pnlNoHistory.Visible = true;
+                }
 
-                if(Session["UserId"]!=null)
+                if (Session["UserId"]!=null)
                 {
                     int _userId = Int32.Parse(Session["UserId"].ToString());
 

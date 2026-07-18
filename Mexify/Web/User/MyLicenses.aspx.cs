@@ -46,6 +46,19 @@ namespace Mexify.Web.User
             }
         }
 
+
+        private void MyLicensesStats()
+        {
+            try
+            {
+                string sql = "";
+            }
+            catch(Exception ex)
+            {
+                Logger.Error("My License Data Function Error:", ex);
+            }
+        }
+
         private void LoadLicenseData()
         {
             try

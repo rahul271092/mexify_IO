@@ -516,7 +516,7 @@
 
                         <div class="license-stats">
                             <div class="license-stat">
-                                <div class="license-stat-label">Total Return</div>
+                                <div class="license-stat-label">Expected Return</div>
                                 <div class="license-stat-value accent">$<%# string.Format("{0:0.00}", Eval("TotalReturn")) %></div>
                             </div>
                             <div class="license-stat">
