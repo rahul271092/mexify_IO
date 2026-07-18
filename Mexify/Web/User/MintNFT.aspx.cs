@@ -6,6 +6,8 @@ using Mexify.Business.Services;
 using Mexify.Models;
 using Mexify.Utilities;
 using Mexify.Web.Models;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Mexify.Web.User
 {
@@ -29,9 +31,102 @@ namespace Mexify.Web.User
 
             if (!IsPostBack)
             {
-                LoadNFTData();
                 CheckURLAction();
+
+                GetActiveNFTCollection();
+                LoadUserBalance();
+
             }
+        }
+
+
+        public void GetActiveNFTCollection()
+        {
+            try
+            {
+                string sql = "usp_GetActiveCollections";
+                SqlCommand cmd = Web.Models.Connection.Sql(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                if(dt.Rows.Count>0)
+                {
+                    rptCollections.DataSource = dt;
+                    rptCollections.DataBind();
+                    ddlCollection.DataSource = dt;
+                    ddlCollection.DataTextField = "CollectionName";
+                    ddlCollection.DataValueField = "CollectionId";
+                    ddlCollection.DataBind();
+                    ddlCollection.Items.Insert(0, "Select NFT Collection");
+                    pnlNoCollections.Visible = false;
+
+                }
+                else
+                {
+                    pnlNoCollections.Visible = true;
+                }
+            }
+            catch(Exception ef)
+            {
+                Logger.Error("GET ACTIVE NFT COLLECTION", ef);
+
+            }
+            finally
+            {
+                Web.Models.Connection.CloseConnection();
+            }
+
+        }
+
+
+        public List<NFTCollection> GetNFTCollection()
+        {
+            List<NFTCollection> collection = new List<NFTCollection>();
+            try
+            {
+                string sql = "usp_GetActiveCollections";
+                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    if(sdr.HasRows)
+                    {
+                        while(sdr.Read())
+                        {
+                          NFTCollection obj=  new NFTCollection()
+                            {
+                                IsFeatured = Boolean.Parse(sdr["IsFeatured"].ToString()),
+                                ImageUrl = sdr["ImageUrl"].ToString(),
+                                CollectionName = sdr["CollectionName"].ToString(),
+                                IsActive=Boolean.Parse( sdr["IsFeatured"].ToString()),
+                                CreatorName=sdr["CreatorName"].ToString(),
+                                TotalItems=Int32.Parse(sdr["TotalItems"].ToString()),
+                                MintPrice= Decimal.Parse(sdr["MintPrice"].ToString()),
+                                MaxItems=Int32.Parse(sdr["MaxItems"].ToString()),
+                                CollectionId=Int32.Parse(sdr["collectionId"].ToString()),
+                                Blockchain=sdr["Blockchain"] as string,
+
+                            };
+
+                            collection.Add(obj);
+                        }
+                    }
+                    sdr.Close();
+
+                    ddlCollection.DataSource = collection;
+                    ddlCollection.DataBind();
+
+                }
+            }
+            catch(Exception ef)
+            {
+                Logger.Error("GET NFT Collection Function Error:", ef);
+            }
+            finally
+            {
+                Web.Models.Connection.CloseConnection();
+            }
+            return collection;
         }
 
         private void CheckURLAction()
@@ -180,6 +275,7 @@ namespace Mexify.Web.User
                 {
                     litMintPrice.Text = collection.MintPrice.ToString("0.00");
                     hfMintPrice.Value = collection.MintPrice.ToString();
+                    mintPreviewImage.ImageUrl = collection.ImageUrl.ToString();
                     litGasFee.Text = "0.50";
                     hfGasFee.Value = "0.5";
                     litTotalPrice.Text = (collection.MintPrice + 0.5m).ToString("0.00");

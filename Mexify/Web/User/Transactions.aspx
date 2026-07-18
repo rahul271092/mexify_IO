@@ -950,20 +950,44 @@
 
 <asp:Content ID="ScriptsContent1" ContentPlaceHolderID="ScriptsContent" runat="server">
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tab switching
-            var tabs = document.querySelectorAll('.trans-tab');
-            var contents = document.querySelectorAll('.tab-content');
+        //document.addEventListener('DOMContentLoaded', function() {
+        //    // Tab switching
+        //    var tabs = document.querySelectorAll('.trans-tab');
+        //    var contents = document.querySelectorAll('.tab-content');
 
-            tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(function(t) { t.classList.remove('active'); });
-                    tab.classList.add('active');
-                    var target = tab.dataset.tab;
-                    contents.forEach(function(c) { c.style.display = 'none'; });
-                    document.getElementById('tab-' + target).style.display = 'block';
+        //    tabs.forEach(function(tab) {
+        //        tab.addEventListener('click', function() {
+        //            tabs.forEach(function(t) { t.classList.remove('active'); });
+        //            tab.classList.add('active');
+        //            var target = tab.dataset.tab;
+        //            contents.forEach(function(c) { c.style.display = 'none'; });
+        //            document.getElementById('tab-' + target).style.display = 'block';
+        //        });
+        //    });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Tab switching
+                var tabs = document.querySelectorAll('.trans-tab');
+                var contents = document.querySelectorAll('.tab-content');
+
+                tabs.forEach(function(tab) {
+                    tab.addEventListener('click', function(event) {
+                        // ✅ CRITICAL: Prevent ASP.NET form postback/reload
+                        event.preventDefault(); 
+                    
+                        tabs.forEach(function(t) { t.classList.remove('active'); });
+                        tab.classList.add('active');
+                    
+                        var target = tab.dataset.tab;
+                        contents.forEach(function(c) { c.style.display = 'none'; });
+                    
+                        var targetContent = document.getElementById('tab-' + target);
+                        if (targetContent) {
+                            targetContent.style.display = 'block';
+                        }
+                    });
                 });
-            });
 
             // Volume Chart
             var volumeData = <%= GetVolumeChartData() %>;

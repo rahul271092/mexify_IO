@@ -1440,6 +1440,19 @@ body.sidebar-open {
         width:280px ;
         display:flex;
     }
+
+    .user-content {
+    flex: 1;
+    padding: 32px;
+    width:100vw;
+}
+
+.user-sidebar{
+    flex: 1;
+    padding:32px;
+    width:15vw;
+}
+
 }
 
 /* Overlay: Use opacity instead of display:none for smooth transitions */
@@ -1490,6 +1503,8 @@ body.sidebar-open {
     .user-topbar {
         padding: 0 16px;
     }
+
+
 }
 
 /* =========================================
