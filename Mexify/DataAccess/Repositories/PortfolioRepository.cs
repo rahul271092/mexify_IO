@@ -118,67 +118,67 @@ namespace Mexify.DataAccess.Repositories
             return result;
         }
 
-        //public PortfolioSummary GetPortfolioSummary(int userId)
-        //{
-        //    var summary = new PortfolioSummary();
-
-        //    try
-        //    {
-        //        using (var conn = ConnectionManager.GetConnection())
-        //        using (var cmd = new SqlCommand("usp_GetPortfolioSummary", conn))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@UserId", userId);
-
-        //            conn.Open();
-        //            using (var reader = cmd.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    summary.TotalWalletBalance = GetSafeDecimal(reader, "TotalWalletBalance");
-        //                    summary.TotalInvested = GetSafeDecimal(reader, "TotalInvested");
-        //                    summary.TotalEarnings = GetSafeDecimal(reader, "TotalEarnings");
-        //                    summary.TotalWithdrawn = GetSafeDecimal(reader, "TotalWithdrawn");
-        //                    summary.TotalDeposited = GetSafeDecimal(reader, "TotalDeposited");
-        //                  //  summary.NetWorth = GetSafeDecimal(reader, "NetWorth");
-        //                    summary.ProfitLoss = GetSafeDecimal(reader, "ProfitLoss");
-        //                    summary.TodayEarnings = GetSafeDecimal(reader, "TodayEarnings");
-        //                    summary.MonthEarnings = GetSafeDecimal(reader, "MonthEarnings");
-        //                    summary.ActiveInvestments = GetSafeInt(reader, "ActiveInvestments");  // ✅ Use GetSafeInt for counts
-        //                    summary.TotalReferrals = GetSafeInt(reader, "TotalReferrals");
-        //                    summary.USDEquivalent = GetSafeDecimal(reader, "USDEquivalent");
-        //                    summary.ROIPercent = GetSafeDecimal(reader, "ROIPercent");
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.Error($"Failed to get portfolio summary for User {userId}", ex);
-        //    }
-
-        //    return summary;
-        //}
-
         public PortfolioSummary GetPortfolioSummary(int userId)
         {
-            var results = ExecuteStoredProcedure<PortfolioSummary>(
-                "usp_GetPortfolioSummary",
-                reader => new PortfolioSummary
+            var summary = new PortfolioSummary();
+
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetPortfolioSummary", conn))
                 {
-                    TotalValue = GetSafeDecimal(reader, "TotalValue"),
-                    TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
-                    TotalEarnings = GetSafeDecimal(reader, "TotalEarnings"),
-                    ActiveInvestments = GetSafeInt(reader, "ActiveInvestments"),
-                    DailyIncome = GetSafeDecimal(reader, "DailyIncome"),
-                    OverallROI = GetSafeDecimal(reader, "OverallROI"),
-                    ChangePercent = GetSafeDecimal(reader, "ChangePercent"),
-                    ChangeAmount = GetSafeDecimal(reader, "ChangeAmount")
-                },
-                CreateParameter("@UserId", userId)
-            );
-            return results.Count > 0 ? results[0] : new PortfolioSummary();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            summary.TotalWalletBalance = GetSafeDecimal(reader, "TotalWalletBalance");
+                            summary.TotalInvested = GetSafeDecimal(reader, "TotalInvested");
+                            summary.TotalEarnings = GetSafeDecimal(reader, "TotalEarnings");
+                            summary.TotalWithdrawn = GetSafeDecimal(reader, "TotalWithdrawn");
+                            summary.TotalDeposited = GetSafeDecimal(reader, "TotalDeposited");
+                          //  summary.NetWorth = GetSafeDecimal(reader, "NetWorth");
+                            summary.ProfitLoss = GetSafeDecimal(reader, "ProfitLoss");
+                            summary.TodayEarnings = GetSafeDecimal(reader, "TodayEarnings");
+                            summary.MonthEarnings = GetSafeDecimal(reader, "MonthEarnings");
+                            summary.ActiveInvestments = GetSafeInt(reader, "ActiveInvestments");  // ✅ Use GetSafeInt for counts
+                            summary.TotalReferrals = GetSafeInt(reader, "TotalReferrals");
+                            summary.USDEquivalent = GetSafeDecimal(reader, "USDEquivalent");
+                            summary.ROIPercent = GetSafeDecimal(reader, "ROIPercent");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get portfolio summary for User {userId}", ex);
+            }
+
+            return summary;
         }
+
+        //public PortfolioSummary GetPortfolioSummary(int userId)
+        //{
+        //    var results = ExecuteStoredProcedure<PortfolioSummary>(
+        //        "usp_GetPortfolioSummary",
+        //        reader => new PortfolioSummary
+        //        {
+        //            TotalValue = GetSafeDecimal(reader, "TotalValue"),
+        //            TotalInvested = GetSafeDecimal(reader, "TotalInvested"),
+        //            TotalEarnings = GetSafeDecimal(reader, "TotalEarnings"),
+        //            ActiveInvestments = GetSafeInt(reader, "ActiveInvestments"),
+        //            DailyIncome = GetSafeDecimal(reader, "DailyIncome"),
+        //            OverallROI = GetSafeDecimal(reader, "OverallROI"),
+        //            ChangePercent = GetSafeDecimal(reader, "ChangePercent"),
+        //            ChangeAmount = GetSafeDecimal(reader, "ChangeAmount")
+        //        },
+        //        CreateParameter("@UserId", userId)
+        //    );
+        //    return results.Count > 0 ? results[0] : new PortfolioSummary();
+        //}
 
 
         public PortfolioViewModel GetUserPortfolioHistory(int userId, string timeframe = "30d")
