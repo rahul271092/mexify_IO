@@ -135,7 +135,9 @@ namespace Mexify.Web
 
 
 
-                             currency = sdr["CurrencyCode"].ToString() ?? "USDT";
+                            // currency = sdr["CurrencyCode"].ToString() ?? "USDT";
+
+                            currency = "USDT";
 
                             litReward.Text = totalReward.ToString("0.####") + " " + currency;
                             litAPY.Text = sdr["APY"].ToString() + "%";

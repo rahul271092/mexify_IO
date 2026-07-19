@@ -562,7 +562,7 @@
                         <small style="font-size: 1.2rem; color: var(--text-gray);"> USDT</small>
                     </div>
                     <div class="balance-usd">
-                        ≈ $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
+                        <asp:Literal ID="litTotalUSD" runat="server" Visible="false" Text="0.00"></asp:Literal> 
                     </div>
                 </div>
                 <div class="col-lg-4 text-lg-end">
