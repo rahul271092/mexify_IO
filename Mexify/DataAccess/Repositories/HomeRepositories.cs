@@ -10,7 +10,7 @@ namespace Mexify.DataAccess.Repositories
         public List<Testimonial> GetActiveTestimonials()
         {
             return ExecuteStoredProcedure<Testimonial>(
-                "dbo.usp_GetActiveTestimonials",
+                "usp_GetActiveTestimonials",
                 reader => new Testimonial
                 {
                     TestimonialId = GetSafeInt(reader, "TestimonialId"),
@@ -22,8 +22,6 @@ namespace Mexify.DataAccess.Repositories
                     Message = GetSafeString(reader, "Message") ?? "",
                     IsActive = GetSafeBool(reader, "IsActive"),
                     CreatedDate = GetSafeDateTime(reader, "CreatedDate"), // ✅ Reads the column
-                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
-                    StarDisplay = GetSafeString(reader, "StarDisplay") ?? "",
                     SortOrder = GetSafeInt(reader, "SortOrder")
 
                 }

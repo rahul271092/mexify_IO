@@ -11,13 +11,16 @@ namespace Mexify.Models
         public string Message { get; set; }
         public int Rating { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedDate { get; internal set; }
-        public string UserName { get; internal set; }
-        public string UserImage { get; internal set; }
-        public string UserTitle { get; internal set; }
-        public string Company { get; internal set; }
-        public string TimeAgo { get; internal set; }
-        public string StarDisplay { get; internal set; }
+        public DateTime CreatedDate { get;  set; }
+        public string UserName { get;  set; }
+        public string UserImage { get;  set; }
+        public string Company { get; set; }
+        public string UserTitle { get;  set; }
+
+
+      //  public string Company { get;  set; }
+       // public string TimeAgo { get;  set; }
+      //  public string StarDisplay { get;  set; }
         public int SortOrder { get; internal set; }
     }
 

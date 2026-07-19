@@ -348,10 +348,82 @@ namespace Mexify.DataAccess
         /// <summary>
         /// Safely get bool value from SqlDataReader.
         /// </summary>
+        // In BaseRepository.cs, REPLACE the existing GetSafeBool method with this:
+
+        /// <summary>
+        /// Safely reads a boolean value from SqlDataReader.
+        /// Handles BIT, INT, TINYINT, NULL, and string values.
+        /// NEVER throws "Specified cast is not valid" error.
+        /// </summary>
         public bool GetSafeBool(SqlDataReader reader, string columnName)
         {
-            int ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? false : reader.GetBoolean(ordinal);
+            try
+            {
+                // Check if column exists
+                if (!HasColumn(reader, columnName))
+                    return false;
+
+                int ordinal = reader.GetOrdinal(columnName);
+
+                // Handle NULL
+                if (reader.IsDBNull(ordinal))
+                    return false;
+
+                // Get the actual underlying type
+                Type columnType = reader.GetFieldType(ordinal);
+                object value = reader.GetValue(ordinal);
+
+                // ✅ Handle BIT (bool)
+                if (columnType == typeof(bool) || value is bool)
+                    return (bool)value;
+
+                // ✅ Handle INT, BIGINT, SMALLINT, TINYINT (1 = true, 0 = false)
+                if (columnType == typeof(int) || value is int)
+                    return (int)value != 0;
+                if (columnType == typeof(long) || value is long)
+                    return (long)value != 0;
+                if (columnType == typeof(short) || value is short)
+                    return (short)value != 0;
+                if (columnType == typeof(byte) || value is byte)
+                    return (byte)value != 0;
+                if (columnType == typeof(decimal) || value is decimal)
+                    return (decimal)value != 0;
+                if (columnType == typeof(double) || value is double)
+                    return (double)value != 0;
+                if (columnType == typeof(float) || value is float)
+                    return (float)value != 0;
+
+                // ✅ Handle string values ("true", "false", "1", "0", "yes", "no")
+                if (columnType == typeof(string) || value is string)
+                {
+                    string strValue = value.ToString().Trim().ToLower();
+                    return strValue == "true" || strValue == "1" || strValue == "yes" || strValue == "y";
+                }
+
+                // ✅ Fallback: try Convert.ToBoolean
+                return Convert.ToBoolean(value);
+            }
+            catch
+            {
+                // Never throw - return false on any error
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Helper method to check if a column exists in the reader.
+        /// </summary>
+        private bool HasColumn(SqlDataReader reader, string columnName)
+        {
+            try
+            {
+                reader.GetOrdinal(columnName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>

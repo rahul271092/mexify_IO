@@ -691,7 +691,7 @@
                 <div class="nft-stat-value accent">
                     <asp:Literal ID="litFloorPrice" runat="server" Text="0.00"></asp:Literal>
                 </div>
-                <small class="text-muted">PNC</small>
+                <small class="text-muted">USDT</small>
             </div>
         </div>
 

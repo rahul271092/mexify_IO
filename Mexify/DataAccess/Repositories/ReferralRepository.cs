@@ -50,6 +50,47 @@ namespace Mexify.DataAccess.Repositories
             return results.Count > 0 ? results[0] : new Models.ReferralStats();
         }
 
+
+        public UserRank GetUserRank(int userId)
+        {
+            // ✅ ExecuteStoredProcedure List return karta hai, .FirstOrDefault() se single object lo
+            var ranks = ExecuteStoredProcedure<UserRank>(
+                "usp_GetUserRank",
+                reader => new UserRank
+                {
+                    UserId = GetSafeInt(reader, "UserId"),
+                    UserName = GetSafeString(reader, "UserName") ?? "",
+
+                    DirectReferrals = GetSafeInt(reader, "DirectReferrals"),
+                    TeamSize = GetSafeInt(reader, "TeamSize"),
+                    PersonalInvestment = GetSafeDecimal(reader, "PersonalInvestment"),
+                    TotalCommission = GetSafeDecimal(reader, "TotalCommission"),
+                    MonthCommission = GetSafeDecimal(reader, "MonthCommission"),
+
+                    CurrentRankLevel = GetSafeInt(reader, "CurrentRankLevel"),
+                    CurrentRankName = GetSafeString(reader, "CurrentRankName") ?? "",
+                    CurrentRankIcon = GetSafeString(reader, "CurrentRankIcon") ?? "",
+                    CurrentRankColor = GetSafeString(reader, "CurrentRankColor") ?? "",
+                    CurrentCommissionRate = GetSafeDecimal(reader, "CurrentCommissionRate"),
+
+                    NextRankLevel = GetSafeInt(reader, "NextRankLevel"),
+                    NextRankName = GetSafeString(reader, "NextRankName") ?? "",
+                    NextRankDirectRequired = GetSafeInt(reader, "NextRankDirectRequired"),
+                    NextRankTeamRequired = GetSafeInt(reader, "NextRankTeamRequired"),
+
+                    DirectProgressPercent = GetSafeDecimal(reader, "DirectProgressPercent"),
+                    TeamProgressPercent = GetSafeDecimal(reader, "TeamProgressPercent"),
+                    HasNextRank = GetSafeBool(reader, "HasNextRank")
+                },
+                CreateParameter("@UserId", userId)
+            );
+
+            // ✅ Return first item or null if empty
+            return ranks != null && ranks.Count > 0 ? ranks[0] : null;
+
+            // OR use LINQ: return ranks?.FirstOrDefault();
+        }
+
         public List<LevelBreakdown> GetLevelBreakdown(int userId)
         {
             return ExecuteStoredProcedure<LevelBreakdown>(

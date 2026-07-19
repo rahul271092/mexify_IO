@@ -286,6 +286,7 @@
     <Content Include="App_Data\logs\info_20260711.log" />
     <Content Include="App_Data\logs\error_20260717.log" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="App_Data\logs\error_20260718.log" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -517,6 +518,7 @@
     <Compile Include="Web\Models\RoyaltyLicense.cs" />
     <Compile Include="Web\Models\SalaryModels.cs" />
     <Compile Include="Web\Models\SalaryPayment.cs" />
+    <Compile Include="Web\Models\SalaryPlanModels.cs" />
     <Compile Include="Web\Models\SalaryStats.cs" />
     <Compile Include="Web\Models\SalaryTier.cs" />
     <Compile Include="Web\Models\SecurityModels.cs" />

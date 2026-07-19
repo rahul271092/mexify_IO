@@ -47,9 +47,8 @@ namespace Mexify.Web.User
                     master.SetBreadcrumb("Portfolio");
                 }
 
-                // Portfolio summary
-                // PortfolioService _portfolioService = new PortfolioService();
-                //  var summary = _portfolioService.GetPortfolioSummary(_userId);
+                PortfolioService _portfolioService = new PortfolioService();
+                var summary = _portfolioService.GetPortfolioSummary(_userId);
 
                 try
                 {
@@ -58,88 +57,94 @@ namespace Mexify.Web.User
                     int userId = Convert.ToInt32(Session["UserId"]);
 
                     string sql = "usp_GetPortfolioSummary";
-                    using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@UserId", userId);
-
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        if (sdr.HasRows && sdr.Read())
                         {
-                            if (sdr.HasRows && sdr.Read())
-                            {
-                                // ✅ FIX 2: Use Convert.ToDecimal + ToString("N2") for proper formatting
-                                // ✅ FIX 3: Handle DBNull values safely
-                                decimal totalValue = sdr["TotalValue"] != DBNull.Value
-                                    ? Convert.ToDecimal(sdr["TotalValue"]) : 0;
+                            decimal totalValue = sdr["TotalValue"] != DBNull.Value
+                ? Convert.ToDecimal(sdr["TotalValue"]) : 0;
 
-                                decimal totalEarnings = sdr["TotalEarnings"] != DBNull.Value
-                                    ? Convert.ToDecimal(sdr["TotalEarnings"]) : 0;
+                            decimal totalEarnings = sdr["TotalEarnings"] != DBNull.Value
+                                ? Convert.ToDecimal(sdr["TotalEarnings"]) : 0;
 
-                                decimal dailyIncome = sdr["DailyIncome"] != DBNull.Value
-                                    ? Convert.ToDecimal(sdr["DailyIncome"]) : 0;
+                            decimal dailyIncome = sdr["DailyIncome"] != DBNull.Value
+                                ? Convert.ToDecimal(sdr["DailyIncome"]) : 0;
 
-                                int activeCount = sdr["ActiveInvestments"] != DBNull.Value
-                                    ? Convert.ToInt32(sdr["ActiveInvestments"]) : 0;
-                                 
+                            int activeCount = sdr["ActiveInvestments"] != DBNull.Value
+                                ? Convert.ToInt32(sdr["ActiveInvestments"]) : 0;
 
-                                // ✅ FIX 4: Format with thousand separators and 2 decimal places
-                                litTotalValue.Text = totalValue.ToString("N2");
-                                litTotalEarnings.Text ="$"+ totalEarnings.ToString("N2");
-                                litDailyIncome.Text = "$" + dailyIncome.ToString("N2");
-                                litActiveCount.Text = activeCount.ToString();
-                                litROI.Text = sdr["OverallROI"].ToString();
-                            }
-                        } // sdr automatically closed here
-                    } // cmd aut
 
-                }
-                catch(Exception ef)
+                            // ✅ FIX 4: Format with thousand separators and 2 decimal places
+                            litTotalValue.Text = totalValue.ToString("N2");
+                            litTotalEarnings.Text = "$" + totalEarnings.ToString("N2");
+                            litDailyIncome.Text = "$" + dailyIncome.ToString("N2");
+                            litActiveCount.Text = activeCount.ToString();
+                            litROI.Text = sdr["OverallROI"].ToString();
+                        }
+                    } // sdr automatically closed here
+                } // cmd aut
+
+            }
+            catch (Exception ef)
+            {
+                Logger.Error("Portfolio Summary:", ef);
+            }
+            finally
+            {
+                Web.Models.Connection.CloseConnection();
+            }
+
+
+
+
+            //// ✅ FIX 2: Use Convert.ToDecimal + ToString("N2") for proper formatting
+            //// ✅ FIX 3: Handle DBNull values safely
+
+
+            if (summary != null)
                 {
-                    Logger.Error("Portfolio Summary:", ef);
+                    Logger.Info("portfolio summary:" + summary.TotalValue.ToString());
+                    // 1. Total Value & USD Conversion (Assuming 1 USDT = $0.042 USD)
+
+                    decimal totalValue = Convert.ToDecimal(summary.TotalValue);
+                    decimal tv = totalValue * 0.042m;
+                    litTotalValue.Text = summary.TotalValue.ToString();
+                    litTotalUSD.Text = tv.ToString(); // 'm' suffix makes it a decimal literal
+
+                    // 2. Earnings & Stats
+                    Logger.Info("Total Earning:" + summary.TotalEarnings.ToString());
+                    litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
+                    litActiveCount.Text = summary.ActiveInvestments.ToString();
+                    litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
+                    litROI.Text = summary.OverallROI.ToString("0.00") + "%";
+
+                  //  3.Change Indicators(Up / Down arrows)
+                       litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
+                    litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
+
+                   // Determine if the change is positive or negative for UI styling
+
+                    IsPositiveChange = summary.ChangePercent >= 0;
+
+                   // Optional: Apply CSS classes based on IsPositiveChange
+
+         //         pnlChangeIndicator.CssClass = IsPositiveChange ? "stat-change up" : "stat-change down";
                 }
-                finally
-                {
-                    Web.Models.Connection.CloseConnection();
-                }
 
 
-                //if (summary != null)
-                //{
-                //    Logger.Info("portfolio summary:" + summary.TotalValue.ToString());
-                //    // 1. Total Value & USD Conversion (Assuming 1 PNC = $0.042 USD)
-                    
-                //    decimal totalValue = Convert.ToDecimal( summary.TotalValue);
-                //    decimal tv = totalValue * 0.042m;
-                //    litTotalValue.Text = summary.TotalValue.ToString();
-                //    litTotalUSD.Text = tv.ToString(); // 'm' suffix makes it a decimal literal
-
-                //    // 2. Earnings & Stats
-                //    Logger.Info("Total Earning:" + summary.TotalEarnings.ToString());
-                //    litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
-                //  //  litActiveCount.Text = summary.ActiveInvestments.ToString();
-                //  //  litDailyIncome.Text = summary.DailyIncome.ToString("0.00");
-                //   // litROI.Text = summary.OverallROI.ToString("0.00") + "%";
-
-                //    // 3. Change Indicators (Up/Down arrows)
-                // //   litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
-                //  //  litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
-
-                //    // Determine if the change is positive or negative for UI styling
-                //   // IsPositiveChange = summary.ChangePercent >= 0;
-
-                //    // Optional: Apply CSS classes based on IsPositiveChange
-                //    // pnlChangeIndicator.CssClass = IsPositiveChange ? "stat-change up" : "stat-change down";
-                //}
-
-
-                //litTotalValue.Text = summary.TotalValue.ToString("0.00");
-                //litTotalUSD.Text = (summary.TotalValue * 0.042m).ToString("0.00");
-                //litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
-              //  litActiveCount.Text = summary.ActiveInvestments.ToString();
-               // litDailyIncome.Text = summary.TodayProfit.ToString("0.00");
-                //litROI.Text = summary.OverallROI.ToString("0.00");
-                //litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
-                //litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
-                //IsPositiveChange = summary.ChangePercent >= 0;
+                litTotalValue.Text = summary.TotalValue.ToString("0.00");
+                litTotalUSD.Text = (summary.TotalValue * 0.042m).ToString("0.00");
+                litTotalEarnings.Text = summary.TotalEarnings.ToString("0.00");
+                litActiveCount.Text = summary.ActiveInvestments.ToString();
+                litDailyIncome.Text = summary.TodayProfit.ToString("0.00");
+                litROI.Text = summary.OverallROI.ToString("0.00");
+                litChangePercent.Text = Math.Abs(summary.ChangePercent).ToString("0.00");
+                litChangeAmount.Text = Math.Abs(summary.ChangeAmount).ToString("0.00");
+                IsPositiveChange = summary.ChangePercent >= 0;
 
                 // Wallet holdings
                 var wallets = _portfolioService.GetWalletHoldings(_userId);
@@ -172,6 +177,7 @@ namespace Mexify.Web.User
                 Logger.Error("Portfolio load failed for user " + _userId, ex);
             }
         }
+
 
         public string GetCurrencyIcon(object code)
         {

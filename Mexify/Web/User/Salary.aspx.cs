@@ -29,6 +29,9 @@ namespace Mexify.Web.User
             }
         }
 
+
+
+
         private void LoadSalaryData()
         {
             try

@@ -5,6 +5,7 @@ using Mexify.Models;
 using System.Data;
 using Mexify.Utilities;
 using System.Linq;
+using Mexify.Web.Models;
 
 namespace Mexify.DataAccess.Repositories
 {
@@ -66,16 +67,13 @@ namespace Mexify.DataAccess.Repositories
             return tiers;
         }
 
-        internal SalaryStats GetUserSalaryStats(int userId)
-        {
-            throw new NotImplementedException();
-        }
+     
 
-        public UserSalaryDetails GetUserSalaryDetails(int userId)
+        public Models.UserSalaryDetails GetUserSalaryDetails(int userId)
         {
-            var results = ExecuteStoredProcedure<UserSalaryDetails>(
+            var results = ExecuteStoredProcedure<Models.UserSalaryDetails>(
                 "usp_GetUserSalaryDetails",
-                reader => new UserSalaryDetails
+                reader => new Models.UserSalaryDetails
                 {
                     CurrentTierId = reader.IsDBNull(reader.GetOrdinal("CurrentTierId")) ? (int?)null : GetSafeInt(reader, "CurrentTierId"),
                     TierCode = GetSafeString(reader, "TierCode"),
@@ -93,13 +91,10 @@ namespace Mexify.DataAccess.Repositories
                 },
                 CreateParameter("@UserId", userId)
             );
-            return results.Count > 0 ? results[0] : new UserSalaryDetails();
+            return results.Count > 0 ? results[0] : new Models.UserSalaryDetails();
         }
 
-        //internal SalaryStats GetUserSalaryStats(int userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
+       
 
         public List<InvestorTier> GetAllTiersWithUserStatus(int userId)
         {
@@ -129,7 +124,7 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserSalaryDetails",
                 reader => new TierProgress
                 {
-                    TierCode = GetSafeString(reader, "TierCode") ?? "",
+                     TierCode = GetSafeString(reader, "TierCode") ?? "",
                     TierName = GetSafeString(reader, "TierName") ?? "",
                     TierLevel = GetSafeInt(reader, "TierLevel"),
                     RequiredSelf = GetSafeDecimal(reader, "RequiredSelfInvestment"),
@@ -158,41 +153,41 @@ namespace Mexify.DataAccess.Repositories
             );
         }
 
-        //public List<SalaryRecord> GetUserSalaryHistory(int userId, int count)
-        //{
-        //    return ExecuteStoredProcedure<SalaryRecord>(
-        //        "usp_GetUserSalaryDetails",
-        //        reader => new SalaryRecord
-        //        {
-        //            SalaryId = GetSafeLong(reader, "SalaryId"),
-        //            SalaryMonth = GetSafeInt(reader, "SalaryMonth"),
-        //            SalaryYear = GetSafeInt(reader, "SalaryYear"),
-        //            SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),
-        //            PaymentDate = GetSafeDateTime(reader, "PaymentDate"),
-        //            PaymentStatus = GetSafeInt(reader, "PaymentStatus"),
-        //            TierName = GetSafeString(reader, "TierName") ?? "",
-        //            MonthName = GetSafeString(reader, "MonthName") ?? ""
-        //        },
-        //        CreateParameter("@UserId", userId)
-        //    );
-        //}
-
-        //public SalaryStats GetUserSalaryStats(int userId)
-        //{
-        //    var history = GetUserSalaryHistory(userId, 1000);
-        //    return new SalaryStats
-        //    {
-        //          TotalEarned = history.Sum(h => h.SalaryAmount),
-        //        PaymentsCount = history.Count,
-        //                 AveragePayment = history.Count > 0 ? history.Sum(h => h.SalaryAmount) / history.Count : 0
-        //    };
-        //}
-
-
-
-        public List<SalaryPayment> GetUserSalaryHistory(int userId)
+        public List<SalaryRecord> GetUserSalaryHistory(int userId, int count)
         {
-            var payments = new List<SalaryPayment>();
+            return ExecuteStoredProcedure<SalaryRecord>(
+                "usp_GetUserSalaryDetails",
+                reader => new SalaryRecord
+                {
+                    SalaryId = GetSafeLong(reader, "SalaryId"),
+                    SalaryMonth = GetSafeInt(reader, "SalaryMonth"),
+                    SalaryYear = GetSafeInt(reader, "SalaryYear"),
+                    SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),
+                    PaymentDate = GetSafeDateTime(reader, "PaymentDate"),
+                    PaymentStatus = GetSafeInt(reader, "PaymentStatus"),
+                    TierName = GetSafeString(reader, "TierName") ?? "",
+                    MonthName = GetSafeString(reader, "MonthName") ?? ""
+                },
+                CreateParameter("@UserId", userId)
+            );
+        }
+
+        public Models.SalaryStats GetUserSalaryStats(int userId)
+        {
+            var history = GetUserSalaryHistory(userId, 1000);
+            return new Models.SalaryStats
+            {
+                TotalEarned = history.Sum(h => h.SalaryAmount),
+                PaymentsCount = history.Count,
+                AveragePayment = history.Count > 0 ? history.Sum(h => h.SalaryAmount) / history.Count : 0
+            };
+        }
+
+
+
+        public List<Models.SalaryPayment> GetUserSalaryHistory(int userId)
+        {
+            var payments = new List<Models.SalaryPayment>();
 
             try
             {
@@ -219,7 +214,7 @@ namespace Mexify.DataAccess.Repositories
                         {
                             while (reader.Read())
                             {
-                                payments.Add(new SalaryPayment
+                                payments.Add(new Models.SalaryPayment
                                 {
                                     PaymentId = GetSafeLong(reader, "PaymentId"),
                                     UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
@@ -254,9 +249,9 @@ namespace Mexify.DataAccess.Repositories
 
 
 
-        public List<SalaryPayment> GetUserSalaryHistory(int userId, out int Count)
+        public List<Models.SalaryPayment> GetUserSalaryHistory(int userId, out int Count)
         {
-            var payments = new List<SalaryPayment>();
+            var payments = new List<Models.SalaryPayment>();
             Count = 20;
             try
             {
@@ -283,7 +278,7 @@ namespace Mexify.DataAccess.Repositories
                         {
                             while (reader.Read())
                             {
-                                payments.Add(new SalaryPayment
+                                payments.Add(new Models.SalaryPayment
                                 {
                                     PaymentId = GetSafeLong(reader, "PaymentId"),
                                     UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
@@ -337,5 +332,147 @@ namespace Mexify.DataAccess.Repositories
         //        }
         //    );
         //}
+
+
+
+        public List<SalaryPlan> GetActivePlans(int? userId = null)
+        {
+            var plans = new Dictionary<int, SalaryPlan>();
+            var features = new List<SalaryPlanFeature>();
+
+            try
+            {
+                // ✅ FIX: Use standard ADO.NET to safely handle multiple result sets
+                // The previous lambda approach incremented resultSet per ROW, causing crashes.
+                using (var conn =  ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_GetActiveSalaryPlans", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId.HasValue ? (object)userId.Value : DBNull.Value);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // ==========================================
+                        // RESULT SET 1: PLANS
+                        // ==========================================
+                        while (reader.Read())
+                        {
+                            var plan = new SalaryPlan
+                            {
+                                PlanId = GetSafeInt(reader, "PlanId"),
+                                PlanName = GetSafeString(reader, "PlanName"),
+                                PlanSlug = GetSafeString(reader, "PlanSlug"),
+                                Description = GetSafeString(reader, "Description"),
+                                ShortDescription = GetSafeString(reader, "ShortDescription"),
+                                InvestmentAmount = GetSafeDecimal(reader, "InvestmentAmount"),
+                                CurrencyCode = GetSafeString(reader, "CurrencyCode"),
+                                DailySalary = GetSafeDecimal(reader, "DailySalary"),
+                                DurationDays = GetSafeInt(reader, "DurationDays"),
+                                TotalEarning = GetSafeDecimal(reader, "TotalEarning"),
+                                RequiredTierId = reader["RequiredTierId"] == DBNull.Value ? (int?)null : GetSafeInt(reader, "RequiredTierId"),
+                                RequiredTierCode = GetSafeString(reader, "RequiredTierCode"),
+                                MinSelfInvestment = GetSafeDecimal(reader, "MinSelfInvestment"),
+                                MinTeamBusiness = GetSafeDecimal(reader, "MinTeamBusiness"),
+                                IconClass = GetSafeString(reader, "IconClass"),
+                                ColorClass = GetSafeString(reader, "ColorClass"),
+                                BadgeText = GetSafeString(reader, "BadgeText"),
+                                IsPopular = GetSafeBool(reader, "IsPopular"),
+                                IsFeatured = GetSafeBool(reader, "IsFeatured"),
+                                MaxUsers = reader["MaxUsers"] == DBNull.Value ? (int?)null : GetSafeInt(reader, "MaxUsers"),
+                                CurrentUsers = GetSafeInt(reader, "CurrentUsers"),
+                                AvailableSlots = GetSafeInt(reader, "AvailableSlots"),
+                                IsEligible = GetSafeBool(reader, "IsEligible"),
+                                HasRequiredTier = GetSafeBool(reader, "HasRequiredTier"),
+                                FormattedInvestment = GetSafeString(reader, "FormattedInvestment"),
+                                FormattedDailySalary = GetSafeString(reader, "FormattedDailySalary"),
+                                FormattedTotalEarning = GetSafeString(reader, "FormattedTotalEarning"),
+                                RequirementText = GetSafeString(reader, "RequirementText"),
+                                AvailabilityText = GetSafeString(reader, "AvailabilityText")
+                            };
+
+                            plans[plan.PlanId] = plan;
+                        }
+
+                        // ==========================================
+                        // RESULT SET 2: FEATURES
+                        // ✅ FIX: reader.NextResult() correctly moves to the 2nd result set
+                        // ==========================================
+                        if (reader.NextResult())
+                        {
+                            while (reader.Read())
+                            {
+                                var feature = new SalaryPlanFeature
+                                {
+                                    PlanId = GetSafeInt(reader, "PlanId"),
+                                    FeatureId = GetSafeInt(reader, "FeatureId"),
+                                    FeatureText = GetSafeString(reader, "FeatureText"),
+                                    IconClass = GetSafeString(reader, "IconClass"),
+                                    IsIncluded = GetSafeBool(reader, "IsIncluded")
+                                };
+
+                                features.Add(feature);
+                            }
+                        }
+                    }
+                }
+
+                // Assign features to their respective plans
+                foreach (var feature in features)
+                {
+                    if (plans.ContainsKey(feature.PlanId))
+                    {
+                        plans[feature.PlanId].Features.Add(feature);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to get active salary plans", ex);
+            }
+
+            return plans.Values.ToList();
+        }
+
+        // ✅ FIX: Changed from (bool, string, long) to Tuple<bool, string, long> 
+        // to prevent "multiple arguments not allowed" compiler errors in older .NET Frameworks.
+        public Tuple<bool, string, long> Subscribe(int userId, int planId)
+        {
+            try
+            {
+
+                using (var conn =ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("usp_SubscribeToSalaryPlan", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@PlanId", planId);
+
+                    var successParam = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    var messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output };
+                    var subscriptionIdParam = new SqlParameter("@SubscriptionId", SqlDbType.BigInt) { Direction = ParameterDirection.Output };
+
+                    cmd.Parameters.Add(successParam);
+                    cmd.Parameters.Add(messageParam);
+                    cmd.Parameters.Add(subscriptionIdParam);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    bool success = successParam.Value != DBNull.Value && (bool)successParam.Value;
+                    string message = messageParam.Value?.ToString() ?? "";
+                    long subId = subscriptionIdParam.Value != DBNull.Value ? Convert.ToInt64(subscriptionIdParam.Value) : 0;
+
+                    return new Tuple<bool, string, long>(success, message, subId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to subscribe user {userId} to plan {planId}", ex);
+                return new Tuple<bool, string, long>(false, ex.Message, 0);
+            }
+        }
+
+
     }
 }

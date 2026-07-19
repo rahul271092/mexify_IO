@@ -78,14 +78,14 @@ namespace Mexify.Web.User
                     Logger.Error("GetUserMiningStats Error:", ex);
 
                 }
-                //    var summary = _miningService.GetUserMiningSummary(_userId);
-                //litTotalHashrate.Text = summary.TotalHashrate.ToString("0.##");
-                //litContractCount.Text = summary.ActiveContracts.ToString();
-                //litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
-                //litTotalEarned.Text = summary.TotalEarned.ToString("0.00");
-                //litActiveContracts.Text = summary.ActiveContracts.ToString();
-                //litTotalInvested.Text = summary.TotalInvested.ToString("0.00");
-                //litActiveCount.Text = summary.ActiveContracts.ToString();
+                var summary = _miningService.GetUserMiningSummary(_userId);
+                litTotalHashrate.Text = summary.TotalHashrate.ToString("0.##");
+                litContractCount.Text = summary.ActiveContracts.ToString();
+                litDailyRewards.Text = summary.DailyRewards.ToString("0.00");
+                litTotalEarned.Text = summary.TotalEarned.ToString("0.00");
+                litActiveContracts.Text = summary.ActiveContracts.ToString();
+                litTotalInvested.Text = summary.TotalInvested.ToString("0.00");
+                litActiveCount.Text = summary.ActiveContracts.ToString();
 
                 // Reward stats
 

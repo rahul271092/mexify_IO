@@ -458,21 +458,22 @@ namespace Mexify.DataAccess.Repositories
                 "usp_GetUserWalletTransactions",
                 reader => new WalletTransaction
                 {
-                    TransactionId = Int32.Parse(reader["TransactionId"].ToString()),
+                    TransactionId = GetSafeLong(reader, "TransactionId"),
                     TransactionType = GetSafeInt(reader, "TransactionType"),
                     TypeName = GetSafeString(reader, "TypeName") ?? "Transaction",
                     TypeSlug = GetSafeString(reader, "TypeSlug") ?? "other",
                     CurrencyId = GetSafeInt(reader, "CurrencyId"),
-                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "PNC",
+                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
                     Amount = GetSafeDecimal(reader, "Amount"),
                     Fee = GetSafeDecimal(reader, "Fee"),
                     NetAmount = GetSafeDecimal(reader, "NetAmount"),
-                    Address = GetSafeString(reader, "Address") ?? "",
-                    TxHash = GetSafeString(reader, "TxHash") ?? "",
+                      Address = GetSafeString(reader, "Address") ?? "",
+                      TxHash = GetSafeString(reader, "TxHash") ?? "",
                     Status = GetSafeInt(reader, "Status"),
                     StatusName = GetSafeString(reader, "StatusName") ?? "Pending",
                     StatusSlug = GetSafeString(reader, "StatusSlug") ?? "pending",
-                    CreatedDate = GetSafeDateTime(reader, "CreatedDate")
+                    CreatedDate = GetSafeDateTime(reader, "CreatedDate"),
+                    
                 },
                 CreateParameter("@UserId", userId),
                 CreateParameter("@Count", count)

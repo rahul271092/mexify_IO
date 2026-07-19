@@ -139,6 +139,15 @@ namespace Mexify.Web.User {
         protected global::System.Web.UI.WebControls.Literal litRequiredWeaker;
         
         /// <summary>
+        /// rptSalaryPlans control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptSalaryPlans;
+        
+        /// <summary>
         /// rptRecentSalaries control.
         /// </summary>
         /// <remarks>

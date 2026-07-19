@@ -436,6 +436,60 @@
             </div>
         </div>
 
+
+
+
+        <!-- Add this inside the pnlQualified panel, after the congratulations message -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <h4 class="text-white mb-4"><i class="fas fa-box-open"></i> Available Salary Plans</h4>
+    </div>
+    
+    <asp:Repeater ID="rptSalaryPlans" runat="server">
+        <ItemTemplate>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-<%# Eval("ColorClass") %> shadow-sm position-relative">
+                    <%# Convert.ToBoolean(Eval("IsPopular")) ? "<div class='position-absolute top-0 end-0 m-2'><span class='badge bg-warning text-dark'>Popular</span></div>" : "" %>
+                    
+                    <div class="card-body text-center">
+                        <i class='<%# Eval("IconClass") %> fa-3x text-<%# Eval("ColorClass") %> mb-3'></i>
+                        <h4 class="card-title"><%# Eval("PlanName") %></h4>
+                        <p class="text-muted small"><%# Eval("ShortDescription") %></p>
+                        
+                        <hr />
+                        
+                        <h2 class="text-primary"><%# Eval("FormattedInvestment") %></h2>
+                        <p class="text-success h5">+<%# Eval("FormattedDailySalary") %></p>
+                        
+                        <ul class="list-unstyled text-start small mt-3">
+                            <asp:Repeater ID="rptFeatures" runat="server" DataSource='<%# Eval("Features") %>'>
+                                <ItemTemplate>
+                                    <li class="mb-2">
+                                        <i class='<%# Eval("IconClass") %> text-success me-2'></i>
+                                        <%# Eval("FeatureText") %>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                        
+                        <div class="mt-3 small text-muted">
+                            <i class="fas fa-info-circle"></i> <%# Eval("RequirementText") %><br>
+                            <i class="fas fa-users"></i> <%# Eval("AvailabilityText") %>
+                        </div>
+                        
+                        <asp:Button ID="btnSubscribe" runat="server" 
+                            CssClass='<%# "btn btn-" + Eval("ColorClass") + " w-100 mt-3" %>'
+                            Text='<%# Convert.ToBoolean(Eval("IsEligible")) ? "Subscribe Now" : "Not Eligible" %>'
+                            Enabled='<%# Convert.ToBoolean(Eval("IsEligible")) %>'
+                            CommandName="Subscribe" 
+                            CommandArgument='<%# Eval("PlanId") %>' />
+                    </div>
+                </div>
+            </div>
+        </ItemTemplate>
+    </asp:Repeater>
+</div>
+
         <!-- Recent Salary Payments -->
         <div class="info-card">
             <div class="info-card-header">

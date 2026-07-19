@@ -765,11 +765,11 @@
                             <div class="pool-stats">
                                 <div class="pool-stat">
                                     <div class="pool-stat-label">Min Stake</div>
-                                    <div class="pool-stat-value"><%# string.Format("{0:0.##}", Eval("MinStake")) %></div>
+                                    <div class="pool-stat-value"><%# string.Format("{0:0.##} USDT", Eval("MinStake")) %></div>
                                 </div>
                                 <div class="pool-stat">
                                     <div class="pool-stat-label">Max Stake</div>
-                                    <div class="pool-stat-value"><%# string.Format("{0:0}", Eval("MaxStake")) %></div>
+                                    <div class="pool-stat-value"><%# string.Format("{0:0} USDT", Eval("MaxStake")) %></div>
                                 </div>
                                 <div class="pool-stat">
                                     <div class="pool-stat-label">Total Staked</div>

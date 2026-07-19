@@ -785,7 +785,7 @@
                     <div class="summary-label">Total Staked Value</div>
                     <div class="summary-value">
                         <asp:Literal ID="litTotalStaked" runat="server" Text="0.00"></asp:Literal>
-                        <small> PNC</small>
+                        <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
                         ≈ $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
@@ -999,11 +999,11 @@
                         </div>
                         <div class="stake-detail">
                             <div class="label">Rewards Earned</div>
-                            <div class="value accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> PNC</div>
+                            <div class="value accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> USDT</div>
                         </div>
                         <div class="stake-detail">
                             <div class="label">Daily Reward</div>
-                            <div class="value gold"><%# string.Format("{0:0.########}", Eval("DailyReward")) %> PNC</div>
+                            <div class="value gold"><%# string.Format("{0:0.########}", Eval("DailyReward")) %> USDT</div>
                         </div>
                     </div>
 
@@ -1049,7 +1049,7 @@
             <div class="empty-state">
                 <i class="fas fa-coins"></i>
                 <h4>No Active Stakes</h4>
-                <p>Start earning passive rewards by staking your PNC.</p>
+                <p>Start earning passive rewards by staking your USDT.</p>
                 <a href="<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>" class="btn btn-primary-glow">
                     <i class="fas fa-bolt me-2"></i> Start Staking
                 </a>
@@ -1083,7 +1083,7 @@
                                     <td class="text-white"><%# Eval("PoolName") %></td>
                                     <td><%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %></td>
                                     <td class="text-accent"><%# string.Format("{0:0.##}", Eval("APY")) %>%</td>
-                                    <td class="text-accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> PNC</td>
+                                    <td class="text-accent"><%# string.Format("{0:0.########}", Eval("TotalRewards")) %> USDT</td>
                                     <td>
                                         <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
                                             <%# GetStatusName(Eval("Status")) %>

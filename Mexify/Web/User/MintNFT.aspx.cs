@@ -32,8 +32,8 @@ namespace Mexify.Web.User
             if (!IsPostBack)
             {
                 CheckURLAction();
-
-                GetActiveNFTCollection();
+                LoadNFTData();
+          //      GetActiveNFTCollection();
                 LoadUserBalance();
 
             }

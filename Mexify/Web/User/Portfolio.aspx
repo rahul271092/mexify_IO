@@ -300,7 +300,7 @@
                     <small> USDT</small>
                 </div>
                 <div style="color: var(--text-gray); font-size: 1.1rem;">
-                     $<asp:Literal ID="litTotalUSD" runat="server" Text="0.00"></asp:Literal> USD
+<asp:Literal ID="litTotalUSD" runat="server" Text="0.00" Visible="false"></asp:Literal> 
                 </div>
                 <asp:Panel ID="pnlChange" runat="server">
                     <span class='portfolio-change <%# IsPositiveChange ? "up" : "down" %>'>
@@ -474,7 +474,7 @@
                     </div>
                     <div class="holding-detail">
                         <div class="label">Earned</div>
-                        <div class="value" style="color: var(--accent);"><%# string.Format("{0:0.00}", Eval("Earned")) %> PNC</div>
+                        <div class="value" style="color: var(--accent);"><%# string.Format("{0:0.00}", Eval("Earned")) %> USDT</div>
                     </div>
                     <div class="holding-detail">
                         <div class="label">Daily Income</div>
@@ -533,7 +533,7 @@
                     data: {
                         labels: perfData.labels,
                         datasets: [{
-                            label: 'Portfolio Value (PNC)',
+                            label: 'Portfolio Value (USDT)',
                             data: perfData.values,
                             borderColor: '#00FFB2',
                             backgroundColor: 'rgba(0, 255, 178, 0.1)',

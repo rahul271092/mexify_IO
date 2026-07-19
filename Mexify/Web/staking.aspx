@@ -3,7 +3,7 @@
 
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
-    <meta name="description" content="MEXIFY Flexible Staking - Earn up to 18% APY on your PNC and other crypto assets with flexible lock periods.">
+    <meta name="description" content="MEXIFY Flexible Staking - Earn up to 18% APY on your USDT and other crypto assets with flexible lock periods.">
     <meta name="keywords" content="staking, pnc staking, crypto staking, passive income, defi, mexify">
     <style>
         .staking-hero { min-height: 60vh; position: relative; overflow: hidden; }
@@ -450,7 +450,7 @@
                     <div class="glass-card p-4 text-center h-100">
                         <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
                         <h5 class="text-white">High APY</h5>
-                        <p class="text-gray small">Earn up to 18% APY on top cryptocurrencies including PNC.</p>
+                        <p class="text-gray small">Earn up to 18% APY on top cryptocurrencies including USDT.</p>
                     </div>
                 </div>
             </div>
@@ -475,7 +475,7 @@
                     <div class="glass-card p-4 text-center h-100">
                         <div class="feature-icon mx-auto">2</div>
                         <h5 class="text-white">Stake Assets</h5>
-                        <p class="text-gray small">Deposit your PNC or other supported cryptocurrencies.</p>
+                        <p class="text-gray small">Deposit your USDT or other supported cryptocurrencies.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
@@ -503,7 +503,7 @@
                 <i class="fas fa-coins fa-3x text-warning mb-3"></i>
                 <h2 class="text-white mb-3">Start Earning with USDT Staking</h2>
                 <p class="text-gray mb-4 mx-auto" style="max-width: 600px;">
-                    Join thousands of stakers earning passive income on their PNC holdings with MEXIFY's secure staking platform.
+                    Join thousands of stakers earning passive income on their USDT holdings with MEXIFY's secure staking platform.
                 </p>
                 <a href="<%= ResolveUrl("~/Web/MetaMaskLogin.aspx") %>" class="btn btn-primary-glow btn-lg">
                     Create Free Account <i class="fas fa-arrow-right ms-2"></i>
