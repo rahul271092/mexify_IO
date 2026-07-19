@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Mexify.Business.Services;
+using Mexify.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.UI;
-using Mexify.Business.Services;
-using Mexify.Models;
-using Mexify.Web.Models;
 using System.Web.UI.WebControls;
 
 namespace Mexify.Web.User
 {
-    public partial class Salary : System.Web.UI.Page
+    public partial class Salary3 : System.Web.UI.Page
     {
         private SalaryService _salaryService;
         private int _userId;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Get current user ID (replace with your authentication logic)
             _userId = GetCurrentUserId();
 
             if (_userId <= 0)
@@ -70,7 +71,7 @@ namespace Mexify.Web.User
         {
             var progressList = _salaryService.GetNextTierProgress(_userId);
 
-            if (progressList != null && progressList.Any())
+            if (progressList.Any())
             {
                 rptProgress.DataSource = progressList;
                 rptProgress.DataBind();
@@ -85,8 +86,9 @@ namespace Mexify.Web.User
         private void LoadAllTiers()
         {
             var tiers = _salaryService.GetAllTiersWithUserStatus(_userId);
-            var currentDetails = _salaryService.GetUserSalaryDetails(_userId);
 
+            // Get current tier ID to mark it
+            var currentDetails = _salaryService.GetUserSalaryDetails(_userId);
             foreach (var tier in tiers)
             {
                 tier.IsCurrentTier = (tier.TierId == currentDetails.CurrentTierId);
@@ -108,7 +110,7 @@ namespace Mexify.Web.User
         {
             var history = _salaryService.GetUserSalaryHistory(_userId, 20);
 
-            if (history != null && history.Any())
+            if (history.Any())
             {
                 rptHistory.DataSource = history;
                 rptHistory.DataBind();
@@ -120,61 +122,8 @@ namespace Mexify.Web.User
             }
         }
 
-        protected void rptPlans_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "Subscribe")
-            {
-                try
-                {
-                    int planId = Convert.ToInt32(e.CommandArgument);
-                    var result = _salaryService.Subscribe(_userId, planId);
 
-                    if (result.Item1)
-                    {
-                        ShowAlert(result.Item2, "success");
-                    }
-                    else
-                    {
-                        ShowAlert(result.Item2, "danger");
-                    }
 
-                    // Reload affected data
-                    LoadUserSalaryDetails();
-                    LoadSalaryStats();
-                    LoadActivePlans();
-                }
-                catch (Exception ex)
-                {
-                    ShowAlert("Error subscribing to plan: " + ex.Message, "danger");
-                }
-            }
-        }
-
-        private bool CheckTierQualification(InvestorTier tier, Mexify.Models.UserSalaryDetails currentDetails)
-        {
-            return currentDetails.SelfInvestment >= tier.SelfInvestment
-                && currentDetails.StrongLegVolume >= tier.StrongLegVolume
-                && currentDetails.WeakerLegVolume >= tier.WeakerLegVolume;
-        }
-
-        private int GetCurrentUserId()
-        {
-            // TODO: Replace with your actual authentication logic
-            if (Session["UserId"] != null)
-            {
-                return Convert.ToInt32(Session["UserId"]);
-            }
-            return 1; // Default for testing
-        }
-
-        private void ShowAlert(string message, string type)
-        {
-            pnlAlert.Visible = true;
-            pnlAlert.CssClass = $"alert alert-{type} alert-dismissible fade show";
-            lblAlertMessage.Text = message;
-        }
-
-        // ✅ PUBLIC helper methods for ASPX data binding
         public string GetStatusClass(string status)
         {
             switch (status)
@@ -197,29 +146,78 @@ namespace Mexify.Web.User
             }
         }
 
-        public string GetTierCardClass(object dataItem)
+        protected void rptPlans_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            var isCurrent = Convert.ToBoolean(DataBinder.Eval(dataItem, "IsCurrentTier"));
-            var isQualified = Convert.ToBoolean(DataBinder.Eval(dataItem, "IsQualified"));
-
-            string classes = "";
-            if (isCurrent) classes += " current";
-            if (isQualified) classes += " qualified";
-            return classes.Trim();
-        }
-
-        public string GetIconClass(object tierCode)
-        {
-            string code = tierCode?.ToString() ?? "";
-            switch (code.ToUpper())
+            if (e.CommandName == "Subscribe")
             {
-                case "T1": return "fas fa-star";
-                case "T2": return "fas fa-award";
-                case "T3": return "fas fa-gem";
-                case "T4": return "fas fa-crown";
-                case "T5": return "fas fa-trophy";
-                default: return "fas fa-medal";
+                try
+                {
+                    int planId = Convert.ToInt32(e.CommandArgument);
+                    var result = _salaryService.Subscribe(_userId, planId);
+
+                    if (result.Item1)
+                    {
+                        ShowAlert(result.Item2, "success");
+                    }
+                    else
+                    {
+                        ShowAlert(result.Item2, "danger");
+                    }
+
+                    // Reload plans to update eligibility
+                    LoadActivePlans();
+                }
+                catch (Exception ex)
+                {
+                    ShowAlert("Error subscribing to plan: " + ex.Message, "danger");
+                }
             }
         }
+
+        private bool CheckTierQualification(InvestorTier tier, UserSalaryDetails currentDetails)
+        {
+            return currentDetails.SelfInvestment >= tier.SelfInvestment
+                && currentDetails.StrongLegVolume >= tier.StrongLegVolume
+                && currentDetails.WeakerLegVolume >= tier.WeakerLegVolume;
+        }
+
+        private int GetCurrentUserId()
+        {
+            // TODO: Replace with your actual authentication logic
+            // Example: return Session["UserId"] != null ? Convert.ToInt32(Session["UserId"]) : 0;
+            // For now, using a hardcoded value for testing
+            return 1;
+        }
+
+        private void ShowAlert(string message, string type)
+        {
+            pnlAlert.Visible = true;
+            pnlAlert.CssClass = $"alert alert-{type} alert-dismissible fade show";
+            lblAlertMessage.Text = message;
+        }
+
+        // Helper methods for status display
+        //public string GetStatusClass(string status)
+        //{
+        //    switch (status)
+        //    {
+        //        case "1": return "pending";
+        //        case "2": return "paid";
+        //        case "3": return "failed";
+        //        default: return "pending";
+        //    }
+        //}
+
+        //public string GetStatusName(string status)
+        //{
+        //    switch (status)
+        //    {
+        //        case "1": return "Pending";
+        //        case "2": return "Paid";
+        //        case "3": return "Failed";
+        //        default: return "Unknown";
+        //    }
+        //}
+
     }
 }

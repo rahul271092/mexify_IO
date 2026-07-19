@@ -101,25 +101,25 @@ namespace Mexify.Web.User
                 Logger.Info("GetUserWallet Function Execution started now !!");
 
                 // Get user's PNC balance
-                // var wallet = _walletService.GetUserWallet(_userId, 6); // Assuming PNC is CurrencyId 1
+                 var wallet = _walletService.GetUserWallet(_userId, 6); // Assuming PNC is CurrencyId 1
 
-                string sql = "usp_GetUserWallets";
-                using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
-                    SqlDataReader sdr = cmd.ExecuteReader();
-                    if(sdr.HasRows && sdr.Read())
-                    {
-                        hfUserBalance.Value = sdr["Balance"].ToString();
-                    }
-                    sdr.Close();
-                }
+                //string sql = "usp_GetUserWallets";
+                //using (SqlCommand cmd = Web.Models.Connection.Sql(sql))
+                //{
+                //    cmd.Parameters.AddWithValue("@UserId", Session["UserId"].ToString());
+                //    SqlDataReader sdr = cmd.ExecuteReader();
+                //    if(sdr.HasRows && sdr.Read())
+                //    {
+                //        hfUserBalance.Value = sdr["Balance"].ToString();
+                //    }
+                //    sdr.Close();
+                //}
 
 
 
                 //    decimal balance = wallet != null ? wallet.Balance : 0;
-                //hfUserBalance.Value = balance.ToString();
-
+                hfUserBalance.Value = wallet.Balance.ToString();
+                
                 Logger.Info("GetUserStakingStats Function execution is started now !!");
 
                 // Stats

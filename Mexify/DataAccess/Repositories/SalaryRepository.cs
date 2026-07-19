@@ -12,60 +12,60 @@ namespace Mexify.DataAccess.Repositories
     public class SalaryRepository : BaseRepository
     {
 
-        public List<InvestorTier> GetAllTiers()
-        {
-            var tiers = new List<InvestorTier>();
+        //public List<InvestorTier> GetAllTiers()
+        //{
+        //    var tiers = new List<InvestorTier>();
 
-            try
-            {
-                using (var conn = ConnectionManager.GetConnection())
-                using (var cmd = new SqlCommand("usp_GetAllInvestorTiers", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@IsActiveOnly", 1);
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetAllInvestorTiers", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@IsActiveOnly", 1);
 
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            tiers.Add(new InvestorTier
-                            {
-                                TierId = GetSafeInt(reader, "TierId"),
-                                TierCode = GetSafeString(reader, "TierCode") ?? "",          // ✅ Now exists
-                                TierName = GetSafeString(reader, "TierName") ?? "",
-                                Description = GetSafeString(reader, "Description") ?? "",
-                                MinInvestment = GetSafeDecimal(reader, "MinInvestment"),
-                                MaxInvestment = GetSafeDecimal(reader, "MaxInvestment"),
-                                ReturnPercent = GetSafeDecimal(reader, "ReturnPercent"),
-                                DurationDays = GetSafeInt(reader, "DurationDays"),
-                                DailyReturn = GetSafeDecimal(reader, "DailyReturn"),
-                                CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
-                                IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-star",
-                                ColorClass = GetSafeString(reader, "ColorClass") ?? "gold",
-                                BadgeText = GetSafeString(reader, "BadgeText") ?? "",
-                                Features = GetSafeString(reader, "Features") ?? "",
-                                IsActive = GetSafeBool(reader, "IsActive"),
-                                IsFeatured = GetSafeBool(reader, "IsFeatured"),
-                                InvestmentRange = GetSafeString(reader, "InvestmentRange") ?? "",
-                                ReturnDisplay = GetSafeString(reader, "ReturnDisplay") ?? "",
-                                DurationDisplay = GetSafeString(reader, "DurationDisplay") ?? "",
-                                FormattedMinInvestment = GetSafeString(reader, "FormattedMinInvestment") ?? "",
-                                FormattedMaxInvestment = GetSafeString(reader, "FormattedMaxInvestment") ?? "",
-                                EstimatedReturn = GetSafeDecimal(reader, "EstimatedReturn"),
-                                ROIDisplay = GetSafeString(reader, "ROIDisplay") ?? ""
-                            });
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Failed to get investor tiers", ex);
-            }
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                while (reader.Read())
+        //                {
+        //                    tiers.Add(new InvestorTier
+        //                    {
+        //                        TierId = GetSafeInt(reader, "TierId"),
+        //                        TierCode = GetSafeString(reader, "TierCode") ?? "",          // ✅ Now exists
+        //                        TierName = GetSafeString(reader, "TierName") ?? "",
+        //                        Description = GetSafeString(reader, "Description") ?? "",
+        //                        MinInvestment = GetSafeDecimal(reader, "MinInvestment"),
+        //                        MaxInvestment = GetSafeDecimal(reader, "MaxInvestment"),
+        //                        ReturnPercent = GetSafeDecimal(reader, "ReturnPercent"),
+        //                        DurationDays = GetSafeInt(reader, "DurationDays"),
+        //                        DailyReturn = GetSafeDecimal(reader, "DailyReturn"),
+        //                        CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+        //                        IconClass = GetSafeString(reader, "IconClass") ?? "fas fa-star",
+        //                        ColorClass = GetSafeString(reader, "ColorClass") ?? "gold",
+        //                        BadgeText = GetSafeString(reader, "BadgeText") ?? "",
+        //                        Features = GetSafeString(reader, "Features") ?? "",
+        //                        IsActive = GetSafeBool(reader, "IsActive"),
+        //                        IsFeatured = GetSafeBool(reader, "IsFeatured"),
+        //                        InvestmentRange = GetSafeString(reader, "InvestmentRange") ?? "",
+        //                        ReturnDisplay = GetSafeString(reader, "ReturnDisplay") ?? "",
+        //                        DurationDisplay = GetSafeString(reader, "DurationDisplay") ?? "",
+        //                        FormattedMinInvestment = GetSafeString(reader, "FormattedMinInvestment") ?? "",
+        //                        FormattedMaxInvestment = GetSafeString(reader, "FormattedMaxInvestment") ?? "",
+        //                        EstimatedReturn = GetSafeDecimal(reader, "EstimatedReturn"),
+        //                        ROIDisplay = GetSafeString(reader, "ROIDisplay") ?? ""
+        //                    });
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error("Failed to get investor tiers", ex);
+        //    }
 
-            return tiers;
-        }
+        //    return tiers;
+        //}
 
      
 
@@ -185,153 +185,153 @@ namespace Mexify.DataAccess.Repositories
 
 
 
-        public List<Models.SalaryPayment> GetUserSalaryHistory(int userId)
-        {
-            var payments = new List<Models.SalaryPayment>();
-
-            try
-            {
-                using (var conn = ConnectionManager.GetConnection())
-                using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        // Skip Result Set 1 (Summary)
-                        if (reader.Read()) { /* read or skip */ }
-
-                        // Skip Result Set 2 (Active Plans)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read()) { /* read or skip */ }
-                        }
-
-                        // ✅ Result Set 3: Payment History (with PaymentDate)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read())
-                            {
-                                payments.Add(new Models.SalaryPayment
-                                {
-                                    PaymentId = GetSafeLong(reader, "PaymentId"),
-                                    UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
-                                    UserId = GetSafeInt(reader, "UserId"),
-                                    PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
-                                    Amount = GetSafeDecimal(reader, "Amount"),
-                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
-                                    DayNumber = GetSafeInt(reader, "DayNumber"),
-                                    Status = GetSafeInt(reader, "Status"),
-                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
-                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
-                                    StatusColor = GetSafeString(reader, "StatusColor") ?? "",
-                                    PlanName = GetSafeString(reader, "PlanName") ?? "",
-                                    IconClass = GetSafeString(reader, "IconClass") ?? "",
-                                    FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
-                                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
-                                    FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
-                                    FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to get salary history for User {userId}", ex);
-            }
-
-            return payments;
-        }
-
-
-
-        public List<Models.SalaryPayment> GetUserSalaryHistory(int userId, out int Count)
-        {
-            var payments = new List<Models.SalaryPayment>();
-            Count = 20;
-            try
-            {
-                using (var conn = ConnectionManager.GetConnection())
-                using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        // Skip Result Set 1 (Summary)
-                        if (reader.Read()) { /* read or skip */ }
-
-                        // Skip Result Set 2 (Active Plans)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read()) { /* read or skip */ }
-                        }
-
-                        // ✅ Result Set 3: Payment History (with PaymentDate and SalaryAmount)
-                        if (reader.NextResult())
-                        {
-                            while (reader.Read())
-                            {
-                                payments.Add(new Models.SalaryPayment
-                                {
-                                    PaymentId = GetSafeLong(reader, "PaymentId"),
-                                    UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
-                                    UserId = GetSafeInt(reader, "UserId"),
-                                    PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
-                                    Amount = GetSafeDecimal(reader, "Amount"),
-                                    SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),  // ✅ Now exists
-                                    CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
-                                    DayNumber = GetSafeInt(reader, "DayNumber"),
-                                    Status = GetSafeInt(reader, "Status"),
-                                    StatusName = GetSafeString(reader, "StatusName") ?? "",
-                                    StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
-                                    StatusColor = GetSafeString(reader, "StatusColor") ?? "",
-                                    PlanName = GetSafeString(reader, "PlanName") ?? "",
-                                    IconClass = GetSafeString(reader, "IconClass") ?? "",
-                                    FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
-                                    TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
-                                    FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
-                                    FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to get salary history for User {userId}", ex);
-            }
-
-            return payments;
-        }
-
-
-        //public List<InvestorTier> GetAllTiers()
+        //public List<Models.SalaryPayment> GetUserSalaryHistory(int userId)
         //{
-        //    return ExecuteStoredProcedure<InvestorTier>(
-        //        "usp_GetAllInvestorTiers",
-        //        reader => new InvestorTier
+        //    var payments = new List<Models.SalaryPayment>();
+
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
         //        {
-        //            TierId = GetSafeInt(reader, "TierId"),
-        //            TierCode = GetSafeString(reader, "TierCode") ?? "",
-        //            TierName = GetSafeString(reader, "TierName") ?? "",
-        //            TierLevel = GetSafeInt(reader, "TierLevel"),
-        //            SelfInvestment = GetSafeDecimal(reader, "SelfInvestment"),
-        //            StrongLegVolume = GetSafeDecimal(reader, "StrongLegVolume"),
-        //            WeakerLegVolume = GetSafeDecimal(reader, "WeakerLegVolume"),
-        //            MonthlySalary = GetSafeDecimal(reader, "MonthlySalary"),
-        //            Requirements = GetSafeString(reader, "Requirements"),
-        //            IsActive = GetSafeBool(reader, "IsActive")
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                // Skip Result Set 1 (Summary)
+        //                if (reader.Read()) { /* read or skip */ }
+
+        //                // Skip Result Set 2 (Active Plans)
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read()) { /* read or skip */ }
+        //                }
+
+        //                // ✅ Result Set 3: Payment History (with PaymentDate)
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        payments.Add(new Models.SalaryPayment
+        //                        {
+        //                            PaymentId = GetSafeLong(reader, "PaymentId"),
+        //                            UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
+        //                            UserId = GetSafeInt(reader, "UserId"),
+        //                            PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
+        //                            Amount = GetSafeDecimal(reader, "Amount"),
+        //                            CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+        //                            DayNumber = GetSafeInt(reader, "DayNumber"),
+        //                            Status = GetSafeInt(reader, "Status"),
+        //                            StatusName = GetSafeString(reader, "StatusName") ?? "",
+        //                            StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+        //                            StatusColor = GetSafeString(reader, "StatusColor") ?? "",
+        //                            PlanName = GetSafeString(reader, "PlanName") ?? "",
+        //                            IconClass = GetSafeString(reader, "IconClass") ?? "",
+        //                            FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
+        //                            TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+        //                            FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
+        //                            FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
+        //                        });
+        //                    }
+        //                }
+        //            }
         //        }
-        //    );
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get salary history for User {userId}", ex);
+        //    }
+
+        //    return payments;
         //}
+
+
+
+        //public List<Models.SalaryPayment> GetUserSalaryHistory(int userId,  int Count)
+        //{
+        //    var payments = new List<Models.SalaryPayment>();
+        //    Count = 20;
+        //    try
+        //    {
+        //        using (var conn = ConnectionManager.GetConnection())
+        //        using (var cmd = new SqlCommand("usp_GetUserSalaryDetails", conn))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@UserId", userId);
+
+        //            conn.Open();
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                // Skip Result Set 1 (Summary)
+        //                if (reader.Read()) { /* read or skip */ }
+
+        //                // Skip Result Set 2 (Active Plans)
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read()) { /* read or skip */ }
+        //                }
+
+        //                // ✅ Result Set 3: Payment History (with PaymentDate and SalaryAmount)
+        //                if (reader.NextResult())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        payments.Add(new Models.SalaryPayment
+        //                        {
+        //                            PaymentId = GetSafeLong(reader, "PaymentId"),
+        //                            UserSalaryId = GetSafeLong(reader, "UserSalaryId"),
+        //                            UserId = GetSafeInt(reader, "UserId"),
+        //                            PaymentDate = GetSafeDateTime(reader, "PaymentDate"),  // ✅ Now exists
+        //                            Amount = GetSafeDecimal(reader, "Amount"),
+        //                            SalaryAmount = GetSafeDecimal(reader, "SalaryAmount"),  // ✅ Now exists
+        //                            CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
+        //                            DayNumber = GetSafeInt(reader, "DayNumber"),
+        //                            Status = GetSafeInt(reader, "Status"),
+        //                            StatusName = GetSafeString(reader, "StatusName") ?? "",
+        //                            StatusSlug = GetSafeString(reader, "StatusSlug") ?? "",
+        //                            StatusColor = GetSafeString(reader, "StatusColor") ?? "",
+        //                            PlanName = GetSafeString(reader, "PlanName") ?? "",
+        //                            IconClass = GetSafeString(reader, "IconClass") ?? "",
+        //                            FormattedAmount = GetSafeString(reader, "FormattedAmount") ?? "",
+        //                            TimeAgo = GetSafeString(reader, "TimeAgo") ?? "",
+        //                            FormattedDate = GetSafeString(reader, "FormattedDate") ?? "",
+        //                            FormattedTime = GetSafeString(reader, "FormattedTime") ?? ""
+        //                        });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to get salary history for User {userId}", ex);
+        //    }
+
+        //    return payments;
+        //}
+
+
+        public List<InvestorTier> GetAllTiers()
+        {
+            return ExecuteStoredProcedure<InvestorTier>(
+                "usp_GetAllInvestorTiers",
+                reader => new InvestorTier
+                {
+                    TierId = GetSafeInt(reader, "TierId"),
+                    TierCode = GetSafeString(reader, "TierCode") ?? "",
+                    TierName = GetSafeString(reader, "TierName") ?? "",
+                    TierLevel = GetSafeInt(reader, "TierLevel"),
+                    SelfInvestment = GetSafeDecimal(reader, "SelfInvestment"),
+                    StrongLegVolume = GetSafeDecimal(reader, "StrongLegVolume"),
+                    WeakerLegVolume = GetSafeDecimal(reader, "WeakerLegVolume"),
+                    MonthlySalary = GetSafeDecimal(reader, "MonthlySalary"),
+                    Requirements = GetSafeString(reader, "Requirements"),
+                    IsActive = GetSafeBool(reader, "IsActive")
+                }
+            );
+        }
 
 
 

@@ -10,7 +10,7 @@
 namespace Mexify.Web.User {
     
     
-    public partial class Salary {
+    public partial class Salary3 {
         
         /// <summary>
         /// lblCurrentSalary control.

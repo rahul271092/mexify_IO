@@ -261,6 +261,7 @@
     <Content Include="Web\User\Royalty.aspx" />
     <Content Include="Web\User\Salary.aspx" />
     <Content Include="Web\User\Salary2.aspx" />
+    <Content Include="Web\User\Salary3.aspx" />
     <Content Include="Web\User\Security.aspx" />
     <Content Include="Web\User\Settings.aspx" />
     <Content Include="Web\User\StakeNow.aspx" />
@@ -385,6 +386,7 @@
     <Compile Include="DataAccess\Repositories\ReferralRepository.cs" />
     <Compile Include="DataAccess\Repositories\RoyaltyRepository.cs" />
     <Compile Include="DataAccess\Repositories\SalaryRepository.cs" />
+    <Compile Include="DataAccess\Repositories\SalaryRepository2.cs" />
     <Compile Include="DataAccess\Repositories\SecurityRepository.cs" />
     <Compile Include="DataAccess\Repositories\StakingRepository.cs" />
     <Compile Include="DataAccess\Repositories\SupportRepository.cs" />
@@ -741,6 +743,13 @@
     </Compile>
     <Compile Include="Web\User\Salary2.aspx.designer.cs">
       <DependentUpon>Salary2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\User\Salary3.aspx.cs">
+      <DependentUpon>Salary3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\User\Salary3.aspx.designer.cs">
+      <DependentUpon>Salary3.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\User\Security.aspx.cs">
       <DependentUpon>Security.aspx</DependentUpon>

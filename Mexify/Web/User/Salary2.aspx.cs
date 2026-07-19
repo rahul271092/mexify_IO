@@ -28,6 +28,8 @@ namespace Mexify.Web.User
             }
         }
 
+
+
         private void LoadSalaryData()
         {
             try
@@ -64,19 +66,19 @@ namespace Mexify.Web.User
                     pnlNotQualified.Visible = true;
 
                     // Show first tier requirements if user has no tier yet
-                    var firstTier = _salaryService.GetFirstTierRequirements();
-                    if (firstTier != null)
-                    {
-                        litRequiredSelf.Text = "$" + firstTier.SelfInvestment.ToString("N0");
-                        litRequiredStrong.Text = "$" + firstTier.StrongLegVolume.ToString("N0");
-                        litRequiredWeaker.Text = "$" + firstTier.WeakerLegVolume.ToString("N0");
-                    }
-                    else
-                    {
-                        litRequiredSelf.Text = "$" + details.RequiredSelfInvestment.ToString("N0");
-                        litRequiredStrong.Text = "$" + details.RequiredStrongLeg.ToString("N0");
-                        litRequiredWeaker.Text = "$" + details.RequiredWeakerLeg.ToString("N0");
-                    }
+                    //var firstTier =  ;
+                    //if (firstTier != null)
+                    //{
+                    //    litRequiredSelf.Text = "$" + firstTier.SelfInvestment.ToString("N0");
+                    //    litRequiredStrong.Text = "$" + firstTier.StrongLegVolume.ToString("N0");
+                    //    litRequiredWeaker.Text = "$" + firstTier.WeakerLegVolume.ToString("N0");
+                    //}
+                    //else
+                    //{
+                    //    litRequiredSelf.Text = "$" + details.RequiredSelfInvestment.ToString("N0");
+                    //    litRequiredStrong.Text = "$" + details.RequiredStrongLeg.ToString("N0");
+                    //    litRequiredWeaker.Text = "$" + details.RequiredWeakerLeg.ToString("N0");
+                    //}
 
                     lblQualifiedBadge.Text = "<i class='fas fa-lock'></i> Not Qualified";
                     lblQualifiedBadge.CssClass = "badge bg-warning text-dark fs-6 px-3 py-2";
