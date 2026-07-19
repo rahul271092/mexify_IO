@@ -33,7 +33,7 @@ namespace Mexify.Web.User
             {
                 CheckURLAction();
                 LoadNFTData();
-          //      GetActiveNFTCollection();
+                GetActiveNFTCollection();
                 LoadUserBalance();
 
             }

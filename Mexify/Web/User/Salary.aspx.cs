@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.UI;
 using Mexify.Business.Services;
 using Mexify.Models;
-using Mexify.Web.Models;
-using System.Web.UI.WebControls;
+using Mexify.Utilities;
 
 namespace Mexify.Web.User
 {
@@ -16,209 +14,132 @@ namespace Mexify.Web.User
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            _userId = GetCurrentUserId();
-
-            if (_userId <= 0)
+            if (!Request.IsAuthenticated || Session["UserId"] == null)
             {
-                Response.Redirect("~/Login.aspx");
+                Response.Redirect(ResolveUrl("~/Web/login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl)));
                 return;
             }
 
+            _userId = Convert.ToInt32(Session["UserId"]);
             _salaryService = new SalaryService();
 
             if (!IsPostBack)
             {
-                LoadPageData();
+                LoadSalaryData();
             }
         }
 
-        private void LoadPageData()
+
+
+
+        private void LoadSalaryData()
         {
             try
             {
-                LoadUserSalaryDetails();
-                LoadSalaryStats();
-                LoadTierProgress();
-                LoadAllTiers();
-                LoadActivePlans();
-                LoadSalaryHistory();
+                var master = this.Master as Mexify.Web.MasterPages.UserMaster;
+                if (master != null)
+                {
+                    master.SetPageTitle("My Salary");
+                    master.SetBreadcrumb("Salary");
+                }
+
+                var details = _salaryService.GetUserSalaryDetails(_userId);
+
+                if (details.IsQualified)
+                {
+                    pnlQualified.Visible = true;
+                    pnlNotQualified.Visible = false;
+
+                    litCurrentTier.Text = details.TierCode + " - " + details.TierName;
+                    litMonthlySalary.Text = details.CurrentMonthlySalary.ToString("0");
+                    litRequiredSelf.Text = details.RequiredSelfInvestment.ToString("0");
+                    litRequiredStrong.Text = details.RequiredStrongLeg.ToString("0");
+                    litRequiredWeaker.Text = details.RequiredWeakerLeg.ToString("0");
+                }
+                else
+                {
+                    pnlQualified.Visible = false;
+                    pnlNotQualified.Visible = true;
+
+                    // Show first tier requirements
+                //    var firstTier = _salaryService.GetFirstTierRequirements();
+                    //if (firstTier != null)
+                    //{
+                    //    litRequiredSelf.Text = firstTier.SelfInvestment.ToString("0");
+                    //    litRequiredStrong.Text = firstTier.StrongLegVolume.ToString("0");
+                    //    litRequiredWeaker.Text = firstTier.WeakerLegVolume.ToString("0");
+                    //}
+                }
+
+                litSelfInvestment.Text = details.SelfInvestment.ToString("0");
+                litStrongLeg.Text = details.StrongLegVolume.ToString("0");
+                litWeakerLeg.Text = details.WeakerLegVolume.ToString("0");
+                litQualifiedDate.Text = details.QualifiedDate.HasValue
+                    ? details.QualifiedDate.Value.ToString("MMM dd, yyyy")
+                    : "--";
+
+                // Stats
+                var stats = _salaryService.GetUserSalaryStats(_userId);
+                litTotalEarned.Text = "$" + stats.TotalEarned.ToString("0");
+                litPaymentsReceived.Text = stats.PaymentsCount.ToString();
+
+                // Next payment date
+                var today = DateTime.UtcNow;
+                var nextPayment = today.Day < 15
+                    ? new DateTime(today.Year, today.Month, 15)
+                    : new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month));
+                litNextPayment.Text = nextPayment.ToString("MMM dd");
+
+                // Recent salaries
+                var recentSalaries = _salaryService.GetUserSalaryHistory(_userId, 5);
+                if (recentSalaries != null && recentSalaries.Count > 0)
+                {
+                    rptRecentSalaries.DataSource = recentSalaries;
+                    rptRecentSalaries.DataBind();
+                    pnlNoRecentSalaries.Visible = false;
+                }
+                else
+                {
+                    pnlNoRecentSalaries.Visible = true;
+                }
+
+                // All tiers
+                var allTiers = _salaryService.GetAllTiersWithUserStatus(_userId);
+                if (allTiers != null && allTiers.Count > 0)
+                {
+                    rptAllTiers.DataSource = allTiers;
+                    rptAllTiers.DataBind();
+                }
+
+                // Next tiers progress
+                var nextTiers = _salaryService.GetNextTierProgress(_userId);
+                if (nextTiers != null && nextTiers.Count > 0)
+                {
+                    rptNextTiers.DataSource = nextTiers;
+                    rptNextTiers.DataBind();
+                    pnlNoProgress.Visible = false;
+                }
+                else
+                {
+                    pnlNoProgress.Visible = true;
+                }
+
+                // Full history
+                var fullHistory = _salaryService.GetUserSalaryHistory(_userId, 100);
+                if (fullHistory != null && fullHistory.Count > 0)
+                {
+                    rptSalaryHistory.DataSource = fullHistory;
+                    rptSalaryHistory.DataBind();
+                    pnlNoHistory.Visible = false;
+                }
+                else
+                {
+                    pnlNoHistory.Visible = true;
+                }
             }
             catch (Exception ex)
             {
-                ShowAlert("Error loading salary data: " + ex.Message, "danger");
-            }
-        }
-
-        private void LoadUserSalaryDetails()
-        {
-            var details = _salaryService.GetUserSalaryDetails(_userId);
-
-            lblCurrentSalary.Text = $"${details.CurrentMonthlySalary:N2}";
-            lblCurrentTier.Text = string.IsNullOrEmpty(details.TierName) ? "None" : details.TierName;
-        }
-
-        private void LoadSalaryStats()
-        {
-            var stats = _salaryService.GetUserSalaryStats(_userId);
-
-            lblTotalEarned.Text = $"${stats.TotalEarned:N2}";
-            lblPaymentsCount.Text = stats.PaymentsCount.ToString();
-            lblAveragePayment.Text = $"${stats.AveragePayment:N2}";
-        }
-
-        private void LoadTierProgress()
-        {
-            var progressList = _salaryService.GetNextTierProgress(_userId);
-
-            if (progressList != null && progressList.Any())
-            {
-                rptProgress.DataSource = progressList;
-                rptProgress.DataBind();
-                pnlNoProgress.Visible = false;
-            }
-            else
-            {
-                pnlNoProgress.Visible = true;
-            }
-        }
-
-        private void LoadAllTiers()
-        {
-            var tiers = _salaryService.GetAllTiersWithUserStatus(_userId);
-            var currentDetails = _salaryService.GetUserSalaryDetails(_userId);
-
-            foreach (var tier in tiers)
-            {
-                tier.IsCurrentTier = (tier.TierId == currentDetails.CurrentTierId);
-                tier.IsQualified = CheckTierQualification(tier, currentDetails);
-            }
-
-            rptTiers.DataSource = tiers;
-            rptTiers.DataBind();
-        }
-
-        private void LoadActivePlans()
-        {
-            var plans = _salaryService.GetActivePlans(_userId);
-            rptPlans.DataSource = plans;
-            rptPlans.DataBind();
-        }
-
-        private void LoadSalaryHistory()
-        {
-            var history = _salaryService.GetUserSalaryHistory(_userId, 20);
-
-            if (history != null && history.Any())
-            {
-                rptHistory.DataSource = history;
-                rptHistory.DataBind();
-                pnlNoHistory.Visible = false;
-            }
-            else
-            {
-                pnlNoHistory.Visible = true;
-            }
-        }
-
-        protected void rptPlans_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "Subscribe")
-            {
-                try
-                {
-                    int planId = Convert.ToInt32(e.CommandArgument);
-                    var result = _salaryService.Subscribe(_userId, planId);
-
-                    if (result.Item1)
-                    {
-                        ShowAlert(result.Item2, "success");
-                    }
-                    else
-                    {
-                        ShowAlert(result.Item2, "danger");
-                    }
-
-                    // Reload affected data
-                    LoadUserSalaryDetails();
-                    LoadSalaryStats();
-                    LoadActivePlans();
-                }
-                catch (Exception ex)
-                {
-                    ShowAlert("Error subscribing to plan: " + ex.Message, "danger");
-                }
-            }
-        }
-
-        private bool CheckTierQualification(InvestorTier tier, Mexify.Models.UserSalaryDetails currentDetails)
-        {
-            return currentDetails.SelfInvestment >= tier.SelfInvestment
-                && currentDetails.StrongLegVolume >= tier.StrongLegVolume
-                && currentDetails.WeakerLegVolume >= tier.WeakerLegVolume;
-        }
-
-        private int GetCurrentUserId()
-        {
-            // TODO: Replace with your actual authentication logic
-            if (Session["UserId"] != null)
-            {
-                return Convert.ToInt32(Session["UserId"]);
-            }
-            return 1; // Default for testing
-        }
-
-        private void ShowAlert(string message, string type)
-        {
-            pnlAlert.Visible = true;
-            pnlAlert.CssClass = $"alert alert-{type} alert-dismissible fade show";
-            lblAlertMessage.Text = message;
-        }
-
-        // ✅ PUBLIC helper methods for ASPX data binding
-        public string GetStatusClass(string status)
-        {
-            switch (status)
-            {
-                case "1": return "pending";
-                case "2": return "paid";
-                case "3": return "failed";
-                default: return "pending";
-            }
-        }
-
-        public string GetStatusName(string status)
-        {
-            switch (status)
-            {
-                case "1": return "Pending";
-                case "2": return "Paid";
-                case "3": return "Failed";
-                default: return "Unknown";
-            }
-        }
-
-        public string GetTierCardClass(object dataItem)
-        {
-            var isCurrent = Convert.ToBoolean(DataBinder.Eval(dataItem, "IsCurrentTier"));
-            var isQualified = Convert.ToBoolean(DataBinder.Eval(dataItem, "IsQualified"));
-
-            string classes = "";
-            if (isCurrent) classes += " current";
-            if (isQualified) classes += " qualified";
-            return classes.Trim();
-        }
-
-        public string GetIconClass(object tierCode)
-        {
-            string code = tierCode?.ToString() ?? "";
-            switch (code.ToUpper())
-            {
-                case "T1": return "fas fa-star";
-                case "T2": return "fas fa-award";
-                case "T3": return "fas fa-gem";
-                case "T4": return "fas fa-crown";
-                case "T5": return "fas fa-trophy";
-                default: return "fas fa-medal";
+                Logger.Error("Salary page load failed for user " + _userId, ex);
             }
         }
     }

@@ -13,76 +13,166 @@ namespace Mexify.Web.User {
     public partial class Salary {
         
         /// <summary>
-        /// lblCurrentSalary control.
+        /// pnlQualified control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCurrentSalary;
+        protected global::System.Web.UI.WebControls.Panel pnlQualified;
         
         /// <summary>
-        /// pnlAlert control.
+        /// litCurrentTier control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlAlert;
+        protected global::System.Web.UI.WebControls.Literal litCurrentTier;
         
         /// <summary>
-        /// lblAlertMessage control.
+        /// litMonthlySalary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAlertMessage;
+        protected global::System.Web.UI.WebControls.Literal litMonthlySalary;
         
         /// <summary>
-        /// lblTotalEarned control.
+        /// pnlNotQualified control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalEarned;
+        protected global::System.Web.UI.WebControls.Panel pnlNotQualified;
         
         /// <summary>
-        /// lblPaymentsCount control.
+        /// litTotalEarned control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentsCount;
+        protected global::System.Web.UI.WebControls.Literal litTotalEarned;
         
         /// <summary>
-        /// lblAveragePayment control.
+        /// litPaymentsReceived control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAveragePayment;
+        protected global::System.Web.UI.WebControls.Literal litPaymentsReceived;
         
         /// <summary>
-        /// lblCurrentTier control.
+        /// litNextPayment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCurrentTier;
+        protected global::System.Web.UI.WebControls.Literal litNextPayment;
         
         /// <summary>
-        /// rptProgress control.
+        /// litQualifiedDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptProgress;
+        protected global::System.Web.UI.WebControls.Literal litQualifiedDate;
+        
+        /// <summary>
+        /// litSelfInvestment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litSelfInvestment;
+        
+        /// <summary>
+        /// litRequiredSelf control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litRequiredSelf;
+        
+        /// <summary>
+        /// litStrongLeg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litStrongLeg;
+        
+        /// <summary>
+        /// litRequiredStrong control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litRequiredStrong;
+        
+        /// <summary>
+        /// litWeakerLeg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litWeakerLeg;
+        
+        /// <summary>
+        /// litRequiredWeaker control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litRequiredWeaker;
+        
+        /// <summary>
+        /// rptRecentSalaries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptRecentSalaries;
+        
+        /// <summary>
+        /// pnlNoRecentSalaries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlNoRecentSalaries;
+        
+        /// <summary>
+        /// rptAllTiers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAllTiers;
+        
+        /// <summary>
+        /// rptNextTiers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptNextTiers;
         
         /// <summary>
         /// pnlNoProgress control.
@@ -94,31 +184,13 @@ namespace Mexify.Web.User {
         protected global::System.Web.UI.WebControls.Panel pnlNoProgress;
         
         /// <summary>
-        /// rptTiers control.
+        /// rptSalaryHistory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptTiers;
-        
-        /// <summary>
-        /// rptPlans control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptPlans;
-        
-        /// <summary>
-        /// rptHistory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptHistory;
+        protected global::System.Web.UI.WebControls.Repeater rptSalaryHistory;
         
         /// <summary>
         /// pnlNoHistory control.
@@ -128,5 +200,14 @@ namespace Mexify.Web.User {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlNoHistory;
+        
+        /// <summary>
+        /// hfActiveTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfActiveTab;
     }
 }
