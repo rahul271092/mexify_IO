@@ -74,7 +74,7 @@
                     <div class="p-3 mb-4" style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px;">
                         <div class="d-flex justify-content-between mb-2">
                             <small class="text-muted">Transfer Fee</small>
-                            <small class="text-accent fw-600">FREE</small>
+                            <small class="text-accent fw-600">5%</small>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <small class="text-muted">Processing Time</small>

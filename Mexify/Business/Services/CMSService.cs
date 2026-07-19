@@ -1,4 +1,4 @@
-﻿using Mexify.DataAccess.Context;
+﻿using Mexify.DataAccess;
 using Mexify.DataAccess.Repositories;
 using Mexify.Utilities;
 using Mexify.Web.Models;
@@ -115,31 +115,31 @@ namespace Mexify.Business.Services
 
 
 
-        public List<FAQ> GetFAQsByPage(string page)
-        {
-            try
-            {
-                return _repository.ExecuteStoredProcedure<FAQ>(
-                    "usp_GetFAQsByPage",
-                    reader => new FAQ
-                    {
-                        FAQId = _repository.GetSafeInt(reader, "FAQId"),
-                        Question = _repository.GetSafeString(reader, "Question"),
-                        Answer = _repository.GetSafeString(reader, "Answer"),
-                        Category = _repository.GetSafeString(reader, "Category"),
-                        SortOrder = _repository.GetSafeInt(reader, "SortOrder"),
-                        IsActive = _repository.GetSafeBool(reader, "IsActive")
-                    },
-                    _repository.CreateParameter("@Page", page),
-                    _repository.CreateParameter("@Category", DBNull.Value)
-                );
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to load FAQs for page {page}", ex);
-                return new List<FAQ>();
-            }
-        }
+        //public List<FAQ> GetFAQsByPage(string page)
+        //{
+        //    try
+        //    {
+        //        return _repository.ExecuteStoredProcedure<FAQ>(
+        //            "usp_GetFAQsByPage",
+        //            reader => new FAQ
+        //            {
+        //                FAQId = _repository.GetSafeInt(reader, "FAQId"),
+        //                Question = _repository.GetSafeString(reader, "Question"),
+        //                Answer = _repository.GetSafeString(reader, "Answer"),
+        //                Category = _repository.GetSafeString(reader, "Category"),
+        //                SortOrder = _repository.GetSafeInt(reader, "SortOrder"),
+        //                IsActive = _repository.GetSafeBool(reader, "IsActive")
+        //            },
+        //            _repository.CreateParameter("@Page", page),
+        //            _repository.CreateParameter("@Category", DBNull.Value)
+        //        );
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error($"Failed to load FAQs for page {page}", ex);
+        //        return new List<FAQ>();
+        //    }
+        //}
 
     }
 }

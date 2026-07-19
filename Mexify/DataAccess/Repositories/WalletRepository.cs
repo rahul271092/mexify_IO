@@ -13,6 +13,101 @@ namespace Mexify.DataAccess.Repositories
     public class WalletRepository : BaseRepository
     {
 
+
+
+        public string GetUserWalletAddress(int userId)
+        {
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("SELECT WalletAddress FROM Users WHERE UserId = @UserId", conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    var result = cmd.ExecuteScalar();
+                    return result == DBNull.Value ? null : result?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error getting wallet address for user {userId}", ex);
+                return null;
+            }
+        }
+
+        public int GetUserIdByWalletAddress(string walletAddress)
+        {
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("SELECT UserId FROM Users WHERE WalletAddress = @WalletAddress", conn))
+                {
+                    cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+                    conn.Open();
+
+                    var result = cmd.ExecuteScalar();
+                    return result == DBNull.Value ? 0 : Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error getting user by wallet {walletAddress}", ex);
+                return 0;
+            }
+        }
+
+
+        public string GetUserWalletProvider(int userId)
+        {
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand("SELECT WalletProvider FROM Users WHERE UserId = @UserId", conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    conn.Open();
+
+                    var result = cmd.ExecuteScalar();
+                    return result == DBNull.Value ? null : result?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error getting wallet provider for user {userId}", ex);
+                return null;
+            }
+        }
+
+
+        public bool SaveUserWallet(int userId, string walletAddress, string provider, string chainId)
+        {
+            try
+            {
+                using (var conn = ConnectionManager.GetConnection())
+                using (var cmd = new SqlCommand(@"
+                    UPDATE Users 
+                    SET WalletAddress = @WalletAddress, 
+                        WalletProvider = @Provider, 
+                        WalletConnectedDate = GETDATE()
+                    WHERE UserId = @UserId", conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@WalletAddress", walletAddress);
+                    cmd.Parameters.AddWithValue("@Provider", provider);
+                    conn.Open();
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error saving wallet for user {userId}", ex);
+                return false;
+            }
+        }
+
+
         public TransactionListResult GetUserWalletTransactions(
             int userId,
             string typeSlug = null,

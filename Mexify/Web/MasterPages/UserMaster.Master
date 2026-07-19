@@ -98,9 +98,6 @@
                     <a href="<%= ResolveUrl("~/Web/User/Investments.aspx") %>" class="nav-link <%= IsActive("Investments") %>">
                         <i class="fas fa-chart-line"></i> <span>2X ROI Plans</span>
                     </a>
-                    <a href="<%= ResolveUrl("~/Web/User/Salary.aspx") %>" class="nav-link <%= IsActive("Salary") %>">
-                        <i class="fas fa-money-check-alt"></i> <span>Fixed Salary Plan</span>
-                    </a>
                     <a href="<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>" class="nav-link <%= IsActive("Staking") %>">
                         <i class="fas fa-coins"></i> <span>Staking</span>
                     </a>

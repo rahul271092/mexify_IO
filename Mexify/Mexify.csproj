@@ -238,6 +238,7 @@
     <Content Include="Web\roi.aspx" />
     <Content Include="Web\royalty.aspx" />
     <Content Include="Web\staking.aspx" />
+    <Content Include="Web\TrustWalletConnect.aspx" />
     <Content Include="Web\User\Controls\EntryFeeModal.ascx" />
     <Content Include="Web\User\CreateAd.aspx" />
     <Content Include="Web\User\dashboard.aspx" />
@@ -265,7 +266,6 @@
     <Content Include="Web\User\Security.aspx" />
     <Content Include="Web\User\Settings.aspx" />
     <Content Include="Web\User\StakeNow.aspx" />
-    <Content Include="Web\User\Staking.aspx" />
     <Content Include="Web\User\Support.aspx" />
     <Content Include="Web\User\Trade.aspx" />
     <Content Include="Web\User\Transactions.aspx" />
@@ -288,6 +288,7 @@
     <Content Include="App_Data\logs\error_20260717.log" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="App_Data\logs\error_20260718.log" />
+    <Content Include="Web\WalletConnect.aspx" />
     <None Include="Properties\PublishProfiles\mexify.io - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -583,6 +584,13 @@
     <Compile Include="Web\staking.aspx.designer.cs">
       <DependentUpon>staking.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\TrustWalletConnect.aspx.cs">
+      <DependentUpon>TrustWalletConnect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\TrustWalletConnect.aspx.designer.cs">
+      <DependentUpon>TrustWalletConnect.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web\User\Controls\EntryFeeModal.ascx.cs">
       <DependentUpon>EntryFeeModal.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -618,6 +626,7 @@
     <Compile Include="Web\User\Investments.aspx.designer.cs">
       <DependentUpon>Investments.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\User\JsonSerializerOptions.cs" />
     <Compile Include="Web\User\KYC.aspx.cs">
       <DependentUpon>KYC.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -773,13 +782,6 @@
     <Compile Include="Web\User\StakeNow.aspx.designer.cs">
       <DependentUpon>StakeNow.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Web\User\Staking.aspx.cs">
-      <DependentUpon>Staking.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\User\Staking.aspx.designer.cs">
-      <DependentUpon>Staking.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Web\User\Support.aspx.cs">
       <DependentUpon>Support.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -828,6 +830,13 @@
     </Compile>
     <Compile Include="Web\User\Web3API.aspx.designer.cs">
       <DependentUpon>Web3API.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\WalletConnect.aspx.cs">
+      <DependentUpon>WalletConnect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\WalletConnect.aspx.designer.cs">
+      <DependentUpon>WalletConnect.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

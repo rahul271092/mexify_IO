@@ -179,8 +179,8 @@
                         Invest minimum 100 USDT with unlimited maximum. Earn 1.96% daily ROI with automatic reinvestment of profits.
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap" data-aos="fade-up" data-aos-delay="200">
-                        <a href="#invest" class="btn btn-primary-glow">
-                            <i class="fas fa-rocket me-2"></i> Invest Now
+                        <a href="~/Web/User/Salary.aspx" runat="server" class="btn btn-primary-glow">
+                            <i class="fas fa-rocket me-2"></i> Salary Plan
                         </a>
                         <a href="#calculator" class="btn btn-outline-glass">
                             <i class="fas fa-calculator me-2"></i> Calculate Returns

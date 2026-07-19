@@ -28,7 +28,7 @@ namespace Mexify.DataAccess.Repositories
                         PricePerToken = GetSafeDecimal(reader, "PricePerToken"),
                         CurrencyCode = GetSafeString(reader, "CurrencyCode") ?? "USDT",
                         MinPurchase = GetSafeDecimal(reader, "MinPurchase"),
-                        MaxPurchase = reader["MaxPurchase"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["MaxPurchase"]),
+                        MaxPurchase = GetSafeDecimal(reader,"MaxPurchase"),
                         SoftCap = 0,
                         SoftCapFormatted = "0 USDT",
                         HardCap = GetSafeDecimal(reader, "TotalSupply") * GetSafeDecimal(reader, "PricePerToken"),

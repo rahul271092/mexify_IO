@@ -220,6 +220,10 @@
                 Login / Register with MetaMask
             </button>
 
+
+
+         
+
             <p class="auto-register-note">
                 <i class="fas fa-magic me-1"></i> New wallet? An account will be created automatically.
             </p>

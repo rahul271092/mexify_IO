@@ -17,6 +17,65 @@ namespace Mexify.Business.Services
             _repository = new WalletRepository();
         }
 
+
+        public string GetUserWalletAddress(int userId)
+        {
+            try
+            {
+                return _repository.GetUserWalletAddress(userId);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get wallet for user {userId}", ex);
+                return null;
+            }
+        }
+
+        public int GetUserIdByWalletAddress(string walletAddress)
+        {
+            try
+            {
+                return _repository.GetUserIdByWalletAddress(walletAddress);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get user by wallet {walletAddress}", ex);
+                return 0;
+            }
+        }
+
+
+        public string GetUserWalletProvider(int userId)
+        {
+            try
+            {
+                return _repository.GetUserWalletProvider(userId);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to get wallet provider for user {userId}", ex);
+                return null;
+            }
+        }
+
+
+        public bool SaveUserWallet(int userId, string walletAddress, string provider, string chainId)
+        {
+            try
+            {
+                return _repository.SaveUserWallet(userId, walletAddress, provider, chainId);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to save wallet for user {userId}", ex);
+                return false;
+            }
+        }
+
+
+
+
+
         /// <summary>
         /// Gets all wallets for a user
         /// </summary>

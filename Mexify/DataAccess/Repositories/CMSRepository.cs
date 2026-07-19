@@ -76,5 +76,7 @@ namespace Mexify.DataAccess.Repositories
                 IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive"))
             };
         }
+
+       
     }
 }

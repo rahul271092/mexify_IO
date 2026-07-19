@@ -687,7 +687,7 @@
             <i class="fas fa-coins me-1"></i> My Stakes (<asp:Literal ID="litActiveCount" runat="server" Text="0"></asp:Literal>)
         </button>
         <button type="button" class="staking-tab" data-tab="rewards">
-            <i class="fas fa-gift me-1"></i> Rewards
+            <i class="fas fa-gift me-1"></i> ROI
         </button>
         <button type="button" class="staking-tab" data-tab="history">
             <i class="fas fa-history me-1"></i> History
@@ -707,7 +707,7 @@
                         <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
-                        ≈ $<asp:Literal ID="litTotalStakedUSD" runat="server" Text="0.00"></asp:Literal> USD
+                         <asp:Literal ID="litTotalStakedUSD" runat="server" Visible="false" Text="0.00"></asp:Literal> 
                     </div>
                 </div>
                 <div class="col-lg-6 mt-3 mt-lg-0">
