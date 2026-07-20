@@ -1,670 +1,128 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Web/MasterPages/UserMaster.Master" AutoEventWireup="true" CodeBehind="StakeNow.aspx.cs" Inherits="Mexify.Web.User.StakeNow" %>
+﻿<%@ Page Title="Stake Now" Language="C#" MasterPageFile="~/Web/MasterPages/UserMaster.Master" AutoEventWireup="true" CodeBehind="StakeNow.aspx.cs" Inherits="Mexify.Web.User.StakeNow" %>
 
 <asp:Content ID="HeadContent1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
-        .staking-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+        /* --- All your existing CSS styles remain exactly the same --- */
+        .staking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
         .staking-header h2 { color: var(--text-white); margin: 0; font-size: 1.8rem; }
-
-        .staking-tabs {
-            display: flex;
-            gap: 4px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 4px;
-            margin-bottom: 28px;
-            width: fit-content;
-            flex-wrap: wrap;
-        }
-        .staking-tab {
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-gray);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            background: transparent;
-            white-space: nowrap;
-        }
-        .staking-tab.active {
-            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-        }
-        .staking-tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-white);
-        }
-
-        .staking-hero {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(124, 58, 237, 0.1));
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 32px;
-        }
-        .staking-hero::before {
-            content: '';
-            position: absolute;
-            top: -50%; right: -10%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
-            animation: float 15s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%,100%{transform:translate(0,0) scale(1)}
-            50%{transform:translate(20px,-20px) scale(1.1)}
-        }
-
-        .summary-label {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-        }
-        .summary-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-white);
-            font-family: 'Space Grotesk', sans-serif;
-            margin-bottom: 4px;
-        }
+        .staking-tabs { display: flex; gap: 4px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; padding: 4px; margin-bottom: 28px; width: fit-content; flex-wrap: wrap; }
+        .staking-tab { padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: var(--text-gray); cursor: pointer; transition: all 0.3s ease; border: none; background: transparent; white-space: nowrap; }
+        .staking-tab.active { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: #fff; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+        .staking-tab:hover:not(.active) { background: rgba(255, 255, 255, 0.05); color: var(--text-white); }
+        .staking-hero { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(124, 58, 237, 0.1)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-xl); padding: 40px; position: relative; overflow: hidden; margin-bottom: 32px; }
+        .staking-hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%); animation: float 15s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-20px) scale(1.1)} }
+        .summary-label { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .summary-value { font-size: 2.5rem; font-weight: 800; color: var(--text-white); font-family: 'Space Grotesk', sans-serif; margin-bottom: 4px; }
         .summary-value small { font-size: 1rem; color: var(--text-gray); }
-
-        .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: #8B5CF6;
-        }
-        .stat-card .icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin: 0 auto 12px;
-        }
+        .stat-card { background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 20px; text-align: center; transition: all 0.3s ease; height: 100%; }
+        .stat-card:hover { transform: translateY(-3px); border-color: #8B5CF6; }
+        .stat-card .icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin: 0 auto 12px; }
         .stat-card .icon.purple { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
         .stat-card .icon.accent { background: rgba(0, 255, 178, 0.15); color: var(--accent); }
         .stat-card .icon.gold { background: rgba(255, 215, 0, 0.15); color: var(--gold); }
-        .stat-card .icon.secondary { background: rgba(0, 212, 255, 0.15); color: var(--secondary); }
-        .stat-card .value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-white);
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .stat-card .label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
-        }
-
-        .pool-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            transition: all 0.3s ease;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        .pool-card:hover {
-            transform: translateY(-5px);
-            border-color: #8B5CF6;
-            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
-        }
-        .pool-card.hot::before {
-            content: '🔥 HOT';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 4px 10px;
-            background: rgba(255, 59, 92, 0.9);
-            color: #fff;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-        .pool-card.new::before {
-            content: '✨ NEW';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 4px 10px;
-            background: rgba(0, 255, 178, 0.9);
-            color: #000;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-        .pool-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-        .pool-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
+        .stat-card .value { font-size: 1.6rem; font-weight: 800; color: var(--text-white); font-family: 'Space Grotesk', sans-serif; }
+        .stat-card .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+        .pool-card { background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 24px; transition: all 0.3s ease; height: 100%; position: relative; overflow: hidden; }
+        .pool-card:hover { transform: translateY(-5px); border-color: #8B5CF6; box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15); }
+        .pool-card.hot::before { content: '🔥 HOT'; position: absolute; top: 12px; right: 12px; padding: 4px 10px; background: rgba(255, 59, 92, 0.9); color: #fff; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+        .pool-card.new::before { content: '✨ NEW'; position: absolute; top: 12px; right: 12px; padding: 4px 10px; background: rgba(0, 255, 178, 0.9); color: #000; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+        .pool-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .pool-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
         .pool-icon.pnc { background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1)); color: var(--gold); border: 1px solid rgba(255, 215, 0, 0.3); }
         .pool-icon.btc { background: linear-gradient(135deg, rgba(247, 147, 26, 0.2), rgba(247, 147, 26, 0.05)); color: #F7931A; border: 1px solid rgba(247, 147, 26, 0.3); }
         .pool-icon.eth { background: linear-gradient(135deg, rgba(98, 126, 234, 0.2), rgba(98, 126, 234, 0.05)); color: #627EEA; border: 1px solid rgba(98, 126, 234, 0.3); }
         .pool-icon.usdt { background: linear-gradient(135deg, rgba(38, 161, 123, 0.2), rgba(38, 161, 123, 0.05)); color: #26A17B; border: 1px solid rgba(38, 161, 123, 0.3); }
-        .pool-name {
-            color: var(--text-white);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 2px;
-        }
-        .pool-symbol {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .pool-apy {
-            text-align: center;
-            padding: 16px;
-            background: rgba(139, 92, 246, 0.08);
-            border-radius: 12px;
-            margin-bottom: 16px;
-        }
-        .apy-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-        .apy-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #8B5CF6;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .apy-value small {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-        }
-
-        .pool-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .pool-stat {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            text-align: center;
-        }
-        .pool-stat-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .pool-stat-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-white);
-        }
-
-        .pool-lock-period {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 14px;
-            background: rgba(255, 215, 0, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 0.85rem;
-        }
+        .pool-name { color: var(--text-white); font-weight: 700; font-size: 1.1rem; margin-bottom: 2px; }
+        .pool-symbol { color: var(--text-muted); font-size: 0.85rem; }
+        .pool-apy { text-align: center; padding: 16px; background: rgba(139, 92, 246, 0.08); border-radius: 12px; margin-bottom: 16px; }
+        .apy-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .apy-value { font-size: 2rem; font-weight: 800; color: #8B5CF6; font-family: 'Space Grotesk', sans-serif; }
+        .apy-value small { font-size: 0.9rem; color: var(--text-gray); }
+        .pool-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .pool-stat { padding: 10px; background: rgba(255, 255, 255, 0.02); border-radius: 8px; text-align: center; }
+        .pool-stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .pool-stat-value { font-size: 0.9rem; font-weight: 600; color: var(--text-white); }
+        .pool-lock-period { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem; }
         .pool-lock-period i { color: var(--gold); }
         .pool-lock-period span { color: var(--text-gray); }
         .pool-lock-period strong { color: var(--text-white); }
-
-        .btn-stake {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        .btn-stake:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
-        }
-        .btn-stake:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .active-stake-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 16px;
-            transition: all 0.3s ease;
-        }
-        .active-stake-card:hover {
-            border-color: #8B5CF6;
-            transform: translateX(4px);
-        }
-        .active-stake-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .active-stake-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .active-stake-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-        .active-stake-title {
-            color: var(--text-white);
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 2px;
-        }
-        .active-stake-meta {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-        .active-stake-apy {
-            text-align: right;
-        }
-        .active-stake-apy-value {
-            color: #8B5CF6;
-            font-weight: 800;
-            font-size: 1.3rem;
-        }
-        .active-stake-apy-label {
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-        }
-
-        .stake-progress {
-            margin-bottom: 16px;
-        }
-        .stake-progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            margin-bottom: 6px;
-        }
+        .btn-stake { width: 100%; padding: 12px; background: linear-gradient(135deg, #8B5CF6, #7C3AED); border: none; border-radius: 10px; color: #fff; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .btn-stake:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4); }
+        .active-stake-card { background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; transition: all 0.3s ease; }
+        .active-stake-card:hover { border-color: #8B5CF6; transform: translateX(4px); }
+        .active-stake-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+        .active-stake-info { display: flex; align-items: center; gap: 14px; }
+        .active-stake-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+        .active-stake-title { color: var(--text-white); font-weight: 600; font-size: 1rem; margin-bottom: 2px; }
+        .active-stake-meta { color: var(--text-muted); font-size: 0.8rem; }
+        .active-stake-apy { text-align: right; }
+        .active-stake-apy-value { color: #8B5CF6; font-weight: 800; font-size: 1.3rem; }
+        .active-stake-apy-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; }
+        .stake-progress { margin-bottom: 16px; }
+        .stake-progress-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px; }
         .stake-progress-header .label { color: var(--text-muted); }
         .stake-progress-header .value { color: var(--text-white); font-weight: 600; }
-        .stake-progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50px;
-            overflow: hidden;
-        }
-        .stake-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #8B5CF6, #7C3AED);
-            border-radius: 50px;
-            transition: width 1s ease;
-            position: relative;
-        }
-        .stake-progress-fill::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .stake-rewards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 16px 0;
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 16px;
-        }
-        .stake-reward {
-            text-align: center;
-        }
-        .stake-reward .label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .stake-reward .value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-white);
-        }
+        .stake-progress-bar { height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 50px; overflow: hidden; }
+        .stake-progress-fill { height: 100%; background: linear-gradient(90deg, #8B5CF6, #7C3AED); border-radius: 50px; transition: width 1s ease; position: relative; }
+        .stake-progress-fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .stake-rewards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); margin-bottom: 16px; }
+        .stake-reward { text-align: center; }
+        .stake-reward .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .stake-reward .value { font-size: 1rem; font-weight: 700; color: var(--text-white); }
         .stake-reward .value.accent { color: var(--accent); }
         .stake-reward .value.purple { color: #8B5CF6; }
-        .stake-reward .value.gold { color: var(--gold); }
-
-        .stake-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn-unstake {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid rgba(255, 59, 92, 0.4);
-            border-radius: 50px;
-            color: #ff3b5c;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-unstake:hover {
-            background: rgba(255, 59, 92, 0.1);
-            border-color: #ff3b5c;
-        }
-        .btn-claim {
-            padding: 8px 16px;
-            background: linear-gradient(135deg, var(--accent), #00D4FF);
-            border: none;
-            border-radius: 50px;
-            color: #000;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-claim:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 255, 178, 0.3);
-        }
-
-        .history-table {
-            width: 100%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-        }
+        .stake-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-unstake { padding: 8px 16px; background: transparent; border: 1px solid rgba(255, 59, 92, 0.4); border-radius: 50px; color: #ff3b5c; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn-unstake:hover { background: rgba(255, 59, 92, 0.1); border-color: #ff3b5c; }
+        .btn-claim { padding: 8px 16px; background: linear-gradient(135deg, var(--accent), #00D4FF); border: none; border-radius: 50px; color: #000; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+        .btn-claim:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 255, 178, 0.3); }
+        .history-table { width: 100%; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden; }
         .history-table table { width: 100%; color: var(--text-gray); }
-        .history-table th {
-            background: rgba(139, 92, 246, 0.08);
-            padding: 14px 16px;
-            color: var(--text-white);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-align: left;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .history-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--glass-border);
-            font-size: 0.9rem;
-        }
+        .history-table th { background: rgba(139, 92, 246, 0.08); padding: 14px 16px; color: var(--text-white); font-weight: 600; font-size: 0.8rem; text-align: left; text-transform: uppercase; letter-spacing: 0.5px; }
+        .history-table td { padding: 14px 16px; border-bottom: 1px solid var(--glass-border); font-size: 0.9rem; }
         .history-table tr:last-child td { border-bottom: none; }
         .history-table tr:hover { background: rgba(255, 255, 255, 0.02); }
-
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
+        .status-badge { padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
         .status-active { background: rgba(0, 255, 178, 0.15); color: var(--accent); }
         .status-matured { background: rgba(139, 92, 246, 0.15); color: #8B5CF6; }
         .status-unstaked { background: rgba(107, 117, 141, 0.15); color: var(--text-muted); }
         .status-pending { background: rgba(255, 215, 0, 0.15); color: var(--gold); }
-
-        .chart-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-        }
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .chart-title {
-            color: var(--text-white);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin: 0;
-        }
-
-        .alert-box {
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .alert-box.info { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); color: #8B5CF6; }
-        .alert-box.warning { background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); color: var(--gold); }
-        .alert-box i { margin-top: 2px; flex-shrink: 0; }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--glass-bg);
-            border: 1px dashed var(--glass-border);
-            border-radius: var(--radius-lg);
-        }
+        .chart-card { background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 24px; }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .chart-title { color: var(--text-white); font-weight: 700; font-size: 1.1rem; margin: 0; }
+        .empty-state { text-align: center; padding: 60px 20px; background: var(--glass-bg); border: 1px dashed var(--glass-border); border-radius: var(--radius-lg); }
         .empty-state i { font-size: 4rem; color: var(--text-muted); margin-bottom: 20px; opacity: 0.5; }
         .empty-state h4 { color: var(--text-white); margin-bottom: 8px; }
         .empty-state p { color: var(--text-gray); margin-bottom: 24px; }
-
-        /* Modal Styles */
-        .stake-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        .stake-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
         .stake-modal-overlay.active { display: flex; }
-        .stake-modal {
-            background: var(--bg-secondary);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalSlideUp 0.3s ease-out;
-        }
-        @keyframes modalSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .stake-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .stake-modal-title {
-            color: var(--text-white);
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin: 0;
-        }
-        .stake-modal-close {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-        }
+        .stake-modal { background: var(--bg-secondary); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; animation: modalSlideUp 0.3s ease-out; }
+        @keyframes modalSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .stake-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--glass-border); }
+        .stake-modal-title { color: var(--text-white); font-weight: 700; font-size: 1.2rem; margin: 0; }
+        .stake-modal-close { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1; }
         .stake-modal-close:hover { color: var(--text-white); }
         .stake-modal-body { padding: 24px; }
-        .stake-modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
+        .stake-modal-footer { padding: 16px 24px; border-top: 1px solid var(--glass-border); display: flex; gap: 12px; justify-content: flex-end; }
         .form-group-custom { margin-bottom: 20px; }
-        .form-group-custom label {
-            display: block;
-            color: var(--text-white);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+        .form-group-custom label { display: block; color: var(--text-white); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
         .form-group-custom label .required { color: #ff3b5c; }
         .input-icon-wrap { position: relative; }
-        .input-icon-wrap i.input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            z-index: 2;
-        }
-        .input-icon-wrap input,
-        .input-icon-wrap select {
-            width: 100%;
-            padding: 12px 14px 12px 42px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            color: var(--text-white);
-            font-size: 0.92rem;
-            transition: all 0.3s ease;
-        }
+        .input-icon-wrap i.input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); z-index: 2; }
+        .input-icon-wrap input, .input-icon-wrap select { width: 100%; padding: 12px 14px 12px 42px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-white); font-size: 0.92rem; transition: all 0.3s ease; }
         .input-icon-wrap select option { background: var(--bg-secondary); color: var(--text-white); }
-        .input-icon-wrap input:focus,
-        .input-icon-wrap select:focus {
-            outline: none;
-            border-color: #8B5CF6;
-            background: rgba(139, 92, 246, 0.03);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-        }
+        .input-icon-wrap input:focus, .input-icon-wrap select:focus { outline: none; border-color: #8B5CF6; background: rgba(139, 92, 246, 0.03); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
         .input-icon-wrap:focus-within i.input-icon { color: #8B5CF6; }
-
-        .available-balance {
-            padding: 12px 16px;
-            background: rgba(0, 255, 178, 0.05);
-            border: 1px solid rgba(0, 255, 178, 0.2);
-            border-radius: 10px;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .stake-summary {
-            background: rgba(139, 92, 246, 0.05);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 10px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-        .stake-summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            font-size: 0.9rem;
-        }
+        .available-balance { padding: 12px 16px; background: rgba(0, 255, 178, 0.05); border: 1px solid rgba(0, 255, 178, 0.2); border-radius: 10px; color: var(--accent); font-weight: 700; margin-bottom: 16px; }
+        .stake-summary { background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 10px; padding: 16px; margin-top: 16px; }
+        .stake-summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.9rem; }
         .stake-summary-row .label { color: var(--text-muted); }
         .stake-summary-row .value { color: var(--text-white); font-weight: 600; }
-        .stake-summary-row.total {
-            border-top: 1px solid var(--glass-border);
-            margin-top: 8px;
-            padding-top: 12px;
-            font-size: 1rem;
-        }
+        .stake-summary-row.total { border-top: 1px solid var(--glass-border); margin-top: 8px; padding-top: 12px; font-size: 1rem; }
         .stake-summary-row.total .value { color: #8B5CF6; font-weight: 800; }
-
-        @media (max-width: 768px) {
-            .summary-value { font-size: 1.8rem; }
-            .stake-rewards { grid-template-columns: 1fr; }
-            .staking-tabs { width: 100%; overflow-x: auto; }
-        }
+        @media (max-width: 768px) { .summary-value { font-size: 1.8rem; } .stake-rewards { grid-template-columns: 1fr; } .staking-tabs { width: 100%; overflow-x: auto; } }
     </style>
 </asp:Content>
 
@@ -689,20 +147,16 @@
         <button type="button" class="staking-tab" data-tab="rewards">
             <i class="fas fa-gift me-1"></i> ROI
         </button>
-        
-        <button type="button" class="staking-tab" data-tab="tab-commissions">
-            <i class="fas fa-layer-group me-1"></i> 15 Level Commissions
+        <button type="button" class="staking-tab" data-tab="commission">
+            <i class="fas fa-sitemap me-1"></i> Commission
         </button>
         <button type="button" class="staking-tab" data-tab="history">
             <i class="fas fa-history me-1"></i> History
         </button>
-
     </div>
 
     <!-- POOLS TAB -->
     <div id="tab-pools" class="tab-content" data-aos="fade-up">
-        
-        <!-- Stats Overview -->
         <div class="staking-hero">
             <div class="row align-items-center position-relative" style="z-index: 2;">
                 <div class="col-lg-6">
@@ -712,7 +166,7 @@
                         <small> USDT</small>
                     </div>
                     <div style="color: var(--text-gray); font-size: 1.1rem;">
-                         <asp:Literal ID="litTotalStakedUSD" runat="server" Visible="false" Text="0.00"></asp:Literal> 
+                         <asp:Literal ID="litTotalStakedUSD" runat="server" Text="0.00"></asp:Literal> 
                     </div>
                 </div>
                 <div class="col-lg-6 mt-3 mt-lg-0">
@@ -740,10 +194,8 @@
             </div>
         </div>
 
-        <!-- Available Pools -->
         <h4 class="text-white mb-3" data-aos="fade-up">
-            <i class="fas fa-fire" style="color: #8B5CF6;"></i>
-            Available Staking Pools
+            <i class="fas fa-fire" style="color: #8B5CF6;"></i> Available Staking Pools
         </h4>
         <div class="row g-4">
             <asp:Repeater ID="rptPools" runat="server">
@@ -759,14 +211,12 @@
                                     <div class="pool-symbol"><%# Eval("CurrencyCode") %> Staking</div>
                                 </div>
                             </div>
-
                             <div class="pool-apy">
                                 <div class="apy-label">Annual Percentage Yield</div>
                                 <div class="apy-value">
                                     <%# string.Format("{0:0.##}", Eval("APY")) %><small>% ROI (Daily)</small>
                                 </div>
                             </div>
-
                             <div class="pool-stats">
                                 <div class="pool-stat">
                                     <div class="pool-stat-label">Min Stake</div>
@@ -785,13 +235,11 @@
                                     <div class="pool-stat-value"><%# Eval("StakersCount") %></div>
                                 </div>
                             </div>
-
                             <div class="pool-lock-period">
                                 <i class="fas fa-lock"></i>
                                 <span>Lock Period:</span>
                                 <strong><%# Eval("LockPeriodDays") %> Days</strong>
                             </div>
-
                             <button type="button" class="btn-stake" onclick='openStakeModal(<%# Eval("PoolId") %>, "<%# Eval("PoolName") %>", "<%# Eval("CurrencyCode") %>", <%# Eval("APY") %>, <%# Eval("MinStake") %>, <%# Eval("LockPeriodDays") %>)'>
                                 <i class="fas fa-coins"></i> Stake Now
                             </button>
@@ -800,7 +248,6 @@
                 </ItemTemplate>
             </asp:Repeater>
         </div>
-
         <asp:Panel ID="pnlNoPools" runat="server" Visible="false">
             <div class="empty-state">
                 <i class="fas fa-layer-group"></i>
@@ -812,7 +259,6 @@
 
     <!-- ACTIVE STAKES TAB -->
     <div id="tab-active" class="tab-content" style="display: none;" data-aos="fade-up">
-        
         <asp:Repeater ID="rptActiveStakes" runat="server">
             <ItemTemplate>
                 <div class="active-stake-card">
@@ -824,7 +270,7 @@
                             <div>
                                 <div class="active-stake-title"><%# Eval("PoolName") %></div>
                                 <div class="active-stake-meta">
-                                    Staked: <%# Convert.ToDateTime(Eval("StakedDate")).ToString("MMM dd, yyyy") %> · 
+                                    Staked: <%# Eval("StakedDate") != DBNull.Value ? Convert.ToDateTime(Eval("StakedDate")).ToString("MMM dd, yyyy") : "N/A" %> · 
                                     <%# Eval("CurrencyCode") %>
                                 </div>
                             </div>
@@ -834,7 +280,6 @@
                             <div class="active-stake-apy-label">APY</div>
                         </div>
                     </div>
-
                     <div class="stake-progress">
                         <div class="stake-progress-header">
                             <span class="label">Day <%# Eval("DaysStaked") %> of <%# Eval("LockPeriodDays") %></span>
@@ -844,7 +289,6 @@
                             <div class="stake-progress-fill" style="width: <%# Eval("ProgressPercent") %>%;"></div>
                         </div>
                     </div>
-
                     <div class="stake-rewards">
                         <div class="stake-reward">
                             <div class="label">Staked Amount</div>
@@ -859,7 +303,6 @@
                             <div class="value purple">+<%# string.Format("{0:0.########}", Eval("PendingRewards")) %> <%# Eval("CurrencyCode") %></div>
                         </div>
                     </div>
-
                     <div class="stake-actions">
                         <asp:Panel runat="server" Visible='<%# Convert.ToDecimal(Eval("PendingRewards")) > 0 %>'>
                             <button type="button" class="btn-claim" onclick='claimRewards(<%# Eval("StakeId") %>)'>
@@ -873,15 +316,13 @@
                         </asp:Panel>
                         <asp:Panel runat="server" Visible='<%# Convert.ToInt32(Eval("ProgressPercent")) < 100 %>'>
                             <small class="text-muted">
-                                <i class="fas fa-clock me-1"></i>
-                                Unlocks in <%# Eval("DaysRemaining") %> days
+                                <i class="fas fa-clock me-1"></i> Unlocks in <%# Eval("DaysRemaining") %> days
                             </small>
                         </asp:Panel>
                     </div>
                 </div>
             </ItemTemplate>
         </asp:Repeater>
-
         <asp:Panel ID="pnlNoActiveStakes" runat="server" Visible="false">
             <div class="empty-state">
                 <i class="fas fa-coins"></i>
@@ -894,74 +335,8 @@
         </asp:Panel>
     </div>
 
-
-<!--    15 level Commission-->
-
-       <div id="tab-commissions" class="tab-content" style="display: none;" data-aos="fade-up">
-        
-    
-       
-
-           <asp:Panel ID="LevelPanel1" runat="server" >
-
-
-             <div class="history-table">
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>level</th>
-                            <th>Staked Amount</th>
-                            <th>Commission Percent</th>
-                            <th>Commission Amount</th>
-                            <th>Currency Code</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <asp:Repeater ID="levelCommissionRepeater" runat="server">
-                            <ItemTemplate>
-                                <tr>
-                                    <td class="text-muted"><%# Convert.ToDateTime(Eval("Level")) %></td>
-                              
-                                    <td><%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %></td>
-                                    <td><%# string.Format("{0:0.##}", Eval("CommissionPercent")) %>%</td>
-                                    <td class="text-muted"><%# Eval("") %> Days</td>
-                                    <td class="text-accent">+<%# string.Format("{0:0.########}", Eval("TotalRewards")) %></td>
-                                    <td>
-                                        <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
-                                            <%# Eval("StatusName") %>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-               </asp:Panel>
-
-        <asp:Panel ID="Panel1" runat="server" Visible="false">
-            <div class="empty-state">
-                <i class="fas fa-history"></i>
-                <h4>No Commission  Earning</h4>
-                <p>Your Staking Commission Earning  will appear here.</p>
-            </div>
-        </asp:Panel>
-
-
-
-
-           </div>
- 
-
-
-
     <!-- REWARDS TAB -->
     <div id="tab-rewards" class="tab-content" style="display: none;" data-aos="fade-up">
-        
         <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <div class="stat-card" style="padding: 24px;">
@@ -991,8 +366,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Rewards Chart -->
         <div class="chart-card mb-4">
             <div class="chart-header">
                 <h5 class="chart-title">Rewards Over Time (Last 30 Days)</h5>
@@ -1001,28 +374,25 @@
                 <canvas id="rewardsChart"></canvas>
             </div>
         </div>
-
-        <!-- Recent Claims -->
         <div class="chart-card">
             <div class="chart-header">
                 <h5 class="chart-title">
-                    <i class="fas fa-gift" style="color: var(--accent);"></i>
-                    Recent Reward Claims
+                    <i class="fas fa-gift" style="color: var(--accent);"></i> Recent Reward Claims
                 </h5>
             </div>
             <asp:Repeater ID="rptRewardClaims" runat="server">
                 <ItemTemplate>
-                    <div class="commission-item">
-                        <div class="commission-icon" style="background: rgba(139, 92, 246, 0.15); color: #8B5CF6;">
+                    <div class="commission-item" style="display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--glass-border);">
+                        <div class="commission-icon" style="background: rgba(139, 92, 246, 0.15); color: #8B5CF6; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-gift"></i>
                         </div>
-                        <div class="commission-info">
-                            <div class="commission-title"><%# Eval("PoolName") %> Reward</div>
-                            <div class="commission-date">
-                                <%# Convert.ToDateTime(Eval("ClaimDate")).ToString("MMM dd, yyyy 'at' hh:mm tt") %>
+                        <div class="commission-info" style="flex: 1;">
+                            <div class="commission-title" style="color: var(--text-white); font-weight: 600;"><%# Eval("PoolName") %> Reward</div>
+                            <div class="commission-date" style="color: var(--text-muted); font-size: 0.8rem;">
+                                <%# Eval("ClaimDate") != DBNull.Value ? Convert.ToDateTime(Eval("ClaimDate")).ToString("MMM dd, yyyy 'at' hh:mm tt") : "N/A" %>
                             </div>
                         </div>
-                        <div class="commission-amount" style="color: var(--accent);">
+                        <div class="commission-amount" style="color: var(--accent); font-weight: 700;">
                             +<%# string.Format("{0:0.########}", Eval("Amount")) %> <%# Eval("CurrencyCode") %>
                         </div>
                     </div>
@@ -1038,9 +408,78 @@
         </div>
     </div>
 
+    <!-- COMMISSION TAB -->
+    <div id="tab-commission" class="tab-content" style="display: none;" data-aos="fade-up">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h5 class="chart-title">
+                        <i class="fas fa-sitemap" style="color: var(--accent);"></i> Level Commission History
+                    </h5>
+                </div>
+             
+                <asp:Repeater ID="levelCommissionRepeater" runat="server">
+                    <HeaderTemplate>
+                        <div class="history-table">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>From User</th>
+                                            <th>Level</th>
+                                            <th>Staked Amount</th>
+                                            <th>Commission %</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                                        <tr>
+                                            <td class="text-muted">
+                                                <%# Eval("CreatedDate") != DBNull.Value ? Convert.ToDateTime(Eval("CreaeDate")).ToString("MMM dd, yyyy") : "N/A" %>
+                                            </td>
+                                            <td class="text-white">
+                                                <%# Eval("UserName") != DBNull.Value ? Eval("UserName").ToString() : "Unknown" %>
+                                            </td>
+                                            <td>
+                                                <%# Eval("Level") != DBNull.Value ? Eval("Level").ToString() : "-" %>
+                                            </td>
+                                            <td>
+                                                <%# Eval("StakeAmount") != DBNull.Value ? string.Format("{0:0.########}", Eval("StakeAmount")) : "0" %> 
+                                                <%# Eval("CurrencyCode") != DBNull.Value ? Eval("CurrencyCode").ToString() : "" %>
+                                            </td>
+                                            <td>
+                                                <%# Eval("CommissionPercent") != DBNull.Value ? string.Format("{0:0.##}", Eval("CommissionPercent")) + "%" : "0%" %>
+                                            </td>
+                                            <td class="text-accent">
+                                                +<%# Eval("CommissionAmount") != DBNull.Value ? string.Format("{0:0.########}", Eval("CommissionAmount")) : "0.00" %> 
+                                                <%# Eval("CurrencyCode") != DBNull.Value ? Eval("CurrencyCode").ToString() : "" %>
+                                            </td>
+                                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </FooterTemplate>
+                </asp:Repeater>
+                <!-- Panel1 acts as the "No Data" empty state based on your C# logic -->
+                <asp:Panel ID="Panel1" runat="server" Visible="false">
+                    <div class="empty-state">
+                        <i class="fas fa-sitemap"></i>
+                        <h4>No Commission History</h4>
+                        <p>Your staking referral commissions will appear here.</p>
+                    </div>
+                </asp:Panel>
+            </div>
+       
+    </div>
+
     <!-- HISTORY TAB -->
     <div id="tab-history" class="tab-content" style="display: none;" data-aos="fade-up">
-        
         <div class="history-table">
             <div class="table-responsive">
                 <table>
@@ -1059,15 +498,19 @@
                         <asp:Repeater ID="rptHistory" runat="server">
                             <ItemTemplate>
                                 <tr>
-                                    <td class="text-muted"><%# Convert.ToDateTime(Eval("StakedDate")).ToString("MMM dd, yyyy") %></td>
+                                    <td class="text-muted">
+                                        <%# Eval("StakedDate") != DBNull.Value ? Convert.ToDateTime(Eval("StakedDate")).ToString("MMM dd, yyyy") : "N/A" %>
+                                    </td>
                                     <td class="text-white"><%# Eval("PoolName") %></td>
-                                    <td><%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %></td>
+                                    <td>
+                                        <%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %>
+                                    </td>
                                     <td><%# string.Format("{0:0.##}", Eval("APY")) %>%</td>
                                     <td class="text-muted"><%# Eval("LockPeriodDays") %> Days</td>
                                     <td class="text-accent">+<%# string.Format("{0:0.########}", Eval("TotalRewards")) %></td>
                                     <td>
                                         <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
-                                            <%# Eval("StatusName") %>
+                                            <%# Eval("Status") != DBNull.Value ? "Active" : "Pending" %>
                                         </span>
                                     </td>
                                 </tr>
@@ -1077,7 +520,6 @@
                 </table>
             </div>
         </div>
-
         <asp:Panel ID="pnlNoHistory" runat="server" Visible="false">
             <div class="empty-state">
                 <i class="fas fa-history"></i>
@@ -1099,11 +541,9 @@
                 <input type="hidden" id="modalAPY" />
                 <input type="hidden" id="modalMinStake" />
                 <input type="hidden" id="modalLockDays" />
-
                 <div class="available-balance">
                     Available Balance: <span id="modalAvailableBalance">0.00</span> USDT
                 </div>
-
                 <div class="form-group-custom">
                     <label>Stake Amount <span class="required">*</span></label>
                     <div class="input-icon-wrap">
@@ -1111,13 +551,12 @@
                         <i class="fas fa-coins input-icon"></i>
                     </div>
                     <div class="d-flex gap-2 mt-2">
-                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(25)" style="flex:1; padding: 6px; font-size: 0.75rem;">25%</button>
-                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(50)" style="flex:1; padding: 6px; font-size: 0.75rem;">50%</button>
-                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(75)" style="flex:1; padding: 6px; font-size: 0.75rem;">75%</button>
-                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(100)" style="flex:1; padding: 6px; font-size: 0.75rem;">Max</button>
+                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(25)" style="flex:1; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-white); border-radius: 6px; cursor: pointer;">25%</button>
+                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(50)" style="flex:1; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-white); border-radius: 6px; cursor: pointer;">50%</button>
+                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(75)" style="flex:1; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-white); border-radius: 6px; cursor: pointer;">75%</button>
+                        <button type="button" class="wallet-card-btn" onclick="setStakePercent(100)" style="flex:1; padding: 6px; font-size: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-white); border-radius: 6px; cursor: pointer;">Max</button>
                     </div>
                 </div>
-
                 <div class="stake-summary">
                     <div class="stake-summary-row">
                         <span class="label">APY</span>
@@ -1140,7 +579,6 @@
                         <span class="value" id="modalTotalReceive">0.00</span>
                     </div>
                 </div>
-
                 <div class="alert-box warning mt-3">
                     <i class="fas fa-exclamation-triangle"></i>
                     <div>
@@ -1149,7 +587,7 @@
                 </div>
             </div>
             <div class="stake-modal-footer">
-                <button type="button" class="btn-outline-glass" onclick="closeStakeModal()">Cancel</button>
+                <button type="button" class="btn-outline-glass" onclick="closeStakeModal()" style="background: transparent; border: 1px solid var(--glass-border); color: var(--text-white); padding: 10px 24px; border-radius: 10px; cursor: pointer;">Cancel</button>
                 <button type="button" class="btn-stake" onclick="confirmStake()" style="width: auto; padding: 10px 24px;">
                     <i class="fas fa-coins me-1"></i> Confirm Stake
                 </button>
@@ -1166,7 +604,6 @@
         // Tab switching
         (function() {
             'use strict';
-            
             function initStakingTabs() {
                 var tabs = document.querySelectorAll('.staking-tab');
                 var contents = document.querySelectorAll('.tab-content');
@@ -1263,20 +700,10 @@
             var minStake = parseFloat(document.getElementById('modalMinStake').value) || 0;
             var balance = parseFloat(document.getElementById('<%= hfUserBalance.ClientID %>').value) || 0;
             
-            if (amount <= 0) {
-                alert('Please enter a valid amount.');
-                return;
-            }
-            if (amount < minStake) {
-                alert('Minimum stake amount is ' + minStake);
-                return;
-            }
-            if (amount > balance) {
-                alert('Insufficient balance.');
-                return;
-            }
+            if (amount <= 0) { alert('Please enter a valid amount.'); return; }
+            if (amount < minStake) { alert('Minimum stake amount is ' + minStake); return; }
+            if (amount > balance) { alert('Insufficient balance.'); return; }
             
-            // Submit via AJAX or form post
             window.location.href = '<%= ResolveUrl("~/Web/User/StakeNow.aspx") %>?action=stake&pool=' + poolId + '&amount=' + amount;
         }
 
@@ -1292,7 +719,6 @@
             }
         }
 
-        // Close modal on overlay click
         document.getElementById('stakeModal').addEventListener('click', function(e) {
             if (e.target === this) closeStakeModal();
         });
@@ -1301,7 +727,7 @@
         var rewardsData = <%= GetRewardsChartData() %>;
         document.addEventListener('DOMContentLoaded', function() {
             var ctx = document.getElementById('rewardsChart');
-            if (ctx && rewardsData.labels && rewardsData.labels.length > 0) {
+            if (ctx && typeof Chart !== 'undefined' && rewardsData.labels && rewardsData.labels.length > 0) {
                 new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -1328,7 +754,7 @@
                                 borderColor: '#8B5CF6',
                                 borderWidth: 1,
                                 callbacks: {
-                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' PNC'; }
+                                    label: function(ctx) { return ctx.parsed.y.toLocaleString() + ' USDT'; }
                                 }
                             }
                         },

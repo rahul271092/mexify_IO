@@ -405,6 +405,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\AppLogger.cs" />
     <Compile Include="Utilities\CurrencyHelper.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\Myreader.cs" />

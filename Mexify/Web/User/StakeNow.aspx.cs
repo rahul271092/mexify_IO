@@ -31,9 +31,10 @@ namespace Mexify.Web.User
             {
                 // Handle actions from query string
                 HandleActions();
+               
+                LoadStakingData();
                 PopulateLevelCommission();
 
-                LoadStakingData();
             }
         }
 
