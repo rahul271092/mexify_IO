@@ -31,7 +31,41 @@ namespace Mexify.Web.User
             {
                 // Handle actions from query string
                 HandleActions();
+                PopulateLevelCommission();
+
                 LoadStakingData();
+            }
+        }
+
+
+
+
+        public void PopulateLevelCommission()
+        {
+            try
+            {
+                string sql = "SELECT u.*, s.* FROM Users uINNER JOIN StakingCommissions s ON u.UserId = s.BeneficiaryId; ";
+                SqlCommand cmd = Web.Models.Connection.SqlQuery(sql);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    levelCommissionRepeater.DataSource = dt;
+                    levelCommissionRepeater.DataBind();
+                    Panel1.Visible = true;
+                    LevelPanel1.Visible = true;
+                }
+                else
+                {
+                    LevelPanel1.Visible = true;
+                    Panel1.Visible = true;
+                }
+                
+            }
+            catch(Exception ef)
+            {
+                Logger.Error("PopulateLevelCommission Error;", ef);
             }
         }
 

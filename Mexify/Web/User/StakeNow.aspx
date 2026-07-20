@@ -689,9 +689,14 @@
         <button type="button" class="staking-tab" data-tab="rewards">
             <i class="fas fa-gift me-1"></i> ROI
         </button>
+        
+        <button type="button" class="staking-tab" data-tab="tab-commissions">
+            <i class="fas fa-layer-group me-1"></i> 15 Level Commissions
+        </button>
         <button type="button" class="staking-tab" data-tab="history">
             <i class="fas fa-history me-1"></i> History
         </button>
+
     </div>
 
     <!-- POOLS TAB -->
@@ -888,6 +893,71 @@
             </div>
         </asp:Panel>
     </div>
+
+
+<!--    15 level Commission-->
+
+       <div id="tab-commissions" class="tab-content" style="display: none;" data-aos="fade-up">
+        
+    
+       
+
+           <asp:Panel ID="LevelPanel1" runat="server" >
+
+
+             <div class="history-table">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>level</th>
+                            <th>Staked Amount</th>
+                            <th>Commission Percent</th>
+                            <th>Commission Amount</th>
+                            <th>Currency Code</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <asp:Repeater ID="levelCommissionRepeater" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td class="text-muted"><%# Convert.ToDateTime(Eval("Level")) %></td>
+                              
+                                    <td><%# string.Format("{0:0.########}", Eval("StakedAmount")) %> <%# Eval("CurrencyCode") %></td>
+                                    <td><%# string.Format("{0:0.##}", Eval("CommissionPercent")) %>%</td>
+                                    <td class="text-muted"><%# Eval("") %> Days</td>
+                                    <td class="text-accent">+<%# string.Format("{0:0.########}", Eval("TotalRewards")) %></td>
+                                    <td>
+                                        <span class='status-badge <%# GetStatusClass(Eval("Status")) %>'>
+                                            <%# Eval("StatusName") %>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+               </asp:Panel>
+
+        <asp:Panel ID="Panel1" runat="server" Visible="false">
+            <div class="empty-state">
+                <i class="fas fa-history"></i>
+                <h4>No Commission  Earning</h4>
+                <p>Your Staking Commission Earning  will appear here.</p>
+            </div>
+        </asp:Panel>
+
+
+
+
+           </div>
+ 
+
+
 
     <!-- REWARDS TAB -->
     <div id="tab-rewards" class="tab-content" style="display: none;" data-aos="fade-up">

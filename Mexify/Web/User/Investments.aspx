@@ -323,8 +323,11 @@
                             </div>
                             <small class="text-muted">Minimum: 100 USDT · No maximum</small>
                         </div>
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <ContentTemplate>
 
                         <asp:Button ID="btnCalculate" runat="server" Text="Calculate" CssClass="btn btn-primary-glow w-100" OnClick="btnCalculate_Click" />
+                        
 
                         <div class="result-display">
                             <small class="text-muted text-uppercase">Total Return (51 days)</small>
@@ -342,8 +345,17 @@
                                 </div>
                             </div>
                         </div>
+                              
+                               <asp:Button ID="btnInvest" runat="server" Text="Invest Now" OnClientClick="return confirm('Are you sure you want to Invest Now?');"  CssClass="btn btn-primary-glow w-100 mt-3" OnClick="btnInvest_Click" Visible="false" />
 
-                        <asp:Button ID="btnInvest" runat="server" Text="Invest Now" CssClass="btn btn-primary-glow w-100 mt-3" OnClick="btnInvest_Click" Visible="false" />
+                                
+                                                            </ContentTemplate>
+                                         <Triggers>
+                                             <asp:PostBackTrigger ControlID="btnInvest" />
+                                         </Triggers>    
+                                                </asp:UpdatePanel>
+
+                   
                     </div>
                 </div>
             </div>
